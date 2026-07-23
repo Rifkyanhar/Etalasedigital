@@ -1,1 +1,1138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>NAFA Tech — Digital Solutions & Web Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#0A0E24;
+    --navy-900:#12183B;
+    --navy-800:#1B2354;
+    --navy-700:#262F6E;
+    --gold:#F2A93B;
+    --gold-dim:#B87F1F;
+    --teal:#33C6B0;
+    --cream:#F5F1E6;
+    --muted:#A7AED0;
+    --radius:18px;
+    --shadow-strength:.55;
+  }
+  [data-theme="light"]{
+    --navy-950:#F6F3EA;
+    --navy-900:#FFFFFF;
+    --navy-800:#EFEAD9;
+    --navy-700:#E2DBC4;
+    --gold:#B8791E;
+    --gold-dim:#8F5E14;
+    --teal:#0E8E7A;
+    --cream:#1C2036;
+    --muted:#54597A;
+    --shadow-strength:.12;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(51,198,176,0.14), transparent 60%),
+      radial-gradient(ellipse 700px 400px at 90% 10%, rgba(242,169,59,0.10), transparent 60%),
+      var(--navy-950);
+    color:var(--cream);
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    transition:background-color .35s, color .35s;
+  }
+  [data-theme="light"] .card{
+    box-shadow:0 14px 28px -12px rgba(28,32,54,.18);
+  }
+  [data-theme="light"] .card.is-active{
+    box-shadow:0 18px 36px -10px rgba(184,121,30,.22), 0 14px 28px -12px rgba(28,32,54,.16);
+  }
+  [data-theme="light"] .panel-hero-wrap .free-badge,
+  [data-theme="light"] .free-badge{
+    color:#FFFFFF;
+  }
+  .theme-toggle{
+    position:fixed; top:16px; right:16px; z-index:60;
+    width:42px; height:42px; border-radius:50%;
+    background:var(--navy-800); border:1px solid rgba(128,128,128,.25);
+    color:var(--cream); font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:background .25s, transform .2s;
+    box-shadow:0 6px 16px -4px rgba(0,0,0,.25);
+  }
+  .theme-toggle:active{transform:scale(.92);}
+  .noise{
+    position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 
+  /* ---------- HEADER / HERO ---------- */
+  header{
+    position:relative; z-index:2;
+    padding:34px 20px 10px;
+    text-align:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--teal); font-weight:600;
+    border:1px solid rgba(51,198,176,.35);
+    padding:6px 14px; border-radius:999px;
+    background:rgba(51,198,176,.06);
+  }
+  .eyebrow::before{content:"●"; font-size:8px; color:var(--gold);}
+  .brand-logo{
+    display:block;
+    max-width:260px; width:62%; height:auto;
+    margin:20px auto 8px;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(30px, 8vw, 56px);
+    line-height:1.05;
+    margin:18px 0 10px;
+    letter-spacing:-0.01em;
+  }
+  h1 span{color:var(--gold);}
+  .sub{
+    max-width:520px; margin:0 auto;
+    color:var(--muted); font-size:15px; line-height:1.6;
+  }
+  .hint{
+    margin-top:22px; font-size:12.5px; color:var(--muted);
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .hint svg{width:16px; height:16px; opacity:.8; animation:tap 1.6s ease-in-out infinite;}
+  @keyframes tap{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+
+  /* ---------- CAROUSEL ---------- */
+  .stage{
+    position:relative; z-index:2;
+    height:min(64vw, 430px);
+    max-height:430px;
+    margin:36px 0 8px;
+    display:flex; align-items:center; justify-content:center;
+    perspective:1400px;
+    touch-action:pan-y;
+  }
+  .ring{
+    position:relative;
+    width:min(58vw, 240px);
+    height:min(58vw, 240px);
+    transform-style:preserve-3d;
+    transition:transform .7s cubic-bezier(.22,.9,.3,1);
+    cursor:grab;
+  }
+  .ring:active{cursor:grabbing;}
+  .card{
+    position:absolute; inset:0;
+    border-radius:var(--radius);
+    overflow:hidden;
+    background:var(--navy-800);
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 20px 40px -12px rgba(0,0,0,.55);
+    backface-visibility:hidden;
+    transition:box-shadow .4s, border-color .4s, filter .4s;
+    filter:brightness(.55) saturate(.75);
+  }
+  .card.is-active{
+    filter:brightness(1) saturate(1);
+    border-color:rgba(242,169,59,.55);
+    box-shadow:0 26px 60px -10px rgba(242,169,59,.28), 0 20px 40px -12px rgba(0,0,0,.6);
+  }
+  .card img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .card .tag{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:10px 14px 12px;
+    background:linear-gradient(to top, rgba(10,14,36,.92), rgba(10,14,36,0));
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600; font-size:13px;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:6px;
+    opacity:0; transform:translateY(6px);
+    transition:opacity .4s, transform .4s;
+  }
+  .card.is-active .tag{opacity:1; transform:translateY(0);}
+  .card .tag .dot{width:6px; height:6px; border-radius:50%; background:var(--teal); flex:none;}
+
+  /* nav controls */
+  .ctrl{
+    position:relative; z-index:2;
+    display:flex; align-items:center; justify-content:center;
+    gap:22px; margin-top:14px;
+  }
+  .ctrl button{
+    width:42px; height:42px; border-radius:50%;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.04);
+    color:var(--cream); font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:background .25s, border-color .25s, transform .2s;
+  }
+  .ctrl button:hover{background:rgba(242,169,59,.14); border-color:rgba(242,169,59,.4);}
+  .ctrl button:active{transform:scale(.92);}
+  .dots{display:flex; gap:7px;}
+  .dots span{
+    width:7px; height:7px; border-radius:50%;
+    background:rgba(255,255,255,.18);
+    transition:background .3s, width .3s;
+    cursor:pointer;
+  }
+  .dots span.on{background:var(--gold); width:20px; border-radius:5px;}
+
+  .active-label{
+    text-align:center; margin-top:20px;
+    font-family:'Space Grotesk', sans-serif;
+  }
+  .active-label .name{font-size:20px; font-weight:700;}
+  .active-label .desc{font-size:13px; color:var(--muted); margin-top:4px; max-width:340px; margin-inline:auto; font-family:'Inter',sans-serif;}
+  .open-btn{
+    margin:18px auto 50px; display:flex;
+    align-items:center; gap:8px;
+    font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:14px;
+    background:var(--gold); color:var(--navy-950);
+    border:none; padding:13px 26px; border-radius:999px;
+    cursor:pointer; letter-spacing:.02em;
+    box-shadow:0 10px 24px -6px rgba(242,169,59,.45);
+    transition:transform .2s, box-shadow .2s;
+  }
+  .open-btn:hover{transform:translateY(-2px); box-shadow:0 14px 30px -6px rgba(242,169,59,.55);}
+  .open-btn:active{transform:translateY(0);}
+
+  /* thumbnail strip (upload-style) */
+  .strip-wrap{position:relative; z-index:2; padding:0 20px 60px;}
+  .strip-title{
+    text-align:center; font-family:'Space Grotesk',sans-serif; font-size:12px;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;
+  }
+  .strip{
+    display:flex; gap:12px; overflow-x:auto; padding:4px 4px 14px;
+    scroll-snap-type:x proximity;
+    max-width:640px; margin:0 auto;
+  }
+  .strip::-webkit-scrollbar{height:5px;}
+  .strip::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15); border-radius:4px;}
+  .strip button{
+    flex:none; width:76px; height:76px; border-radius:14px; overflow:hidden;
+    border:2px solid transparent; padding:0; cursor:pointer;
+    scroll-snap-align:start;
+    position:relative;
+    background:var(--navy-800);
+    transition:border-color .25s, transform .2s;
+  }
+  .strip button img{width:100%; height:100%; object-fit:cover; display:block; opacity:.55; transition:opacity .25s;}
+  .strip button.on{border-color:var(--gold);}
+  .strip button.on img{opacity:1;}
+  .strip button:hover{transform:translateY(-2px);}
+
+  /* ---------- DETAIL PANEL (opens on click) ---------- */
+  .overlay{
+    position:fixed; inset:0; z-index:50;
+    background:rgba(6,8,20,.72);
+    backdrop-filter:blur(6px);
+    opacity:0; pointer-events:none;
+    transition:opacity .35s;
+    display:flex; align-items:flex-end; justify-content:center;
+  }
+  .overlay.show{opacity:1; pointer-events:auto;}
+  .panel{
+    width:100%; max-width:720px;
+    max-height:92vh;
+    background:var(--navy-900);
+    border-radius:26px 26px 0 0;
+    border:1px solid rgba(255,255,255,.08);
+    border-bottom:none;
+    transform:translateY(100%);
+    transition:transform .45s cubic-bezier(.22,.9,.3,1);
+    overflow-y:auto;
+    position:relative;
+  }
+  .overlay.show .panel{transform:translateY(0);}
+  .panel-handle{
+    position:sticky; top:0; z-index:3;
+    display:flex; justify-content:center; padding:10px 0 0;
+    background:linear-gradient(var(--navy-900), var(--navy-900));
+  }
+  .panel-handle .bar{width:42px; height:4px; border-radius:3px; background:rgba(255,255,255,.2);}
+  .panel-close{
+    position:absolute; top:16px; right:16px; z-index:4;
+    width:36px; height:36px; border-radius:50%;
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
+    color:var(--cream); font-size:16px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .panel-hero{
+    width:100%; height:min(56vw, 300px); object-fit:cover; display:block;
+    border-radius:26px 26px 0 0;
+  }
+  .panel-body{padding:26px 26px 40px;}
+  .panel-cat{
+    font-family:'Space Grotesk', sans-serif; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--teal); font-weight:600; display:flex; align-items:center; gap:8px;
+  }
+  .panel-cat::before{content:""; width:16px; height:1px; background:var(--teal);}
+  .panel-title{
+    font-family:'Space Grotesk', sans-serif; font-size:clamp(24px,6vw,32px); font-weight:700;
+    margin:10px 0 14px; line-height:1.1;
+  }
+  .panel-desc{color:var(--muted); font-size:14.5px; line-height:1.75; margin-bottom:22px;}
+  .panel-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    gap:12px; margin-bottom:24px;
+  }
+  .stat{
+    background:var(--navy-800); border:1px solid rgba(255,255,255,.06);
+    border-radius:14px; padding:14px 16px;
+  }
+  .stat .v{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; color:var(--gold);}
+  .stat .l{font-size:11.5px; color:var(--muted); margin-top:3px;}
+  .panel-list{list-style:none; margin-bottom:26px;}
+  .panel-list li{
+    display:flex; gap:10px; font-size:14px; color:var(--cream);
+    padding:9px 0; border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .panel-list li::before{content:"✓"; color:var(--teal); font-weight:700; flex:none;}
+  .cta-row{display:flex; gap:12px; flex-wrap:wrap;}
+  .cta{
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px;
+    padding:13px 22px; border-radius:999px; cursor:pointer; border:none;
+    text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+  }
+  .cta.primary{background:var(--gold); color:var(--navy-950);}
+  .cta.ghost{background:transparent; color:var(--cream); border:1px solid rgba(255,255,255,.18);}
+  .cta.alt{background:var(--teal); color:var(--navy-950);}
+
+  .panel-products{
+    display:none;
+    flex-direction:column;
+    gap:12px;
+    margin-bottom:10px;
+  }
+  .prod-card{
+    display:flex; align-items:center; gap:14px;
+    background:var(--navy-800); border:1px solid rgba(255,255,255,.08);
+    border-radius:16px; padding:12px; cursor:pointer; text-align:left;
+    transition:border-color .25s, transform .2s;
+  }
+  .prod-card:hover{border-color:rgba(242,169,59,.4); transform:translateY(-2px);}
+  .prod-card img{width:56px; height:74px; object-fit:cover; border-radius:8px; flex:none;}
+  .prod-info{flex:1; min-width:0;}
+  .prod-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14.5px;}
+  .prod-short{font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.4;}
+  .prod-arrow{color:var(--gold); font-size:20px; flex:none;}
+  .prod-note{
+    text-align:center; font-size:12.5px; color:var(--muted);
+    border:1px dashed rgba(255,255,255,.15); border-radius:14px; padding:14px;
+  }
+  .prod-card{position:relative;}
+  .free-badge{
+    position:absolute; top:8px; left:8px; z-index:2;
+    background:var(--teal); color:var(--navy-950);
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:9.5px;
+    letter-spacing:.06em; text-transform:uppercase;
+    padding:3px 8px; border-radius:999px;
+    box-shadow:0 4px 10px -2px rgba(51,198,176,.5);
+  }
+  .panel-hero-wrap{position:relative;}
+  .panel-hero-wrap .free-badge{top:16px; left:16px; font-size:11px; padding:5px 12px;}
+
+  footer{
+    position:relative; z-index:2;
+    text-align:center; padding:26px 20px 40px;
+    color:var(--muted); font-size:12px;
+  }
+
+  @media (min-width:720px){
+    .stage{height:400px;}
+    .ring{width:250px; height:250px;}
+  }
+</style>
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" aria-label="Ganti tampilan terang/gelap">🌙</button>
+<div class="noise"></div>
+
+<header>
+  <span class="eyebrow">Solusi Digital & Pengembangan Web</span>
+  <img class="brand-logo" src="image/logo-nafatech.jpeg" alt="NAFA Tech — Digital Solutions & Web Development">
+  <p class="sub">NAFA Tech menghadirkan solusi digital untuk mendukung pertumbuhan bisnis Anda — mulai dari pengembangan website profesional, sistem digital custom, hingga program yang membantu meningkatkan penghasilan usaha Anda. Geser gambar di bawah untuk melihat layanan kami secara lengkap.</p>
+  <div class="hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3-3 3 3M9 16l3-3 3 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Geser ke kiri/kanan, lalu ketuk gambar untuk lihat detail
+  </div>
+</header>
+
+<div class="stage">
+  <div class="ring" id="ring"></div>
+</div>
+
+<div class="ctrl">
+  <button id="prevBtn" aria-label="Sebelumnya">‹</button>
+  <div class="dots" id="dots"></div>
+  <button id="nextBtn" aria-label="Berikutnya">›</button>
+</div>
+
+<div class="active-label">
+  <div class="name" id="activeName"></div>
+  <div class="desc" id="activeDesc"></div>
+</div>
+
+<div style="display:flex; justify-content:center;">
+  <button class="open-btn" id="openBtn">
+    Lihat Halaman Lengkap
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<div class="strip-wrap">
+  <div class="strip-title">Layanan Kami</div>
+  <div class="strip" id="strip"></div>
+</div>
+
+<footer>Ketuk salah satu layanan di atas untuk melihat penjelasan lengkap dan cara menghubungi kami.</footer>
+
+<div class="overlay" id="overlay">
+  <div class="panel" id="panel">
+    <button class="panel-close" id="closeBtn">✕</button>
+    <div class="panel-handle"><div class="bar"></div></div>
+    <div class="panel-hero-wrap">
+      <img class="panel-hero" id="panelHero" src="" alt="">
+      <span class="free-badge" id="panelFreeBadge" style="display:none;">Gratis</span>
+    </div>
+    <div class="panel-body">
+      <div class="panel-cat" id="panelCat"></div>
+      <div class="panel-title" id="panelTitle"></div>
+      <div class="panel-desc" id="panelDesc"></div>
+      <div class="panel-products" id="panelProducts"></div>
+      <div class="panel-grid" id="panelStats"></div>
+      <ul class="panel-list" id="panelList"></ul>
+      <div class="cta-row" id="panelCta"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BUSINESSES = [
+  {
+    id:"website",
+    tag:"Jasa Digital",
+    name:"Jasa Pembuatan Website",
+    short:"Website bisnis dari nol hingga online — domain, hosting, desain, maintenance.",
+    img:"image/website.jpg",
+    cat:"01 · Jasa Profesional & Terpercaya",
+    desc:"Website Bisnis Impian Anda, Kami Wujudkan. Dari nol hingga online — domain, hosting, desain, dan maintenance, semua sudah termasuk dalam satu paket. Cocok untuk bisnis yang ingin tampil profesional di dunia digital tanpa ribet urus teknis sendiri.",
+    stats:[["Rp4,9jt","Paket tahun pertama"],["Rp1,9jt","Perpanjangan tahun kedua"],["1 Tahun","Maintenance penuh"]],
+    list:[
+      "Pembuatan website dari nol hingga online",
+      "Domain .com atau .id pilihan Anda",
+      "Hosting VPS dengan Cyberpanel — performa tinggi",
+      "Maintenance selama 1 tahun penuh",
+      "Akses VPS untuk edit desain sendiri kapan saja",
+      "SSL Certificate — website aman & terpercaya",
+      "Perpanjangan tahun kedua hemat lebih dari 60%"
+    ],
+    cta:[["Tanya Jasa Pembuatan Website","primary","https://wa.me/6285290078889?text=Hai%20kak%2C%20mohon%20info%20tentang%20jasa%20pembuatan%20website%20nya%2C%20terimakasih%20"]]
+  },
+  {
+    id:"tokoonline",
+    tag:"Jasa Digital",
+    name:"Jasa Pembuatan Website Toko Online",
+    short:"Landing page modern + sistem pemesanan online lengkap, siap terima order.",
+    img:"image/tokoonline.jpg",
+    cat:"02 · Jasa Profesional & Terpercaya",
+    desc:"Bisnis udah jalan, tapi belum punya website? Calon pelanggan cari produkmu di Google, tapi yang muncul malah kompetitor. Masalahnya bukan produkmu kurang bagus — tapi kamu belum punya \"toko\" yang bisa ditemukan & dipercaya secara online. Kami buatkan website toko online profesional — tampil keren, mudah dipakai pelanggan, dan langsung bisa terima pesanan dari mana saja.",
+    stats:[["Rp5,9jt","Paket tahun pertama"],["Rp2,9jt","Perpanjangan tahun kedua"],["Multi Payment","Transfer, OVO, GoPay"]],
+    list:[
+      "Landing page modern yang bikin calon pelanggan langsung percaya",
+      "Sistem pemesanan online — pelanggan order kapanpun, kamu terima otomatis",
+      "Multi payment (Transfer Bank, OVO, GoPay) — makin banyak yang bisa bayar",
+      "Cek ongkir otomatis — pelanggan luar kota? Bisa!",
+      "Notifikasi pesanan langsung masuk ke WhatsApp kamu",
+      "Panel admin — kelola pesanan sendiri, mudah & simpel",
+      "Domain .com/.id + hosting — website punya alamat resmi",
+      "SSL Certificate — website aman, pelanggan makin percaya",
+      "Setiap sistem melewati security audit sebelum diserahkan",
+      "Perpanjangan tahun kedua hemat lebih dari 50%"
+    ],
+    cta:[["Tanya Website Toko Online","primary","https://wa.me/6285290078889?text=Hai%20kak%2C%20mohon%20info%20tentang%20pembuatan%20website%20toko%20online%2C%20terimakasih%20%E2%98%BA"]]
+  },
+  {
+    id:"qrresto",
+    tag:"Sistem Resto",
+    name:"Sistem Pemesanan Menu QR Code",
+    short:"Pesan makanan cukup scan QR di meja — tanpa kertas menu, tanpa antre.",
+    img:"image/qrresto.jpg",
+    cat:"03 · Resto Digital · QR Code Ordering",
+    desc:"Pesan Makanan, Cukup Scan QR di Meja Anda. Solusi pemesanan menu digital berbasis QR Code — tanpa kertas menu, tanpa antre, tanpa ribet. Pelanggan puas, omzet naik. Sistem siap operasional langsung dengan keamanan data yang sudah diaudit.",
+    stats:[["Rp12,9jt","Paket tahun pertama"],["Rp3,9jt","Tahun kedua & seterusnya"],["Per Meja","QR unik anti tertukar"]],
+    list:[
+      "Web App pemesanan menu berbasis QR Code",
+      "QR Code per meja — tidak bisa tertukar (Meja 1, Meja 2, dst)",
+      "Fitur Geofencing eksklusif take away — anti pesanan fiktif dari luar lokasi resto",
+      "VPS spesifikasi lebih besar — tampung seluruh menu & gambar resto",
+      "Domain .com atau .id pilihan Anda",
+      "Maintenance selama 1 tahun penuh",
+      "Akses Cyberpanel VPS untuk kelola sendiri",
+      "SSL Certificate — website aman & profesional",
+      "Setiap sistem melewati security audit sebelum diserahkan",
+      "Perpanjangan tahun kedua hemat lebih dari 70%"
+    ],
+    cta:[["Tanya Sistem Pemesanan QR","primary","https://wa.me/6285290078889?text=Hai%20kak%2C%20Mohon%20info%20tentang%20pembuatan%20sistem%20pemesanan%20menu%20restoran%20berbasis%20scan%20barcode%2C%20terimakasih%20%E2%98%BA"]]
+  },
+  {
+    id:"eko-produk",
+    tag:"Produk Digital",
+    name:"Produk Digital Eko Julyanto",
+    short:"Kumpulan ebook & kelas online dari Eko Julyanto, founder AffiliateAja.com.",
+    img:"image/scrollcuan.jpg",
+    isFolder:true,
+    cat:"04 · Kumpulan Produk Digital & Afiliasi",
+    desc:"Ini adalah kumpulan produk digital dari Eko Julyanto, founder AffiliateAja.com. Berisi ebook dan kelas online seputar digital marketing yang bisa Anda pelajari langsung. Daftar produk di bawah ini akan terus bertambah — ketuk salah satu untuk melihat detail dan cara mendapatkannya.",
+    products:[
+      {
+        id:"scrollcuan",
+        name:"Dari Scroll Jadi Cuan",
+        img:"image/scrollcuan.jpg",
+        short:"Cara mengubah sosial media jadi sumber penghasilan.",
+        desc:"Ebook panduan praktis dari Eko Julyanto, founder AffiliateAja.com, yang mengajarkan cara mengubah kebiasaan scroll media sosial menjadi sumber penghasilan nyata — mulai dari membuat konten, membangun audiens, membangun kepercayaan, hingga mengubahnya jadi penjualan.",
+        stats:[["4 Tahap","Konten → Audiens → Trust → Penjualan"],["Praktis","Langkah mudah diikuti"],["Teruji","Strategi dari pengalaman nyata"]],
+        list:[
+          "Cara membuat konten yang menarik perhatian di sosial media",
+          "Strategi membangun audiens yang tepat sasaran",
+          "Cara membangun trust & hubungan dengan calon pembeli",
+          "Teknik mengubah kepercayaan menjadi penjualan",
+          "Disusun dari pengalaman nyata & sudah terbukti berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/14549/",
+        checkout:"https://member.affiliateaja.com/aff/42188/14549/checkout"
+      },
+      {
+        id:"visualads",
+        name:"VisualAds AI",
+        img:"image/visualads.jpg",
+        short:"AI toolkit untuk bikin materi iklan & promosi lebih cepat.",
+        desc:"VisualAds AI adalah AI toolkit dari Eko Julyanto, founder AffiliateAja.com, untuk membantu membuat materi iklan & promosi lebih cepat — mulai dari copy iklan, banner ads, hook & angle, motion ads, hingga storyboard ads, semua bisa dibuat dalam satu tools berbasis AI.",
+        stats:[["5 Fitur","Copy, Banner, Hook, Motion, Storyboard"],["Lebih Cepat","Materi iklan siap pakai"],["Berbasis AI","Tinggal input produk"]],
+        list:[
+          "Generator copy iklan otomatis dari AI",
+          "Pembuatan banner iklan siap pakai",
+          "Bantu menentukan hook & angle iklan yang menarik",
+          "Materi motion ads (iklan bergerak) lebih cepat dibuat",
+          "Storyboard ads untuk perencanaan konten iklan",
+          "Cukup upload gambar produk atau tautan, AI yang proses"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/14402/",
+        checkout:"https://member.affiliateaja.com/aff/42188/14402/checkout"
+      },
+      {
+        id:"fbpro",
+        name:"Gajian Dolar dari Facebook Pro",
+        img:"image/fbpro.jpg",
+        short:"Panduan step-by-step monetisasi Facebook Profesional.",
+        desc:"E-book #FBPRO dari Eko Julyanto ini mengajarkan cara memonetisasi akun Facebook lewat Mode Profesional — mulai dari step paling awal sampai trik (hacks) supaya lebih cepat menghasilkan uang dari konten di Facebook.",
+        stats:[["Step by Step","Dari nol hingga hacks"],["Mode Profesional","Fitur monetisasi Facebook"],["Fokus Konten","Hasilkan uang dari konten"]],
+        list:[
+          "Cara mengaktifkan Mode Profesional di Facebook",
+          "Langkah menghasilkan uang dari konten yang dibuat",
+          "Strategi menambah pengikut & jangkauan profil",
+          "Tips & hacks agar proses monetisasi lebih cepat",
+          "Cocok untuk pemula yang baru mulai dari nol"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/9152/",
+        checkout:"https://member.affiliateaja.com/aff/42188/9152/checkout"
+      },
+      {
+        id:"faceless",
+        name:"Faceless VI — Social Media Marketing",
+        img:"image/faceless.jpg",
+        short:"150+ video aesthetic siap pakai untuk konten faceless, gratis.",
+        free:true,
+        ctaLabel:"Download Sekarang",
+        desc:"Faceless VI adalah kumpulan 150+ video aesthetic yang bisa langsung dipakai untuk konten media sosial tanpa perlu tampil wajah (faceless marketing). Cocok untuk yang ingin bikin konten estetik dan konsisten tanpa ribet syuting sendiri.",
+        stats:[["150+","Video aesthetic"],["Gratis","Tanpa biaya"],["Siap Pakai","Tinggal download"]],
+        list:[
+          "150+ video aesthetic bertema lifestyle, kerja, alam, & santai",
+          "Cocok untuk akun faceless / tanpa tampil wajah",
+          "Bisa dipakai langsung untuk Reels, TikTok, atau Story",
+          "Hemat waktu tanpa perlu syuting video sendiri",
+          "Download gratis, tinggal klik tombol di bawah"
+        ],
+        link:"https://member.affiliateaja.com/aff/42188/9025/"
+      },
+      {
+        id:"fotoumkm",
+        name:"Buat Foto Produk UMKM, Jadi Naik Kelas",
+        img:"image/fotoumkm.jpg",
+        short:"E-book gratis: stok visual viral & modal prompt ChatGPT.",
+        free:true,
+        ctaLabel:"Download Ebook",
+        desc:"E-book gratis dari Eko Julyanto yang membahas cara membuat foto produk UMKM terlihat lebih profesional dan menarik hanya bermodalkan prompt AI & ChatGPT — tanpa perlu kamera mahal atau jasa fotografer.",
+        stats:[["Gratis","Tanpa biaya"],["Modal Prompt","Cukup pakai ChatGPT"],["Untuk UMKM","Foto produk naik kelas"]],
+        list:[
+          "Cara membuat stok visual produk yang viral & menjual",
+          "Kumpulan modal prompt siap pakai untuk ChatGPT",
+          "Tidak perlu kamera mahal atau jasa fotografer",
+          "Cocok untuk pelaku UMKM yang jualan online",
+          "Download gratis, tinggal klik tombol di bawah"
+        ],
+        link:"https://member.affiliateaja.com/aff/42188/11994/"
+      },
+      {
+        id:"kertasaktivitas",
+        name:"100 Kertas Aktivitas Anak",
+        img:"image/kertasaktivitas.jpg",
+        short:"100 lembar aktivitas anak gratis, solusi biar ga ketagihan gadget.",
+        free:true,
+        ctaLabel:"Download Gratis",
+        desc:"Kumpulan 100 lembar kertas aktivitas anak dari AffiliateAja.com — solusi praktis untuk orang tua yang ingin mengalihkan anak dari gadget lewat aktivitas mewarnai, menulis, dan mengenal benda sekitar. Tersedia dalam format PNG & PDF, siap cetak sendiri di rumah.",
+        stats:[["100 Lembar","Aktivitas anak"],["Gratis","Tanpa biaya"],["PNG & PDF","Siap cetak"]],
+        list:[
+          "100 lembar aktivitas: mewarnai, menulis, mengenal benda",
+          "Format PNG & PDF, tinggal cetak sendiri di rumah",
+          "Solusi mengalihkan anak dari kecanduan gadget",
+          "Cocok untuk orang tua maupun guru TK/PAUD",
+          "Download gratis, tinggal klik tombol di bawah"
+        ],
+        link:"https://member.affiliateaja.com/aff/42188/9219/"
+      },
+      {
+        id:"digitalprofit",
+        name:"Digital Profit Blueprint (5-in-1)",
+        img:"image/digitalprofit.jpg",
+        short:"Roadmap 5-in-1 sukses bisnis digital untuk cuan maksimal.",
+        desc:"Digital Profit Blueprint adalah paket 5-in-1 dari Eko Julyanto, founder AffiliateAja.com, berisi roadmap lengkap untuk membangun bisnis digital secara terstruktur — mulai dari strategi konten hingga monetisasi, dirangkum dalam satu paket ebook siap dipelajari.",
+        stats:[["5-in-1","Paket ebook lengkap"],["Roadmap","Terstruktur step by step"],["Digital","Fokus bisnis online"]],
+        list:[
+          "Roadmap sukses bisnis digital dari awal hingga cuan",
+          "5 ebook dalam satu paket, saling melengkapi",
+          "Materi terstruktur, mudah diikuti tahap demi tahap",
+          "Cocok untuk pemula maupun yang mau naik level",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/9955/",
+        checkout:"https://member.affiliateaja.com/aff/42188/9955/checkout"
+      },
+      {
+        id:"chatgptwa",
+        name:"ChatGPT Untuk WhatsApp Marketing",
+        img:"image/chatgptwa.jpg",
+        short:"Manfaatkan ChatGPT jadi asisten virtual untuk WhatsApp marketing.",
+        desc:"Ebook \"ChatGPT Untuk WhatsApp Marketing\" oleh Kang Ega (Kalyubi Digital), tersedia via AffiliateAja.com. Membahas cara memanfaatkan ChatGPT sebagai asisten virtual untuk menyusun copywriting, follow-up, dan storytelling promosi lewat WhatsApp dalam waktu singkat.",
+        stats:[["ChatGPT","Asisten virtual marketing"],["WhatsApp","Fokus channel promosi"],["Cepat","Copywriting dalam hitungan menit"]],
+        list:[
+          "Cara memakai ChatGPT untuk bikin copywriting WhatsApp",
+          "Template follow-up otomatis biar closing lebih cepat",
+          "Teknik storytelling promosi lewat chat WhatsApp",
+          "Cocok untuk reseller, dropshipper, & pebisnis online",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/9584/",
+        checkout:"https://member.affiliateaja.com/aff/42188/9584/checkout"
+      },
+      {
+        id:"listbuilding",
+        name:"List Building di WhatsApp",
+        img:"image/listbuilding.jpg",
+        short:"Panduan membangun daftar kontak WhatsApp yang kuat untuk bisnis.",
+        desc:"Ebook \"List Building di WhatsApp\" dari Eko Julyanto, founder AffiliateAja.com, membahas cara membangun daftar kontak (list) yang kuat di WhatsApp sebagai aset bisnis jangka panjang — supaya promosi dan follow-up jualan bisa lebih terarah dan efektif.",
+        stats:[["List Kontak","Aset bisnis jangka panjang"],["WhatsApp","Fokus channel promosi"],["Terarah","Follow-up lebih efektif"]],
+        list:[
+          "Strategi mengumpulkan kontak WhatsApp yang relevan",
+          "Cara mengelola daftar kontak agar tetap aktif & tertarget",
+          "Teknik follow-up tanpa terkesan spam",
+          "Membangun aset bisnis jangka panjang dari WhatsApp",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/9344/",
+        checkout:"https://member.affiliateaja.com/aff/42188/9344/checkout"
+      },
+      {
+        id:"kelascontentcreator",
+        name:"Kelas Content Creator 3.0",
+        img:"image/kelascontentcreator.jpg",
+        short:"Belajar bikin konten video untuk semua platform dengan mudah.",
+        desc:"Kelas Content Creator 3.0 oleh Satria Rasyid, tersedia via AffiliateAja.com — kelas praktis untuk belajar membuat konten video untuk semua platform (YouTube, TikTok, Shorts, Reels, Instagram, dll) dengan cara yang mudah diikuti, cocok untuk pemula sekalipun.",
+        stats:[["Semua Platform","YouTube, TikTok, Reels, dll"],["Praktis","Mudah diikuti pemula"],["3.0","Versi terbaru & terupdate"]],
+        list:[
+          "Cara membuat konten video untuk berbagai platform sekaligus",
+          "Teknik syuting & editing yang mudah dipraktikkan",
+          "Materi terupdate mengikuti tren konten terbaru",
+          "Cocok untuk pemula yang baru mau mulai jadi content creator",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/7059/",
+        checkout:"https://member.affiliateaja.com/aff/42188/7059/checkout"
+      },
+      {
+        id:"clientflow",
+        name:"ClientFlow Academy",
+        img:"image/clientflow.jpg",
+        short:"Kelas mengelola alur klien secara profesional & terstruktur.",
+        desc:"ClientFlow Academy dari Eko Julyanto, founder AffiliateAja.com, mengajarkan cara mengelola alur klien (client flow) secara profesional — mulai dari komunikasi awal, follow-up, hingga laporan kerja yang rapi, cocok untuk freelancer maupun pemilik jasa digital.",
+        stats:[["Terstruktur","Alur kerja rapi & profesional"],["Untuk Freelancer","& pemilik jasa digital"],["Praktik Nyata","Contoh kasus & template"]],
+        list:[
+          "Cara mengelola komunikasi dengan klien secara profesional",
+          "Sistem follow-up agar tidak ada klien yang terlewat",
+          "Template laporan kerja yang rapi & mudah dipahami klien",
+          "Tips membangun kepercayaan jangka panjang dengan klien",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/13410/",
+        checkout:"https://member.affiliateaja.com/aff/42188/13410/checkout"
+      },
+      {
+        id:"igcuan",
+        name:"Instagram Cuan System",
+        img:"image/igcuan.jpg",
+        short:"Cara ubah konten Instagram jadi penghasilan, tanpa harus viral.",
+        desc:"Instagram Cuan System dari Eko Julyanto, founder AffiliateAja.com — sistem terbukti untuk mengubah konten Instagram jadi penghasilan tanpa perlu viral dulu. Dilengkapi video course lengkap dan AI tools siap pakai, dirancang untuk pemula dan langsung bisa dipraktikkan.",
+        stats:[["Untuk Pemula","Sistem terbukti & mudah dipahami"],["Video Course","Materi lengkap step by step"],["AI Tools","Siap pakai, langsung praktik"]],
+        list:[
+          "Cara mengubah konten Instagram jadi penghasilan tanpa harus viral",
+          "Video course lengkap, mudah diikuti dari awal",
+          "AI tools siap pakai untuk bantu produksi konten",
+          "Langsung bisa dipraktikkan, tanpa ribet",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/14012/",
+        checkout:"https://member.affiliateaja.com/aff/42188/14012/checkout"
+      },
+      {
+        id:"voicelab",
+        name:"VoiceLab",
+        img:"image/voicelab.jpg",
+        short:"Ubah teks jadi suara, dalam hitungan detik.",
+        desc:"VoiceLab dari Eko Julyanto, founder AffiliateAja.com — tools untuk mengubah teks menjadi suara (text-to-speech) dalam hitungan detik. Cocok untuk membuat voice over konten video, iklan, maupun materi edukasi tanpa perlu rekaman suara sendiri.",
+        stats:[["Hitungan Detik","Proses teks jadi suara cepat"],["Text-to-Speech","Tanpa perlu rekaman manual"],["Serbaguna","Konten, iklan, edukasi"]],
+        list:[
+          "Ubah teks jadi suara otomatis dalam hitungan detik",
+          "Cocok untuk voice over video, iklan, & konten edukasi",
+          "Tidak perlu rekam suara sendiri atau sewa jasa VO",
+          "Hemat waktu produksi konten secara signifikan",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/12559/",
+        checkout:"https://member.affiliateaja.com/aff/42188/12559/checkout"
+      },
+      {
+        id:"storyselling",
+        name:"Story Selling",
+        img:"image/storyselling.jpg",
+        short:"Formula storytelling simpel & efektif untuk jualan lewat konten.",
+        desc:"Ebook \"Story Selling\" terbitan Ekskul.Digital, tersedia via AffiliateAja.com. Membahas formula storytelling yang simpel dan efektif — mulai dari membangun personal branding yang kuat, menghubungkan konten dengan mulus ke CTA, hingga menghindari kesalahan fatal saat jualan lewat cerita.",
+        stats:[["Formula Simpel","Storytelling efektif untuk jualan"],["Personal Branding","Bangun citra yang kuat"],["Contoh Nyata","Mudah dipraktikkan"]],
+        list:[
+          "Cara membangun personal branding yang kuat lewat cerita",
+          "Menghubungkan konten dengan mulus ke CTA (ajakan bertindak)",
+          "Menghindari kesalahan fatal yang sering terjadi saat jualan",
+          "Dilengkapi contoh nyata yang mudah dipraktikkan",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/12018/",
+        checkout:"https://member.affiliateaja.com/aff/42188/12018/checkout"
+      },
+      {
+        id:"infory",
+        name:"Infory",
+        img:"image/infory.jpg",
+        short:"Tulis topik, jadi infografis — otomatis dengan AI.",
+        desc:"Infory dari Eko Julyanto, founder AffiliateAja.com — tools berbasis AI untuk mengubah topik tulisan menjadi infografis secara otomatis. Cocok untuk membuat konten edukatif, materi promosi, maupun postingan sosial media yang informatif dan menarik secara visual.",
+        stats:[["Tulis Topik","Jadi infografis otomatis"],["Berbasis AI","Proses cepat & mudah"],["Visual Menarik","Siap posting"]],
+        list:[
+          "Cukup tulis topik, AI yang mengubahnya jadi infografis",
+          "Cocok untuk konten edukasi, promosi, & sosial media",
+          "Hasil visual menarik tanpa perlu skill desain",
+          "Hemat waktu dibanding bikin infografis manual",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/13565/",
+        checkout:"https://member.affiliateaja.com/aff/42188/13565/checkout"
+      },
+      {
+        id:"bioqu",
+        name:"BioQu",
+        img:"image/bioqu.jpg",
+        short:"Aplikasi web based untuk link bio, landing page & toko online.",
+        desc:"BioQu dari Eko Julyanto, founder AffiliateAja.com — aplikasi web based untuk \"onlinekan\" bisnis Anda: satu link untuk seribu peluang. Bisa dipakai untuk link bio, landing page, dan toko online sekaligus, tanpa perlu coding sama sekali.",
+        stats:[["Satu Link","Bio, landing page & toko online"],["No Coding","Tinggal susun, langsung jadi"],["Custom Domain","Bisa pakai domain sendiri"]],
+        list:[
+          "Buat link bio, landing page, & toko online dalam satu aplikasi",
+          "Mobile friendly — tampil rapi di semua perangkat",
+          "Unlimited pages, bisa dibuat sebanyak yang dibutuhkan",
+          "Custom domain — bisa dipasangi domain sendiri",
+          "Tanpa coding, tinggal susun & langsung online",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/552/",
+        checkout:"https://member.affiliateaja.com/aff/42188/552/checkout"
+      },
+      {
+        id:"photolab",
+        name:"PhotoLab AI",
+        img:"image/photolab.jpg",
+        short:"Ala studio, tanpa studio — studio digital dalam satu klik.",
+        desc:"PhotoLab AI dari Eko Julyanto, founder AffiliateAja.com — ubah foto biasa jadi foto profesional bergaya studio, tanpa perlu sewa studio sungguhan. Cukup upload foto, AI yang mengolahnya jadi hasil berkualitas studio dalam hitungan klik.",
+        stats:[["Ala Studio","Tanpa perlu studio fisik"],["Satu Klik","Proses cepat & otomatis"],["Berbasis AI","Hasil kualitas profesional"]],
+        list:[
+          "Ubah foto biasa jadi hasil bergaya studio profesional",
+          "Tidak perlu sewa studio atau alat fotografi mahal",
+          "Proses otomatis dengan AI, hasil dalam hitungan klik",
+          "Cocok untuk foto produk, profil, hingga konten promosi",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/12642/",
+        checkout:"https://member.affiliateaja.com/aff/42188/12642/checkout"
+      },
+      {
+        id:"magicvideo",
+        name:"Magic Video Mastery",
+        img:"image/magicvideo.jpg",
+        short:"Kelas rahasia bikin video AI sekeren pro — tanpa kamera, tanpa editing.",
+        desc:"Magic Video Mastery dari Eko Julyanto, founder AffiliateAja.com — kelas rahasia untuk membuat video AI berkualitas profesional tanpa perlu kamera dan tanpa proses editing yang ribet. Cocok untuk yang ingin bikin konten video keren secara instan.",
+        stats:[["Tanpa Kamera","Video dibuat full pakai AI"],["Tanpa Editing","Proses jauh lebih cepat"],["Hasil Pro","Kualitas video profesional"]],
+        list:[
+          "Cara membuat video berkualitas profesional pakai AI",
+          "Tidak perlu kamera atau alat syuting sama sekali",
+          "Tidak perlu skill editing video yang rumit",
+          "Cocok untuk konten sosial media, iklan, & promosi",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/11522/",
+        checkout:"https://member.affiliateaja.com/aff/42188/11522/checkout"
+      },
+      {
+        id:"antinunda",
+        name:"Anti Nunda",
+        img:"image/antinunda.jpg",
+        short:"Teknik jitu mengatasi kebiasaan menunda-nunda (procrastination).",
+        desc:"Ebook \"Anti Nunda\" oleh Rizqan Putra, tersedia via AffiliateAja.com. Membahas teknik jitu untuk mengatasi kebiasaan menunda-nunda pekerjaan (prokrastinasi) dengan bahasa yang santai dan mudah dipahami, cocok untuk siapa saja yang ingin lebih produktif.",
+        stats:[["Teknik Jitu","Atasi kebiasaan menunda"],["Bahasa Santai","Mudah dipahami"],["Praktis","Langsung bisa diterapkan"]],
+        list:[
+          "Memahami akar penyebab kebiasaan menunda-nunda",
+          "Teknik praktis agar lebih disiplin menyelesaikan pekerjaan",
+          "Bahasa santai & mudah dipahami, tidak menggurui",
+          "Cocok untuk pelajar, pekerja, maupun pebisnis",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/8889/",
+        checkout:"https://member.affiliateaja.com/aff/42188/8889/checkout"
+      },
+      {
+        id:"efbionic",
+        name:"Efbionic — Facebook Marketing Organik",
+        img:"image/efbionic.jpg",
+        short:"Video tutorial teknis Canva, Photoshop, MS Word, ChatGPT untuk mini ebook.",
+        desc:"Efbionic dari Eko Julyanto, founder AffiliateAja.com — kumpulan video tutorial cara teknis penggunaan tools Canva, Photoshop, MS Word, dan ChatGPT untuk proses pembuatan mini ebook, dipadukan dengan strategi Facebook Marketing secara organik (tanpa iklan berbayar).",
+        stats:[["Video Tutorial","Teknis step by step"],["Multi Tools","Canva, Photoshop, Word, ChatGPT"],["Organik","Tanpa perlu budget iklan"]],
+        list:[
+          "Tutorial teknis penggunaan Canva & Photoshop untuk konten",
+          "Cara memakai ChatGPT untuk proses pembuatan mini ebook",
+          "Strategi Facebook Marketing secara organik, tanpa iklan berbayar",
+          "Cocok untuk pemula yang ingin belajar dari dasar",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/7909/",
+        checkout:"https://member.affiliateaja.com/aff/42188/7909/checkout"
+      },
+      {
+        id:"karakter3d",
+        name:"Kelas Karakter 3D",
+        img:"image/karakter3d.jpg",
+        short:"Kursus online membuat gambar karakter 3D dengan AI.",
+        desc:"Kelas Karakter 3D dari AffiliateAja.com — kursus online untuk belajar membuat gambar karakter 3D berkualitas menggunakan AI. Cocok untuk yang ingin bikin avatar, maskot, atau karakter untuk konten & bisnis tanpa perlu skill desain 3D dari nol.",
+        stats:[["Karakter 3D","Hasil gambar berkualitas tinggi"],["Kursus Online","Belajar dari mana saja"],["Berbasis AI","Tanpa perlu skill 3D manual"]],
+        list:[
+          "Cara membuat gambar karakter 3D menggunakan AI",
+          "Cocok untuk bikin avatar, maskot, atau karakter konten",
+          "Materi kursus online, bisa dipelajari kapan saja",
+          "Tidak perlu skill desain 3D dari nol",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/6602/",
+        checkout:"https://member.affiliateaja.com/aff/42188/6602/checkout"
+      },
+      {
+        id:"formulajualan",
+        name:"Formula Jualan Online",
+        img:"image/formulajualan.jpg",
+        short:"Kumpulan 24 video formula jualan online agar laris manis.",
+        desc:"Formula Jualan Online dari AffiliateAja.com — kumpulan 24 video yang membahas formula jualan online agar produk laris manis. Materi mencakup strategi promosi, penawaran, hingga closing, disusun praktis untuk pelaku bisnis online dari berbagai level.",
+        stats:[["24 Video","Materi lengkap & terstruktur"],["Laris Manis","Fokus strategi closing"],["Praktis","Langsung bisa diterapkan"]],
+        list:[
+          "24 video berisi formula lengkap jualan online",
+          "Strategi promosi & penawaran yang efektif",
+          "Teknik closing agar produk lebih laris",
+          "Cocok untuk pemula maupun yang mau naik level jualan",
+          "Akses langsung setelah pembayaran berhasil"
+        ],
+        landing:"https://member.affiliateaja.com/aff/42188/250/",
+        checkout:"https://member.affiliateaja.com/aff/42188/250/checkout"
+      }
+    ]
+  },
+  {
+    id:"advertisan-produk",
+    tag:"Produk Digital",
+    name:"Produk Digital Advertisan",
+    short:"Kumpulan produk digital dari mentor Advertisan.",
+    img:"image/metaads.jpg",
+    isFolder:true,
+    cat:"05 · Kumpulan Produk Digital & Afiliasi",
+    desc:"Ini adalah kumpulan produk digital dari mentor Advertisan. Daftar produk di bawah ini akan terus bertambah — ketuk salah satu untuk melihat detail dan cara mendapatkannya.",
+    products:[
+      {
+        id:"metaads",
+        name:"Meta Ads For Digital Product",
+        img:"image/metaads.jpg",
+        short:"Panduan menjalankan iklan Meta Ads khusus untuk produk digital.",
+        desc:"Meta Ads For Digital Product dari Advertisan — panduan menjalankan iklan Meta Ads (Facebook & Instagram Ads) yang difokuskan untuk menjual produk digital. Cocok untuk yang ingin scale penjualan produk digital lewat iklan berbayar secara efektif.",
+        stats:[["Meta Ads","Facebook & Instagram Ads"],["Fokus Produk Digital","Strategi khusus digital product"],["Praktis","Langsung bisa diterapkan"]],
+        list:[
+          "Strategi setup Meta Ads khusus untuk produk digital",
+          "Cara menentukan target audiens yang tepat",
+          "Tips mengelola budget iklan agar lebih efisien",
+          "Cocok untuk pemula maupun yang mau scale penjualan",
+          "Akses langsung setelah pendaftaran/pembayaran berhasil"
+        ],
+        link:"https://advertisan.id/adsmetadigi?aff_id=37045bad-9377-4f7a-9d3f-5caccc339fc1"
+      }
+    ]
+  }
+];
+
+const ring = document.getElementById('ring');
+const dotsEl = document.getElementById('dots');
+const stripEl = document.getElementById('strip');
+const N = BUSINESSES.length;
+const radius = 150; // will be adjusted responsively
+let active = 0;
+let rotation = 0;
+
+function computeRadius(){
+  const w = ring.getBoundingClientRect().width;
+  return Math.round((w/2) / Math.tan(Math.PI/N));
+}
+
+function buildCards(){
+  ring.innerHTML = "";
+  const r = computeRadius();
+  BUSINESSES.forEach((b, i) => {
+    const angle = (360/N) * i;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.index = i;
+    card.style.transform = `rotateY(${angle}deg) translateZ(${r}px)`;
+    card.innerHTML = `<img src="${b.img}" alt="${b.name}" loading="lazy">
+      <div class="tag"><span><span class="dot"></span> ${b.name}</span></div>`;
+    card.addEventListener('click', () => {
+      if(i === ((-Math.round(rotation/(360/N)))%N+N)%N){
+        openPanel(i);
+      } else {
+        goTo(i);
+      }
+    });
+    ring.appendChild(card);
+  });
+}
+
+function buildDots(){
+  dotsEl.innerHTML = "";
+  BUSINESSES.forEach((b,i)=>{
+    const d = document.createElement('span');
+    d.addEventListener('click', ()=> goTo(i));
+    dotsEl.appendChild(d);
+  });
+}
+
+function buildStrip(){
+  stripEl.innerHTML = "";
+  BUSINESSES.forEach((b,i)=>{
+    const btn = document.createElement('button');
+    btn.innerHTML = `<img src="${b.img}" alt="${b.name}">`;
+    btn.addEventListener('click', ()=> goTo(i));
+    stripEl.appendChild(btn);
+  });
+}
+
+function update(){
+  const step = 360/N;
+  ring.style.transform = `rotateY(${rotation}deg)`;
+  const cards = ring.querySelectorAll('.card');
+  cards.forEach((c,i)=> c.classList.toggle('is-active', i===active));
+  const dots = dotsEl.querySelectorAll('span');
+  dots.forEach((d,i)=> d.classList.toggle('on', i===active));
+  const strips = stripEl.querySelectorAll('button');
+  strips.forEach((s,i)=> s.classList.toggle('on', i===active));
+  document.getElementById('activeName').textContent = BUSINESSES[active].name;
+  document.getElementById('activeDesc').textContent = BUSINESSES[active].short;
+  const activeBtn = strips[active];
+  if(activeBtn) activeBtn.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+}
+
+function goTo(i){
+  active = ((i % N) + N) % N;
+  const step = 360/N;
+  rotation = -active * step;
+  update();
+}
+
+document.getElementById('prevBtn').addEventListener('click', ()=> goTo(active-1));
+document.getElementById('nextBtn').addEventListener('click', ()=> goTo(active+1));
+document.getElementById('openBtn').addEventListener('click', ()=> openPanel(active));
+
+// drag / swipe support
+let dragging=false, startX=0, startRotation=0;
+ring.addEventListener('pointerdown', e=>{
+  dragging=true; startX=e.clientX; startRotation=rotation;
+  ring.setPointerCapture(e.pointerId);
+  ring.style.transition='none';
+});
+ring.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  const dx = e.clientX - startX;
+  rotation = startRotation + dx*0.4;
+  ring.style.transform = `rotateY(${rotation}deg)`;
+});
+ring.addEventListener('pointerup', ()=>{
+  if(!dragging) return;
+  dragging=false;
+  ring.style.transition='';
+  const step = 360/N;
+  const nearest = Math.round(rotation/step);
+  active = ((-nearest % N)+N)%N;
+  rotation = nearest*step;
+  update();
+});
+ring.addEventListener('pointercancel', ()=>{dragging=false; ring.style.transition='';});
+
+// keyboard
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowLeft') goTo(active-1);
+  if(e.key==='ArrowRight') goTo(active+1);
+  if(e.key==='Escape') closePanel();
+});
+
+// auto rotate
+let autoTimer = setInterval(()=> goTo(active+1), 4200);
+['pointerdown','click'].forEach(evt=>{
+  document.querySelector('.stage').addEventListener(evt, ()=>{clearInterval(autoTimer);});
+});
+
+// ---- Panel detail ----
+const overlay = document.getElementById('overlay');
+
+function fillCommon(imgSrc, cat, title, desc, isFree){
+  document.getElementById('panelHero').src = imgSrc;
+  document.getElementById('panelCat').textContent = cat;
+  document.getElementById('panelTitle').textContent = title;
+  document.getElementById('panelDesc').textContent = desc;
+  document.getElementById('panelFreeBadge').style.display = isFree ? 'block' : 'none';
+}
+
+function openPanel(i){
+  const b = BUSINESSES[i];
+  if(b.isFolder){
+    showFolder(b);
+  } else {
+    showProduct(b);
+  }
+  overlay.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function showProduct(b){
+  fillCommon(b.img, b.cat, b.name, b.desc, false);
+  document.getElementById('panelProducts').style.display='none';
+  document.getElementById('panelProducts').innerHTML='';
+  document.getElementById('panelStats').innerHTML = b.stats.map(s=>`<div class="stat"><div class="v">${s[0]}</div><div class="l">${s[1]}</div></div>`).join('');
+  document.getElementById('panelList').innerHTML = b.list.map(l=>`<li>${l}</li>`).join('');
+  document.getElementById('panelCta').innerHTML = b.cta.map(c=>`<a class="cta ${c[1]}" href="${c[2]}" target="_blank" rel="noopener">${c[0]}</a>`).join('') + `<button class="cta ghost" onclick="closePanel()">Tutup</button>`;
+}
+
+function showFolder(b){
+  fillCommon(b.img, b.cat, b.name, b.desc, false);
+  document.getElementById('panelStats').innerHTML='';
+  document.getElementById('panelList').innerHTML='';
+  document.getElementById('panelCta').innerHTML = `<button class="cta ghost" onclick="closePanel()">Tutup</button>`;
+  const grid = document.getElementById('panelProducts');
+  grid.style.display='flex';
+  grid.innerHTML = b.products.map((p,idx)=>`
+    <button class="prod-card" data-idx="${idx}">
+      ${p.free ? '<span class="free-badge">Gratis</span>' : ''}
+      <img src="${p.img}" alt="${p.name}">
+      <div class="prod-info">
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-short">${p.short}</div>
+      </div>
+      <span class="prod-arrow">›</span>
+    </button>`).join('') + (b.products.length===1 ? `<div class="prod-note">Produk lain akan menyusul di folder ini.</div>` : '');
+  grid.querySelectorAll('.prod-card').forEach(btn=>{
+    btn.addEventListener('click', ()=> showProductDetail(b, b.products[Number(btn.dataset.idx)]));
+  });
+}
+
+function showProductDetail(b, p){
+  fillCommon(p.img, `Produk Digital · ${b.name}`, p.name, p.desc, !!p.free);
+  document.getElementById('panelProducts').style.display='none';
+  document.getElementById('panelProducts').innerHTML='';
+  document.getElementById('panelStats').innerHTML = (p.stats||[]).map(s=>`<div class="stat"><div class="v">${s[0]}</div><div class="l">${s[1]}</div></div>`).join('');
+  document.getElementById('panelList').innerHTML = (p.list||[]).map(l=>`<li>${l}</li>`).join('');
+  let ctaHtml;
+  if(p.checkout){
+    ctaHtml = `<a class="cta primary" href="${p.landing}" target="_blank" rel="noopener">Lihat Detail Produk</a>
+       <a class="cta alt" href="${p.checkout}" target="_blank" rel="noopener">Checkout Sekarang</a>`;
+  } else {
+    ctaHtml = `<a class="cta primary" href="${p.link}" target="_blank" rel="noopener">${p.ctaLabel || (p.free ? 'Akses Gratis Sekarang' : 'Lihat Detail Produk')}</a>`;
+  }
+  document.getElementById('panelCta').innerHTML = ctaHtml + `
+    <button class="cta ghost" id="backToFolder">‹ Kembali ke Daftar</button>
+    <button class="cta ghost" onclick="closePanel()">Tutup</button>`;
+  document.getElementById('backToFolder').addEventListener('click', ()=> showFolder(b));
+}
+
+function closePanel(){
+  overlay.classList.remove('show');
+  document.body.style.overflow='';
+}
+document.getElementById('closeBtn').addEventListener('click', closePanel);
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closePanel(); });
+
+// ---- Theme toggle ----
+(function(){
+  const toggleBtn = document.getElementById('themeToggle');
+  let saved = null;
+  try{ saved = localStorage.getItem('site-theme'); }catch(e){}
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  const initial = saved || (prefersLight ? 'light' : 'dark');
+  applyTheme(initial);
+
+  toggleBtn.addEventListener('click', ()=>{
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try{ localStorage.setItem('site-theme', next); }catch(e){}
+  });
+
+  function applyTheme(mode){
+    document.documentElement.setAttribute('data-theme', mode);
+    toggleBtn.textContent = mode === 'dark' ? '🌙' : '☀️';
+  }
+})();
+
+// init
+buildCards();
+buildDots();
+buildStrip();
+update();
+window.addEventListener('resize', ()=>{ buildCards(); update(); });
+</script>
+</body>
+</html>
