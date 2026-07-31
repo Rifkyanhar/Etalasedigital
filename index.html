@@ -1,1 +1,2288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalasan Mas Fery — Pesan Menu</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1E6B3C">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kalasan Mas Fery">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<style>
+:root{
+  --yellow:#F2A900;
+  --yellow-deep:#D98E00;
+  --cream:#FFF7E6;
+  --green:#1E6B3C;
+  --green-deep:#134A29;
+  --red:#B8322A;
+  --ink:#2A2118;
+  --paper:#FFFDF8;
+  --line:#E8DCC0;
+  --gray:#8A7F6C;
+  --radius:14px;
+  --shadow:0 4px 18px rgba(43,33,15,0.12);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  min-height:100vh;
+}
+h1,h2,h3,.brand{font-family:'Baloo 2','Inter',sans-serif;}
+#app{max-width:520px;margin:0 auto;min-height:100vh;background:var(--paper);box-shadow:0 0 40px rgba(0,0,0,0.06);position:relative;padding-bottom:24px;}
+#app.wide{max-width:960px;}
 
+/* Header */
+.topbar{
+  background:linear-gradient(135deg,var(--green) 0%, var(--green-deep) 100%);
+  color:#fff;padding:18px 20px 22px;position:relative;overflow:hidden;
+}
+.topbar::after{content:"";position:absolute;right:-40px;top:-40px;width:140px;height:140px;background:rgba(242,169,0,0.25);border-radius:50%;}
+.topbar .eyebrow{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;opacity:0.85;font-weight:600;}
+.topbar h1{margin:2px 0 0;font-size:22px;font-weight:700;}
+.topbar .sub{font-size:13px;opacity:0.9;margin-top:2px;}
+.back-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.back-btn{background:rgba(255,255,255,0.18);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.back-btn:active{background:rgba(255,255,255,0.32);}
+
+.content{padding:20px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:var(--shadow);}
+.card h3{margin:0 0 8px;font-size:16px;color:var(--green-deep);}
+.muted{color:var(--gray);font-size:13px;}
+.pill{display:inline-block;padding:4px 10px;border-radius:100px;font-size:12px;font-weight:600;}
+.pill.yellow{background:#FDF0D5;color:var(--yellow-deep);}
+.pill.green{background:#E4F3E9;color:var(--green-deep);}
+.pill.red{background:#FBE7E5;color:var(--red);}
+.pill.gray{background:#F0EDE5;color:var(--gray);}
+
+.btn{
+  display:block;width:100%;padding:14px 16px;border-radius:12px;border:none;
+  font-size:15px;font-weight:700;cursor:pointer;text-align:center;font-family:inherit;
+  transition:transform .05s ease;
+}
+.btn:active{transform:scale(0.98);}
+.btn-primary{background:var(--green);color:#fff;}
+.btn-primary:disabled{background:#C9C2B3;cursor:not-allowed;}
+.btn-outline{background:#fff;color:var(--green-deep);border:2px solid var(--green);}
+.btn-yellow{background:var(--yellow);color:#3A2600;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-sm{padding:9px 12px;font-size:13px;border-radius:9px;}
+.btn-ghost{background:transparent;color:var(--green-deep);border:1px dashed var(--line);}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.table-chip{
+  background:var(--cream);border:1.5px solid var(--line);border-radius:12px;
+  padding:14px 6px;text-align:center;cursor:pointer;font-weight:700;color:var(--green-deep);font-size:14px;
+}
+.table-chip:active{background:#FDF0D5;border-color:var(--yellow);}
+.table-chip.special{background:var(--green-deep);color:#fff;border-color:var(--green-deep);}
+
+.type-card{
+  display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:var(--radius);
+  padding:14px;margin-bottom:10px;cursor:pointer;background:#fff;
+}
+.type-card .icon{font-size:26px;}
+.type-card b{display:block;font-size:15px;}
+.type-card span{font-size:12.5px;color:var(--gray);}
+.type-card.disabled{opacity:0.5;cursor:not-allowed;}
+
+.menu-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);}
+.menu-item-disabled{opacity:0.55;filter:grayscale(0.4);}
+.menu-item:last-child{border-bottom:none;}
+.menu-item .emoji{font-size:34px;width:48px;text-align:center;flex-shrink:0;}
+.menu-item .info{flex:1;min-width:0;}
+.menu-item .info b{font-size:14.5px;}
+.menu-item .info .desc{font-size:12.5px;color:var(--gray);}
+.menu-item .price{font-size:13.5px;color:var(--red);font-weight:700;margin-top:2px;}
+.qty-box{display:flex;align-items:center;gap:8px;margin-top:6px;}
+.qty-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--green);background:#fff;color:var(--green-deep);font-weight:700;cursor:pointer;font-size:15px;line-height:1;}
+.qty-btn:active{background:var(--cream);}
+.qty-num{min-width:20px;text-align:center;font-weight:700;}
+.note-input{
+  width:100%;margin-top:8px;padding:8px 10px;border:1.5px solid var(--line);border-radius:9px;
+  font-size:13px;font-family:inherit;background:var(--cream);
+}
+
+.category-tabs{display:flex;gap:8px;margin-bottom:12px;}
+.category-tabs button{flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-weight:600;font-size:13px;cursor:pointer;color:var(--gray);}
+.category-tabs button.active{background:var(--green);border-color:var(--green);color:#fff;}
+
+.cart-fab{
+  position:sticky;bottom:0;left:0;right:0;background:var(--green-deep);color:#fff;
+  padding:14px 18px;display:flex;justify-content:space-between;align-items:center;
+  border-radius:16px 16px 0 0;margin-top:12px;
+}
+.cart-fab b{font-size:15px;}
+.cart-fab .go{background:var(--yellow);color:#3A2600;padding:8px 16px;border-radius:9px;font-weight:700;border:none;font-size:13.5px;cursor:pointer;}
+
+input[type=text], input[type=tel], input[type=number], textarea, select{
+  width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;
+  font-family:inherit;background:#fff;color:var(--ink);
+}
+textarea{resize:vertical;min-height:56px;}
+label{font-size:13px;font-weight:600;color:var(--ink);display:block;margin:10px 0 5px;}
+.field{margin-bottom:4px;}
+
+.upload-box{
+  border:2px dashed var(--line);border-radius:12px;padding:18px;text-align:center;cursor:pointer;
+  color:var(--gray);font-size:13px;background:var(--cream);
+}
+.upload-preview{width:100%;border-radius:10px;margin-top:10px;max-height:220px;object-fit:contain;background:#f5f0e2;}
+
+.pay-option{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:12px;padding:13px;margin-bottom:9px;cursor:pointer;}
+.pay-option.selected{border-color:var(--green);background:#F3FAF5;}
+.pay-option .icon{font-size:22px;}
+.pay-option b{font-size:14px;}
+.pay-option span{font-size:12px;color:var(--gray);}
+
+.banner{border-radius:12px;padding:13px 14px;font-size:13.5px;margin-bottom:12px;line-height:1.5;}
+.banner.warn{background:#FDF3E3;border:1px solid #F3D89A;color:#7A5300;}
+.banner.error{background:#FBE7E5;border:1px solid #F0B4AD;color:#8A241C;}
+.banner.ok{background:#E4F3E9;border:1px solid #A9D9BC;color:var(--green-deep);}
+
+.queue-hero{text-align:center;padding:26px 10px 10px;}
+
+/* Review prompt */
+.review-card{text-align:center;}
+.star-row{display:flex;justify-content:center;gap:8px;margin:14px 0 6px;}
+.star-btn{font-size:36px;background:none;border:none;cursor:pointer;line-height:1;padding:2px;color:#D8D0BE;transition:transform .1s ease;}
+.star-btn.filled{color:var(--yellow);}
+.star-btn:active{transform:scale(1.15);}
+.review-textarea{margin-top:12px;}
+.queue-num{font-family:'Baloo 2';font-size:56px;font-weight:800;color:var(--green-deep);letter-spacing:2px;}
+.status-track{display:flex;justify-content:space-between;margin:22px 0 6px;position:relative;}
+.status-track::before{content:"";position:absolute;top:14px;left:8%;right:8%;height:3px;background:var(--line);z-index:0;}
+.status-step{flex:1;text-align:center;position:relative;z-index:1;}
+.status-dot{width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--line);margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.status-step.done .status-dot{background:var(--green);border-color:var(--green);color:#fff;}
+.status-step.current .status-dot{background:var(--yellow);border-color:var(--yellow-deep);color:#3A2600;}
+.status-step small{font-size:11px;color:var(--gray);display:block;}
+.status-step.done small, .status-step.current small{color:var(--ink);font-weight:600;}
+
+/* Role select / home */
+.role-hero{background:linear-gradient(160deg,var(--yellow) 0%, var(--yellow-deep) 100%);padding:34px 20px 60px;text-align:center;color:#3A2600;position:relative;}
+.role-hero .chicken{font-size:44px;}
+.role-hero h1{margin:6px 0 0;font-size:24px;}
+.role-hero p{font-size:13px;opacity:0.85;margin:6px 0 0;}
+.role-cards{margin:-40px 18px 0;position:relative;z-index:2;}
+.role-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:12px;cursor:pointer;border:1px solid var(--line);}
+.role-card .icon{font-size:30px;width:44px;text-align:center;}
+.role-card b{font-size:15px;display:block;}
+.role-card span{font-size:12.5px;color:var(--gray);}
+
+/* Kitchen & Cashier dashboards */
+.dash-header{display:flex;justify-content:space-between;align-items:center;background:var(--green-deep);color:#fff;padding:16px 20px;}
+.dash-header h2{margin:0;font-size:18px;}
+.dash-tabs{display:flex;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;}
+.dash-tabs button{flex:1;padding:12px 6px;background:none;border:none;font-weight:600;color:var(--gray);font-size:13px;cursor:pointer;border-bottom:3px solid transparent;}
+.dash-tabs button.active{color:var(--green-deep);border-bottom-color:var(--green);}
+.order-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 20px;box-shadow:var(--shadow);}
+.order-card .row1{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.order-card .qnum{font-family:'Baloo 2';font-size:22px;font-weight:800;color:var(--green-deep);}
+.order-card .meta{font-size:12px;color:var(--gray);}
+.order-items{font-size:13.5px;margin:8px 0;}
+.order-items div{padding:3px 0;border-bottom:1px dashed var(--line);}
+.order-items div:last-child{border-bottom:none;}
+.note-tag{background:#FDF0D5;color:#7A5300;font-size:11.5px;padding:2px 6px;border-radius:6px;margin-left:4px;}
+.action-row{display:flex;gap:8px;margin-top:10px;}
+.action-row .btn{flex:1;}
+.proof-thumb{width:56px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:pointer;}
+
+.qr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:20px;}
+.qr-cell{border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;background:#fff;}
+.qr-cell b{display:block;margin-top:6px;font-size:13px;}
+.qr-cell canvas, .qr-cell img{margin:0 auto;}
+
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px;border:1px solid var(--line);border-radius:12px;margin:14px 20px;background:#fff;}
+.switch{position:relative;width:46px;height:26px;}
+.switch input{display:none;}
+.slider{position:absolute;inset:0;background:#D8D0BE;border-radius:20px;cursor:pointer;transition:.2s;}
+.slider::before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
+input:checked + .slider{background:var(--green);}
+input:checked + .slider::before{transform:translateX(20px);}
+
+.empty-state{text-align:center;padding:50px 20px;color:var(--gray);}
+.empty-state .em{font-size:40px;display:block;margin-bottom:10px;}
+
+@media print{
+  body *{visibility:hidden;}
+  .printable, .printable *{visibility:visible;}
+  .printable{position:absolute;top:0;left:0;width:100%;}
+}
+.hidden{display:none !important;}
+.lightbox-overlay{
+  position:fixed;inset:0;background:rgba(10,8,4,0.94);z-index:999;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  overflow:auto;touch-action:pinch-zoom;
+}
+.lightbox-img{max-width:100%;max-height:none;width:100%;border-radius:8px;background:#fff;}
+.lightbox-close{position:fixed;top:16px;right:16px;z-index:1000;width:38px;height:38px;font-size:18px;background:rgba(255,255,255,0.15);}
+.lightbox-hint{position:fixed;top:18px;left:16px;color:#fff;font-size:12.5px;opacity:0.85;z-index:1000;background:rgba(255,255,255,0.12);padding:6px 10px;border-radius:8px;}
+.file-input-vh{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+a{color:var(--green-deep);}
+.footer-note{text-align:center;font-size:11.5px;color:var(--gray);padding:14px 20px 0;}
+
+/* Beranda (customer home dashboard) */
+.beranda-top{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--green-deep);color:#fff;padding:16px 20px;position:sticky;top:0;z-index:5;
+}
+.beranda-brand{font-family:'Baloo 2';font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.bell-btn{position:relative;background:rgba(255,255,255,0.15);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:17px;cursor:pointer;}
+.bell-dot{position:absolute;top:6px;right:7px;width:9px;height:9px;background:var(--red);border-radius:50%;border:1.5px solid var(--green-deep);}
+.beranda-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;}
+.beranda-action{
+  background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 8px;
+  text-align:center;cursor:pointer;box-shadow:var(--shadow);
+}
+.beranda-action .icon{font-size:30px;margin-bottom:8px;}
+.beranda-action b{font-size:12.5px;display:block;line-height:1.3;}
+.staff-link{text-align:center;font-size:12px;color:var(--gray);margin-top:22px;}
+
+/* PIN gate screens */
+.pin-screen{min-height:100vh;background:#181818;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
+.pin-logo{font-size:56px;margin-bottom:6px;}
+.pin-title{color:var(--yellow);font-family:'Baloo 2';font-size:24px;margin:6px 0 0;}
+.pin-sub{color:#999;font-size:13px;margin:4px 0 28px;}
+.pin-card{background:#242424;border:1px solid #3a3a3a;border-radius:16px;padding:22px;width:100%;max-width:320px;box-sizing:border-box;}
+.pin-label{color:#ccc;font-size:13px;display:block;margin-bottom:10px;text-align:left;}
+.pin-input{
+  width:100%;padding:14px;border-radius:10px;border:1.5px solid #3a3a3a;background:#181818;color:#fff;
+  font-size:26px;text-align:center;letter-spacing:14px;font-weight:700;box-sizing:border-box;
+}
+.pin-back{color:#888;font-size:12.5px;margin-top:18px;display:inline-block;}
+
+/* Camera scanner */
+.scan-video-wrap{position:relative;border-radius:var(--radius);overflow:hidden;background:#000;}
+.scan-video-wrap video{width:100%;display:block;}
+.scan-frame{position:absolute;inset:12%;border:3px solid var(--yellow);border-radius:16px;pointer-events:none;}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ============ CONFIG ============ */
+const RESTO = { name: "Ayam Bakar & Goreng Kalasan Mas Fery", lat: -6.1820389, lng: 106.6344833, wa: "085773144582", addr: "Jl. Soleh Ali No. 3 Kavling Pasar Anyar" };
+/* Ganti dengan link "Tulis Ulasan" Google Maps resto (dari tombol Bagikan di
+   Google Maps). Pelanggan dengan rating 4-5 akan diarahkan ke sini. */
+const GOOGLE_REVIEW_LINK = "https://maps.app.goo.gl/XXyNHnfwyzSV33SV8";
+const REVIEW_DELAY_MS = 20 * 60 * 1000; // 20 menit setelah pesanan selesai
+const GEOFENCE_TOLERANCE_M = 10;
+const TABLE_COUNT = 30;
+
+const MENU = [
+  { id:"u1", cat:"utama", emoji:"🍗", name:"Ayam Bakar/Goreng", desc:"Menu utama, tanpa nasi", price:19000 },
+  { id:"u2", cat:"utama", emoji:"🍲", name:"Sop Iga", desc:"Sop iga sapi hangat", price:27000 },
+  { id:"u3", cat:"utama", emoji:"🍲", name:"Sop Iga Bakar", desc:"Sop iga sapi bakar", price:30000 },
+  { id:"u4", cat:"utama", emoji:"🥬", name:"Ca Kangkung", desc:"Cah kangkung segar", price:15000 },
+  { id:"u5", cat:"utama", emoji:"🥬", name:"Ca Toge", desc:"Cah toge segar", price:15000 },
+  { id:"s1", cat:"sterofom", emoji:"🍱", name:"Paket 1", desc:"Nasi + Ayam", price:24000 },
+  { id:"s2", cat:"sterofom", emoji:"🍱", name:"Paket 2", desc:"Nasi + Ayam + Tahu/Tempe", price:27000 },
+  { id:"s3", cat:"sterofom", emoji:"🍱", name:"Paket 3", desc:"Nasi + Ayam + Sayur Asem", price:27000 },
+  { id:"s4", cat:"sterofom", emoji:"🍱", name:"Paket 4", desc:"Nasi + Ayam + Tahu + Tempe", price:29000 },
+  { id:"s5", cat:"sterofom", emoji:"🍱", name:"Paket 5", desc:"Nasi + Ayam + Tahu + Tempe + Sayur Asem", price:32000 },
+  { id:"s6", cat:"sterofom", emoji:"🍱", name:"Paket 6", desc:"Nasi + Ayam + Tahu/Tempe + Sayur Asem", price:30000 },
+  { id:"p1", cat:"piring", emoji:"🍛", name:"Paket 1", desc:"Nasi + Ayam", price:27000 },
+  { id:"p2", cat:"piring", emoji:"🍛", name:"Paket 2", desc:"Nasi + Ayam + Tahu/Tempe", price:30000 },
+  { id:"p3", cat:"piring", emoji:"🍛", name:"Paket 3", desc:"Nasi + Ayam + Sayur Asem", price:30000 },
+  { id:"p4", cat:"piring", emoji:"🍛", name:"Paket 4", desc:"Nasi + Ayam + Tahu + Tempe", price:32000 },
+  { id:"p5", cat:"piring", emoji:"🍛", name:"Paket 5", desc:"Nasi + Ayam + Tahu + Tempe + Sayur Asem", price:35000 },
+  { id:"p6", cat:"piring", emoji:"🍛", name:"Paket 6", desc:"Nasi + Ayam + Tahu/Tempe + Sayur Asem", price:33000 },
+];
+
+/* ============ FIREBASE SETUP ============ */
+/* 1) Buka https://console.firebase.google.com -> Add project (gratis).
+   2) Di project itu, aktifkan "Realtime Database" (mode test dulu untuk development).
+   3) Buka Project Settings -> General -> "Your apps" -> tambah Web App -> copy config di bawah ini.
+   4) Tempel config kamu menggantikan placeholder ini, lalu simpan ulang file & upload ke GitHub/VPS. */
+const firebaseConfig = {
+  apiKey: "AIzaSyBaizb6QqUyvGIdzNn10c40CjNTVLP3-Xo",
+  authDomain: "ayam-bakar-kalasan-mas-fery.firebaseapp.com",
+  databaseURL: "https://ayam-bakar-kalasan-mas-fery-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "ayam-bakar-kalasan-mas-fery",
+  storageBucket: "ayam-bakar-kalasan-mas-fery.firebasestorage.app",
+  messagingSenderId: "259635639789",
+  appId: "1:259635639789:web:74a06a46083f146bf863e4"
+};
+let db = null;
+let auth = null;
+let firebaseReady = false;
+/* Fixed staff accounts — create these in Firebase Console > Authentication >
+   Users (owner chooses the actual passwords there). The email doesn't need
+   to be a real inbox, Firebase just needs the format. */
+const DAPUR_EMAIL = 'dapur@kalasanmasfery.app';
+const KASIR_EMAIL = 'kasir@kalasanmasfery.app';
+let currentAuthUser = null;
+let authReady = false;
+try{
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.database();
+  auth = firebase.auth();
+  firebaseReady = true;
+}catch(e){
+  console.warn('Firebase belum dikonfigurasi — tempel config Firebase kamu di firebaseConfig.', e);
+}
+
+/* ============ STORAGE HELPERS (Firebase Realtime Database) ============ */
+/* cache is only a fallback for the brief moment before the first real read
+   arrives, or if Firebase is temporarily unreachable — it is never treated
+   as a substitute for a fresh read. */
+const cache = { settings: null, orders: null, menuAvailability: null, reviews: null };
+
+async function getSettings(){
+  if(!firebaseReady) return cache.settings || { groupBookingEnabled:true, queueCounter:0, cashEnabled:true };
+  try{
+    const snap = await db.ref('settings').once('value');
+    const v = snap.val() || {};
+    const s = {
+      groupBookingEnabled: v.groupBookingEnabled !== undefined ? v.groupBookingEnabled : true,
+      queueCounter: v.queueCounter || 0,
+      cashEnabled: v.cashEnabled !== undefined ? v.cashEnabled : true
+    };
+    cache.settings = s;
+    return s;
+  }catch(e){
+    return cache.settings || { groupBookingEnabled:true, queueCounter:0, cashEnabled:true };
+  }
+}
+async function setGroupBookingEnabled(val){
+  cache.settings = Object.assign({}, cache.settings, { groupBookingEnabled: val });
+  if(!firebaseReady) return;
+  try{ await db.ref('settings/groupBookingEnabled').set(val); }catch(e){ /* stays in cache for this session */ }
+}
+async function setCashEnabled(val){
+  cache.settings = Object.assign({}, cache.settings, { cashEnabled: val });
+  if(!firebaseReady) return;
+  try{ await db.ref('settings/cashEnabled').set(val); }catch(e){ /* stays in cache for this session */ }
+}
+/* ============ MENU AVAILABILITY (stok habis) ============ */
+async function getMenuAvailability(){
+  if(!firebaseReady) return cache.menuAvailability || {};
+  try{
+    const snap = await db.ref('menuAvailability').once('value');
+    const v = snap.val() || {};
+    cache.menuAvailability = v;
+    return v;
+  }catch(e){
+    return cache.menuAvailability || {};
+  }
+}
+async function setMenuAvailability(itemId, available){
+  if(!cache.menuAvailability) cache.menuAvailability = {};
+  cache.menuAvailability[itemId] = available;
+  if(!firebaseReady) return;
+  try{ await db.ref('menuAvailability/' + itemId).set(available); }catch(e){ /* stays in cache for this session */ }
+}
+function isMenuItemAvailable(availability, itemId){
+  return availability[itemId] !== false; // default: available unless explicitly marked false
+}
+/* ============ REVIEWS ============ */
+async function saveReview(review){
+  if(!cache.reviews) cache.reviews = {};
+  cache.reviews[review.orderId] = review;
+  if(!firebaseReady) return;
+  try{ await db.ref('reviews/' + review.orderId).set(review); }catch(e){ /* stays in cache for this session */ }
+}
+async function getAllReviews(){
+  if(!firebaseReady) return cache.reviews || {};
+  try{
+    const snap = await db.ref('reviews').once('value');
+    const v = snap.val() || {};
+    cache.reviews = v;
+    return v;
+  }catch(e){
+    return cache.reviews || {};
+  }
+}
+async function getAllOrders(){
+  if(!firebaseReady) return cache.orders || {};
+  try{
+    const snap = await db.ref('orders').once('value');
+    const o = snap.val() || {};
+    cache.orders = o;
+    return o;
+  }catch(e){
+    return cache.orders || {};
+  }
+}
+/* Writes ONLY this one order's own node (orders/{id}), never the whole
+   orders tree. This is what keeps simultaneous orders from different
+   customers safe: each order lives at its own path, so two people placing
+   orders at the same second can never overwrite each other's data. */
+async function saveOrder(order){
+  if(!cache.orders) cache.orders = {};
+  cache.orders[order.id] = order;
+  if(!firebaseReady) return;
+  try{ await db.ref('orders/' + order.id).set(order); }catch(e){ /* stays in cache for this session */ }
+}
+/* Partial update to just the given fields of one order (e.g. only
+   kitchenStatus, or only paymentStatus) — safer still than rewriting the
+   whole order when only a small part of it changed. */
+async function updateOrderFields(orderId, fields){
+  if(cache.orders && cache.orders[orderId]) Object.assign(cache.orders[orderId], fields);
+  if(!firebaseReady) return;
+  try{ await db.ref('orders/' + orderId).update(fields); }catch(e){ /* stays in cache for this session */ }
+}
+async function nextQueueNumber(){
+  if(!firebaseReady){
+    const s = await getSettings();
+    let n = (s.queueCounter||0) + 1;
+    if(n>999) n = 1;
+    s.queueCounter = n;
+    cache.settings = s;
+    return String(n).padStart(3,'0');
+  }
+  try{
+    const result = await db.ref('settings/queueCounter').transaction(cur=>{
+      let n = (cur||0) + 1;
+      if(n > 999) n = 1;
+      return n;
+    });
+    const n = result.snapshot.val();
+    return String(n).padStart(3,'0');
+  }catch(e){
+    return String(Math.floor(Math.random()*900)+100);
+  }
+}
+
+/* ============ UTILS ============ */
+function rupiah(n){ return "Rp " + n.toLocaleString('id-ID'); }
+function distanceMeters(lat1, lon1, lat2, lon2){
+  const R = 6371000, toRad = d => d * Math.PI/180;
+  const dLat = toRad(lat2-lat1), dLon = toRad(lon2-lon1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+function mapsLink(){ return `https://www.google.com/maps?q=${RESTO.lat},${RESTO.lng}`; }
+function resizeImageFile(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const maxW = 640;
+        const scale = Math.min(1, maxW/img.width);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width*scale;
+        canvas.height = img.height*scale;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', 0.65));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+function timeStr(ts){
+  const d = new Date(ts);
+  return d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+}
+function escapeHtml(str){
+  return (str||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ============ CUSTOMER PROFILE (saved locally on this device) ============ */
+function getCustomerProfile(){
+  try{
+    const raw = localStorage.getItem('kmf_customer_profile');
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+function saveCustomerProfile(profile){
+  try{ localStorage.setItem('kmf_customer_profile', JSON.stringify(profile)); }catch(e){ /* ignore */ }
+}
+function getLastSeenNotif(){
+  try{ return parseInt(localStorage.getItem('kmf_last_seen_notif')||'0', 10); }catch(e){ return 0; }
+}
+function setLastSeenNotif(ts){
+  try{ localStorage.setItem('kmf_last_seen_notif', String(ts)); }catch(e){ /* ignore */ }
+}
+function hasSeenStory(){
+  try{ return localStorage.getItem('kmf_story_seen') === '1'; }catch(e){ return true; }
+}
+function markStorySeen(){
+  try{ localStorage.setItem('kmf_story_seen', '1'); }catch(e){ /* ignore */ }
+}
+
+/* ============ STAFF SESSION (backed by real Firebase Authentication) ============ */
+function isDapurUnlocked(){ return authReady && !!currentAuthUser && currentAuthUser.email === DAPUR_EMAIL; }
+function isKasirUnlocked(){ return authReady && !!currentAuthUser && currentAuthUser.email === KASIR_EMAIL; }
+
+/* ============ APP STATE ============ */
+let state = {
+  view: 'home',      // home, scanSim, orderType, groupSize, menu, cart, info, payment, confirm, status, kitchen, cashier
+  order: null,        // draft order being built
+  createdOrder: null, // order after submit (for status view)
+  cashierTab: 'pesanan',
+  category: 'sterofom',
+  geoResult: null,    // {ok, distance} for cash check
+  geoChecking: false,
+  proofPreview: null,
+  lightbox: null,
+  addonOrderId: null, // order being added to by the cashier
+  addonItems: {},     // id -> {qty}, staged items before confirming
+  isSubmittingOrder: false,
+  reviewRating: 0,
+  reviewComment: ''
+};
+
+function newDraftOrder(orderType, tableCode){
+  const profile = getCustomerProfile() || {};
+  return {
+    orderType, tableCode: tableCode||null, groupSize: null,
+    bookingDate: null, bookingTime: null, // for group booking
+    items: {}, // id -> {qty, note}
+    customerName: profile.name || '', customerPhone: profile.phone || '',
+    paymentMethod:null, ewalletProvider:null, paymentProof:null
+  };
+}
+
+function setView(v){ state.view = v; render(); window.scrollTo(0,0); }
+
+/* ============ ROUTING ON LOAD ============ */
+function parseEntryHash(){
+  const h = location.hash.replace('#','');
+  let intendedView = null;
+
+  if(/^meja\d+$/.test(h)){
+    const n = h.replace('meja','');
+    state.order = newDraftOrder('dinein', 'Meja ' + n);
+    intendedView = 'menu';
+  } else if(h === 'takeaway'){
+    state.order = newDraftOrder('takeaway', null);
+    intendedView = 'menu';
+  } else if(h === 'group'){
+    state.order = newDraftOrder('group', null);
+    intendedView = 'groupSize';
+  } else if(h === 'dapur'){
+    state.view = isDapurUnlocked() ? 'kitchen' : 'pinDapur'; return;
+  } else if(h === 'kasir'){
+    state.view = isKasirUnlocked() ? 'cashier' : 'pinKasir'; return;
+  } else if(h === 'staff'){
+    state.view = 'home'; return;
+  } else {
+    intendedView = 'beranda';
+  }
+
+  const profile = getCustomerProfile();
+  if(!profile || !profile.name || !profile.phone){
+    state.pendingView = intendedView;
+    state.view = 'onboarding';
+    return;
+  }
+  if(!hasSeenStory()){
+    state.pendingView = intendedView;
+    state.view = 'story';
+    return;
+  }
+  state.view = intendedView;
+}
+
+/* ============ RENDER: HOME (Staff Portal — separate from customer flow) ============ */
+function renderHome(){
+  return `
+  <div class="role-hero">
+    <div class="chicken">🐔</div>
+    <h1 class="brand">Portal Staff</h1>
+    <p>Ayam Bakar & Goreng Kalasan Mas Fery</p>
+  </div>
+  <div class="role-cards">
+    <div class="role-card" data-action="enterDapur">
+      <div class="icon">👨‍🍳</div>
+      <div><b>Panel Dapur</b><span>Lihat & proses pesanan masuk</span></div>
+    </div>
+    <div class="role-card" data-action="enterKasir">
+      <div class="icon">🧾</div>
+      <div><b>Panel Kasir</b><span>Konfirmasi pembayaran, stok menu, cetak struk & QR meja</span></div>
+    </div>
+  </div>
+  <div class="footer-note">Simpan link ini (akhiran <b>#staff</b>) sebagai bookmark di tablet dapur & komputer kasir untuk akses cepat kapan saja.</div>
+  `;
+}
+
+/* ============ RENDER: PIN GATES ============ */
+function renderPinDapur(){
+  return `
+  <div class="pin-screen">
+    <div class="pin-logo">🐔</div>
+    <h1 class="pin-title">Dashboard Dapur</h1>
+    <div class="pin-sub">Ayam Bakar Kalasan Mas Fery</div>
+    <div class="pin-card">
+      <label class="pin-label">Kata Sandi Dapur</label>
+      <input type="password" id="pinDapurInput" class="pin-input" style="letter-spacing:normal;font-size:16px;text-align:left;" placeholder="Masukkan kata sandi">
+      <button class="btn btn-yellow" style="margin-top:14px;" data-action="submitPinDapur">🔒 Masuk ke Dapur</button>
+      <div id="pinDapurError" class="muted" style="color:#ff8a80;margin-top:10px;"></div>
+    </div>
+    <a href="#staff" class="pin-back" data-action="go" data-view="home">← Kembali ke Portal Staff</a>
+  </div>
+  `;
+}
+function renderPinKasir(){
+  return `
+  <div class="pin-screen">
+    <div class="pin-logo">🐔</div>
+    <h1 class="pin-title">Dashboard Kasir</h1>
+    <div class="pin-sub">Ayam Bakar Kalasan Mas Fery</div>
+    <div class="pin-card">
+      <label class="pin-label">Kata Sandi Kasir</label>
+      <input type="password" id="pinKasirInput" class="pin-input" style="letter-spacing:normal;font-size:16px;text-align:left;" placeholder="Masukkan kata sandi">
+      <button class="btn btn-yellow" style="margin-top:14px;" data-action="submitPinKasir">🔒 Masuk ke Kasir</button>
+      <div id="pinKasirError" class="muted" style="color:#ff8a80;margin-top:10px;"></div>
+    </div>
+    <a href="#staff" class="pin-back" data-action="go" data-view="home">← Kembali ke Portal Staff</a>
+  </div>
+  `;
+}
+
+/* ============ RENDER: ONBOARDING (first-time customer) ============ */
+function renderOnboarding(){
+  return `
+  <div class="role-hero">
+    <div class="chicken">🐔</div>
+    <h1 class="brand">Kalasan Mas Fery</h1>
+    <p>Isi data sekali saja, langsung bisa pesan kapan saja</p>
+  </div>
+  <div class="role-cards">
+    <div class="card">
+      <label>Nama Lengkap</label>
+      <input type="text" id="onbName" placeholder="Contoh: Budi Santoso">
+      <label>Nomor WhatsApp</label>
+      <input type="tel" id="onbPhone" placeholder="Contoh: 081234567890">
+    </div>
+    <button class="btn btn-primary" data-action="saveOnboarding">Mulai Pesan</button>
+  </div>
+  `;
+}
+
+/* ============ RENDER: STORY (shown once to new customers) ============ */
+function renderStory(){
+  return `
+  <div class="role-hero">
+    <div class="chicken">🐔🔥</div>
+    <h1 class="brand">Cerita Kami</h1>
+  </div>
+  <div class="content" style="margin-top:-24px;position:relative;z-index:2;">
+    <div class="card">
+      <p style="margin:0 0 10px;line-height:1.6;">Kalasan Mas Fery berawal dari dapur rumahan sederhana, meracik resep ayam kalasan turun-temurun keluarga yang bumbunya tetap dijaga sampai sekarang.</p>
+      <p style="margin:0 0 10px;line-height:1.6;">Berkat racikan bumbu khas dan sambal yang bikin nagih, video masakan kami sempat viral di TikTok — dan sejak itu, <b>50–150 pelanggan setia</b> datang setiap harinya untuk menikmati ayam bakar & goreng andalan kami.</p>
+      <p style="margin:0;line-height:1.6;">Terima kasih sudah jadi bagian dari perjalanan ini! 🙏</p>
+    </div>
+    <button class="btn btn-primary" data-action="continueFromStory">Lanjut Pesan →</button>
+  </div>
+  `;
+}
+
+/* ============ RENDER: BERANDA (customer home dashboard) ============ */
+async function renderBeranda(){
+  const profile = getCustomerProfile() || {name:'', phone:''};
+  const lastSeen = getLastSeenNotif();
+  let hasNewNotif = false;
+  if(firebaseReady){
+    try{
+      const snap = await db.ref('notifications').once('value');
+      const v = snap.val() || {};
+      hasNewNotif = Object.values(v).some(n=>n.createdAt > lastSeen);
+    }catch(e){ /* ignore */ }
+  }
+  return `
+  <div class="beranda-top">
+    <div class="beranda-brand">🐔 Kalasan Mas Fery</div>
+    <button class="bell-btn" data-action="go" data-view="notifikasi">🔔${hasNewNotif?'<span class="bell-dot"></span>':''}</button>
+  </div>
+  <div class="content">
+    <div class="card" style="text-align:center;padding:22px 16px;">
+      <div class="muted">Selamat datang,</div>
+      <h2 style="margin:2px 0 0;">${escapeHtml(profile.name||'Kak')} 👋</h2>
+      <div class="staff-link" style="margin-top:8px;"><a href="#" data-action="switchAccount">Bukan ${escapeHtml(profile.name||'Anda')}? Ganti Akun</a></div>
+    </div>
+    <div class="beranda-grid">
+      <div class="beranda-action" data-action="go" data-view="scanCamera">
+        <div class="icon">📷</div><b>Scan Barcode</b>
+      </div>
+      <div class="beranda-action" data-action="go" data-view="riwayat">
+        <div class="icon">🧾</div><b>Riwayat Transaksi</b>
+      </div>
+      <div class="beranda-action" data-action="go" data-view="profil">
+        <div class="icon">👤</div><b>Profil Saya</b>
+      </div>
+    </div>
+    <div class="staff-link"><a href="#staff" data-action="go" data-view="home">Staff resto? Masuk ke Panel Dapur/Kasir →</a></div>
+  </div>
+  `;
+}
+
+/* ============ RENDER: SCAN CAMERA (real QR scan) ============ */
+function renderScanCamera(){
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="beranda">←</button><span class="eyebrow">Scan Barcode</span></div>
+    <h1>Arahkan ke QR Meja</h1>
+  </div>
+  <div class="content">
+    <div class="scan-video-wrap">
+      <video id="scanVideo" playsinline muted></video>
+      <div class="scan-frame"></div>
+    </div>
+    <div class="muted" style="text-align:center;margin-top:10px;" id="scanStatus">Meminta izin kamera...</div>
+    <button class="btn btn-ghost" style="margin-top:14px;" data-action="go" data-view="scanSim">Tidak bisa scan? Pilih manual</button>
+  </div>
+  `;
+}
+
+/* ============ RENDER: RIWAYAT TRANSAKSI ============ */
+async function renderRiwayat(){
+  const profile = getCustomerProfile() || {};
+  const orders = await getAllOrders();
+  const list = Object.values(orders).filter(o=>o.customerPhone===profile.phone).sort((a,b)=>b.createdAt-a.createdAt);
+  const rows = list.map(o=>{
+    const statusLabel = o.kitchenStatus==='selesai' ? 'Selesai' : o.kitchenStatus==='dimasak' ? 'Sedang Dimasak' : 'Diterima';
+    return `
+    <div class="order-card" style="margin:0 0 12px;cursor:pointer;" data-action="viewRiwayatDetail" data-id="${o.id}">
+      <div class="row1">
+        <div><div class="qnum">#${o.queueNumber}</div><div class="meta">${orderTypeLabelRaw(o)} · ${new Date(o.createdAt).toLocaleDateString('id-ID')}</div></div>
+        <span class="pill ${o.kitchenStatus==='selesai'?'green':'yellow'}">${statusLabel}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-weight:700;"><span>Total</span><span>${rupiah(o.total)}</span></div>
+    </div>`;
+  }).join('');
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="beranda">←</button><span class="eyebrow">Riwayat</span></div>
+    <h1>Riwayat Transaksi</h1>
+  </div>
+  <div class="content">
+    ${list.length===0 ? `<div class="empty-state"><span class="em">🧾</span>Belum ada riwayat pesanan.</div>` : rows}
+  </div>
+  `;
+}
+
+/* ============ RENDER: PROFIL SAYA ============ */
+function renderProfil(){
+  const profile = getCustomerProfile() || {name:'', phone:''};
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="beranda">←</button><span class="eyebrow">Profil Saya</span></div>
+    <h1>Data Diri</h1>
+  </div>
+  <div class="content">
+    <div class="card">
+      <label>Nama Lengkap</label>
+      <input type="text" id="profName" value="${escapeHtml(profile.name)}">
+      <label>Nomor WhatsApp</label>
+      <input type="tel" id="profPhone" value="${escapeHtml(profile.phone)}">
+    </div>
+    <button class="btn btn-primary" data-action="saveProfil">Simpan Perubahan</button>
+  </div>
+  `;
+}
+
+/* ============ RENDER: NOTIFIKASI ============ */
+async function renderNotifikasi(){
+  setLastSeenNotif(Date.now());
+  let list = [];
+  if(firebaseReady){
+    try{
+      const snap = await db.ref('notifications').once('value');
+      const v = snap.val() || {};
+      list = Object.values(v).sort((a,b)=>b.createdAt-a.createdAt);
+    }catch(e){ /* ignore */ }
+  }
+  const rows = list.map(n=>`
+    <div class="card">
+      <div class="muted" style="margin-bottom:4px;">${new Date(n.createdAt).toLocaleString('id-ID')}</div>
+      <div>${escapeHtml(n.message)}</div>
+    </div>`).join('');
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="beranda">←</button><span class="eyebrow">Notifikasi</span></div>
+    <h1>Info dari Resto</h1>
+  </div>
+  <div class="content">
+    ${list.length===0 ? `<div class="empty-state"><span class="em">🔔</span>Belum ada notifikasi.</div>` : rows}
+  </div>
+  `;
+}
+
+/* ============ RENDER: SCAN SIMULATION ============ */
+function renderScanSim(){
+  let chips = '';
+  for(let i=1;i<=TABLE_COUNT;i++){
+    chips += `<div class="table-chip" data-action="scanTable" data-n="${i}">Meja ${i}</div>`;
+  }
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="beranda">←</button><span class="eyebrow">Simulasi Scan</span></div>
+    <h1>Pilih Barcode</h1>
+    <div class="sub">Setiap meja & layanan punya barcode masing-masing</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <h3>Layanan Lain</h3>
+      <div class="grid-2">
+        <div class="table-chip special" data-action="scanTakeaway">🥡 Take Away</div>
+        <div class="table-chip special" data-action="scanGroup">👥 Group Booking</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Meja Dine In (1–${TABLE_COUNT})</h3>
+      <div class="grid-3">${chips}</div>
+    </div>
+  </div>
+  `;
+}
+
+/* ============ RENDER: GROUP SIZE ============ */
+function renderGroupSize(){
+  const disabledBanner = state.groupDisabled ? `<div class="banner error">Mohon maaf, fitur Group Booking sedang tidak tersedia saat ini karena resto sedang penuh. Silakan pilih Dine In per meja atau Take Away.</div>` : '';
+  const tomorrow = new Date(Date.now() + 24*60*60*1000);
+  const minDate = tomorrow.toISOString().slice(0,10);
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="scanSim">←</button><span class="eyebrow">Group Booking</span></div>
+    <h1>Detail Rombongan</h1>
+    <div class="sub">Minimal 10 orang</div>
+  </div>
+  <div class="content">
+    ${disabledBanner}
+    <div class="banner warn">💡 Booking sebaiknya dilakukan <b>1–2 hari sebelumnya</b>, supaya menu yang dipesan sudah siap di meja begitu Anda datang di hari-H.</div>
+    <div class="card">
+      <label>Jumlah orang</label>
+      <input type="number" id="groupSizeInput" min="10" placeholder="Contoh: 12" value="${state.order && state.order.groupSize ? state.order.groupSize : ''}">
+      <div class="muted" style="margin-top:6px;">Group booking hanya bisa dipesan minimal 10 orang.</div>
+      <label>Tanggal Booking</label>
+      <input type="date" id="bookingDateInput" min="${minDate}" value="${state.order && state.order.bookingDate ? state.order.bookingDate : ''}">
+      <label>Jam Booking</label>
+      <input type="time" id="bookingTimeInput" value="${state.order && state.order.bookingTime ? state.order.bookingTime : ''}">
+    </div>
+    <button class="btn btn-primary" data-action="confirmGroupSize" ${state.groupDisabled?'disabled':''}>Lanjut Pilih Menu</button>
+  </div>
+  `;
+}
+
+/* ============ RENDER: MENU ============ */
+function formatBookingDateTime(o){
+  if(!o.bookingDate) return '';
+  try{
+    const d = new Date(o.bookingDate + 'T00:00:00');
+    const dateStr = d.toLocaleDateString('id-ID', { day:'numeric', month:'short' });
+    return o.bookingTime ? `${dateStr}, ${o.bookingTime}` : dateStr;
+  }catch(e){ return ''; }
+}
+function orderTypeLabel(o){
+  if(o.orderType==='dinein') return `Dine In · ${o.tableCode}`;
+  if(o.orderType==='takeaway') return 'Take Away';
+  if(o.orderType==='group') return `Group Booking · ${o.groupSize} orang · 📅 ${formatBookingDateTime(o)}`;
+  return '';
+}
+function cartCount(o){
+  return Object.values(o.items).reduce((a,it)=>a+it.qty,0);
+}
+function cartTotal(o){
+  let t=0;
+  for(const id in o.items){
+    const m = MENU.find(x=>x.id===id);
+    if(m) t += m.price * o.items[id].qty;
+  }
+  return t;
+}
+async function renderMenu(){
+  const o = state.order;
+  const availability = await getMenuAvailability();
+  const items = MENU.filter(m=>m.cat===state.category);
+  const rows = items.map(m=>{
+    const cur = o.items[m.id];
+    const qty = cur ? cur.qty : 0;
+    const available = isMenuItemAvailable(availability, m.id);
+    if(!available){
+      return `
+      <div class="menu-item menu-item-disabled">
+        <div class="emoji">${m.emoji}</div>
+        <div class="info">
+          <b>${m.name}</b>
+          <div class="desc">${m.desc}</div>
+          <div class="price">${rupiah(m.price)}</div>
+          <span class="pill red">Habis</span>
+        </div>
+      </div>`;
+    }
+    return `
+    <div class="menu-item">
+      <div class="emoji">${m.emoji}</div>
+      <div class="info">
+        <b>${m.name}</b>
+        <div class="desc">${m.desc}</div>
+        <div class="price">${rupiah(m.price)}</div>
+        <div class="qty-box">
+          <button class="qty-btn" data-action="qtyDec" data-id="${m.id}">−</button>
+          <span class="qty-num">${qty}</span>
+          <button class="qty-btn" data-action="qtyInc" data-id="${m.id}">+</button>
+        </div>
+        ${qty>0 ? `<input type="text" class="note-input" data-id="${m.id}" placeholder="📝 Catatan (opsional): jangan pedas, dll" value="${escapeHtml(cur.note||'')}">` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  const count = cartCount(o);
+  const total = cartTotal(o);
+
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="scanSim">←</button><span class="eyebrow">${orderTypeLabel(o)}</span></div>
+    <h1>Daftar Menu</h1>
+    <div class="sub">Ayam Bakar & Goreng Kalasan Mas Fery</div>
+  </div>
+  <div class="content">
+    <div class="category-tabs">
+      <button class="${state.category==='utama'?'active':''}" data-action="setCategory" data-cat="utama">🍗 Menu Utama</button>
+      <button class="${state.category==='sterofom'?'active':''}" data-action="setCategory" data-cat="sterofom">🍱 Sterofom</button>
+      <button class="${state.category==='piring'?'active':''}" data-action="setCategory" data-cat="piring">🍛 Menu Paket</button>
+    </div>
+    <div class="card" style="padding:4px 16px;">${rows}</div>
+  </div>
+  ${count>0 ? `
+  <div class="cart-fab">
+    <div><b>${count} item</b><br><span style="opacity:0.8;font-size:12.5px;">${rupiah(total)}</span></div>
+    <button class="go" data-action="go" data-view="cart">Lihat Keranjang →</button>
+  </div>` : ''}
+  `;
+}
+
+/* ============ RENDER: CART ============ */
+function renderCart(){
+  const o = state.order;
+  const ids = Object.keys(o.items);
+  if(ids.length===0){
+    return `
+    <div class="topbar"><div class="back-row"><button class="back-btn" data-action="go" data-view="menu">←</button><span class="eyebrow">Keranjang</span></div><h1>Keranjang Kosong</h1></div>
+    <div class="content"><div class="empty-state"><span class="em">🛒</span>Belum ada menu dipilih.</div>
+    <button class="btn btn-primary" data-action="go" data-view="menu">Pilih Menu</button></div>`;
+  }
+  const rows = ids.map(id=>{
+    const m = MENU.find(x=>x.id===id);
+    const it = o.items[id];
+    return `
+    <div class="menu-item">
+      <div class="emoji">${m.emoji}</div>
+      <div class="info">
+        <b>${m.name} <span class="muted">(${m.cat==='sterofom'?'Sterofom':'Piring'})</span></b>
+        <div class="desc">${m.desc}</div>
+        <div class="price">${rupiah(m.price)} × ${it.qty} = ${rupiah(m.price*it.qty)}</div>
+        ${it.note ? `<div class="note-tag">Catatan: ${escapeHtml(it.note)}</div>` : ''}
+        <div class="qty-box">
+          <button class="qty-btn" data-action="qtyDec" data-id="${id}">−</button>
+          <span class="qty-num">${it.qty}</span>
+          <button class="qty-btn" data-action="qtyInc" data-id="${id}">+</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="menu">←</button><span class="eyebrow">${orderTypeLabel(o)}</span></div>
+    <h1>Keranjang Anda</h1>
+  </div>
+  <div class="content">
+    <div class="card" style="padding:4px 16px;">${rows}</div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;font-weight:700;font-size:15px;">
+        <span>Total</span><span>${rupiah(cartTotal(o))}</span>
+      </div>
+    </div>
+    <button class="btn btn-primary" data-action="go" data-view="info">Lanjut ke Data Diri</button>
+  </div>
+  `;
+}
+
+/* ============ RENDER: INFO ============ */
+function renderInfo(){
+  const o = state.order;
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="cart">←</button><span class="eyebrow">${orderTypeLabel(o)}</span></div>
+    <h1>Data Pemesan</h1>
+    <div class="sub">Nomor WhatsApp digunakan untuk konfirmasi pesanan</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <label>Nama Lengkap</label>
+      <input type="text" id="custName" placeholder="Contoh: Budi Santoso" value="${escapeHtml(o.customerName)}">
+      <label>Nomor WhatsApp</label>
+      <input type="tel" id="custPhone" placeholder="Contoh: 081234567890" value="${escapeHtml(o.customerPhone)}">
+    </div>
+    <button class="btn btn-primary" data-action="submitInfo">Lanjut ke Pembayaran</button>
+  </div>
+  `;
+}
+
+/* ============ RENDER: PAYMENT ============ */
+async function renderPayment(){
+  const o = state.order;
+  const total = cartTotal(o);
+  const method = o.paymentMethod;
+  const s = await getSettings();
+  const cashEnabled = s.cashEnabled !== false;
+
+  let detailBlock = '';
+  if(method==='transfer'){
+    detailBlock = `
+    <div class="card">
+      <h3>Transfer Bank</h3>
+      <div class="banner ok" style="margin:10px 0;">💰 Total yang harus ditransfer: <b>${rupiah(total)}</b></div>
+      <div class="muted">BCA — 4090708835</div>
+      <div class="muted">BNI — 2052343385</div>
+      <div class="muted" style="margin-top:4px;">a.n. MOCHAMMAD RIFKI ANHAR</div>
+      <label>Upload Bukti/Struk Transfer</label>
+      ${uploadBoxHtml()}
+    </div>`;
+  } else if(method==='ewallet'){
+    detailBlock = `
+    <div class="card">
+      <h3>E-Wallet</h3>
+      <div class="banner ok" style="margin:10px 0;">💰 Total yang harus dibayar: <b>${rupiah(total)}</b></div>
+      <label>Pilih E-Wallet</label>
+      <div class="grid-3">
+        ${['gopay','ovo','shopeepay'].map(p=>`<button class="btn ${o.ewalletProvider===p?'btn-primary':'btn-outline'} btn-sm" data-action="setEwallet" data-p="${p}">${p==='gopay'?'GoPay':p==='ovo'?'OVO':'ShopeePay'}</button>`).join('')}
+      </div>
+      <div class="muted" style="margin-top:8px;">Nomor E-Wallet: 0852-9007-8889</div>
+      <div class="muted">a.n. MOCHAMMAD RIFKI ANHAR</div>
+      <label>Upload Bukti Pembayaran</label>
+      ${uploadBoxHtml()}
+    </div>`;
+  } else if(method==='cash'){
+    detailBlock = `
+    <div class="card">
+      <h3>Bayar Tunai di Kasir</h3>
+      <div class="banner ok" style="margin:10px 0;">💰 Total yang harus dibayar tunai: <b>${rupiah(total)}</b></div>
+      <div class="muted">Izin lokasi diperlukan untuk melanjutkan pesanan dengan pembayaran tunai.</div>
+      <button class="btn btn-yellow" style="margin-top:10px;" data-action="checkGeo">${state.geoChecking? 'Mengecek lokasi...' : '📍 Aktifkan Lokasi Saya'}</button>
+      ${renderGeoResult()}
+    </div>`;
+  }
+
+  const canSubmit = canSubmitOrder();
+
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="info">←</button><span class="eyebrow">${orderTypeLabel(o)}</span></div>
+    <h1>Metode Pembayaran</h1>
+  </div>
+  <div class="content">
+    <div class="pay-option ${method==='transfer'?'selected':''}" data-action="setMethod" data-m="transfer">
+      <div class="icon">🏦</div><div><b>Transfer Bank</b><span>Upload bukti transfer manual, dikonfirmasi kasir</span></div>
+    </div>
+    <div class="pay-option ${method==='ewallet'?'selected':''}" data-action="setMethod" data-m="ewallet">
+      <div class="icon">📱</div><div><b>E-Wallet</b><span>Gopay / OVO / ShopeePay — upload bukti</span></div>
+    </div>
+    ${cashEnabled ? `
+    <div class="pay-option ${method==='cash'?'selected':''}" data-action="setMethod" data-m="cash">
+      <div class="icon">💵</div><div><b>Tunai ke Kasir</b><span>Wajib berada di lokasi resto</span></div>
+    </div>` : `
+    <div class="pay-option" style="opacity:0.5;">
+      <div class="icon">💵</div><div><b>Tunai ke Kasir</b><span>Sedang tidak tersedia — silakan pilih Transfer Bank / E-Wallet</span></div>
+    </div>`}
+    ${detailBlock}
+    <button class="btn btn-primary" data-action="placeOrder" ${(canSubmit && !state.isSubmittingOrder)?'':'disabled'}>${state.isSubmittingOrder ? 'Memproses...' : 'Pesan Sekarang'}</button>
+  </div>
+  `;
+}
+function uploadBoxHtml(){
+  return `
+  <label class="upload-box" for="proofFileInput">
+    ${state.proofPreview ? `<img class="upload-preview" src="${state.proofPreview}">` : '📎 Tap untuk pilih foto bukti pembayaran dari galeri'}
+  </label>
+  <input type="file" id="proofFileInput" accept="image/*" class="file-input-vh">
+  `;
+}
+function renderGeoResult(){
+  if(!state.geoResult) return '';
+  if(state.geoResult.ok){
+    return `<div class="banner ok" style="margin-top:10px;">✅ Lokasi terverifikasi. Anda bisa lanjutkan pesanan dengan pembayaran tunai 🙌</div>`;
+  } else if(state.geoResult.error){
+    return `<div class="banner warn" style="margin-top:10px;">📍 Izin lokasi diperlukan. Mohon aktifkan izin lokasi di HP Anda, lalu tap tombol di atas sekali lagi.</div>`;
+  } else {
+    return `<div class="banner warn" style="margin-top:10px;">
+      Sepertinya Anda belum berada di lokasi resto. Yuk menuju ke sini dulu ya 😊<br><br>
+      <a href="${mapsLink()}" target="_blank">🗺️ Buka Lokasi Resto di Google Maps</a><br><br>
+      Atau pilih <b>Transfer Bank</b> / <b>E-Wallet</b> untuk pesan dari mana saja.
+    </div>`;
+  }
+}
+function canSubmitOrder(){
+  const o = state.order;
+  if(!o.paymentMethod) return false;
+  if(o.paymentMethod==='transfer' || o.paymentMethod==='ewallet'){
+    if(!state.proofPreview) return false;
+    if(o.paymentMethod==='ewallet' && !o.ewalletProvider) return false;
+    return true;
+  }
+  if(o.paymentMethod==='cash'){
+    return !!(state.geoResult && state.geoResult.ok);
+  }
+  return false;
+}
+
+/* ============ RENDER: CONFIRM (queue number) ============ */
+function renderConfirm(){
+  const c = state.createdOrder;
+  return `
+  <div class="topbar">
+    <div class="back-row"><span class="eyebrow">Pesanan Diterima</span></div>
+    <h1>Terima Kasih! 🙏</h1>
+  </div>
+  <div class="content">
+    <div class="queue-hero">
+      <div class="muted">Nomor Antrian Anda</div>
+      <div class="queue-num">${c.queueNumber}</div>
+      <div class="banner ok" style="margin-top:16px;">Pesanan Anda sudah diterima dapur. Mohon ditunggu ya Kak... 🙏</div>
+    </div>
+    <button class="btn btn-primary" data-action="go" data-view="status">Lihat Status Pesanan</button>
+    <button class="btn btn-ghost" style="margin-top:10px;" data-action="go" data-view="beranda">Selesai</button>
+  </div>
+  `;
+}
+
+/* ============ RENDER: STATUS (live) ============ */
+function statusStepClass(order, key){
+  const order3 = ['diterima','dimasak','selesai'];
+  const curIdx = order3.indexOf(order.kitchenStatus);
+  const keyIdx = order3.indexOf(key);
+  if(keyIdx < curIdx) return 'done';
+  if(keyIdx === curIdx) return 'current';
+  return '';
+}
+async function renderStatus(){
+  const orders = await getAllOrders();
+  const o = orders[state.createdOrder.id];
+  if(!o) return `<div class="content"><div class="empty-state">Pesanan tidak ditemukan.</div></div>`;
+  const reviews = await getAllReviews();
+  const existingReview = reviews[o.id];
+
+  const msgs = {
+    diterima: "Pesanan Anda sudah diterima dapur. Mohon ditunggu ya Kak... 🙏",
+    dimasak: "Pesanan Anda sedang dimasak. Mohon ditunggu ya Kak... 👨‍🍳🔥",
+    selesai: "Pesanan Anda sudah selesai dimasak! Selamat menikmati Kak 😋"
+  };
+  let payText = '';
+  if(o.paymentMethod==='cash'){
+    payText = o.paymentStatus==='lunas' ? '✅ Pembayaran tunai sudah diterima kasir.' : '💵 Silakan bayar tunai ke kasir.';
+  } else {
+    payText = o.paymentStatus==='disetujui' ? '✅ Pembayaran sudah dikonfirmasi kasir.' : '⏳ Menunggu konfirmasi pembayaran oleh kasir.';
+  }
+
+  const itemsHtml = Object.keys(o.items).map(id=>{
+    const m = MENU.find(x=>x.id===id); const it = o.items[id];
+    return `<div>${m.name} ×${it.qty} ${it.note?`<span class="note-tag">${escapeHtml(it.note)}</span>`:''}</div>`;
+  }).join('');
+
+  let reviewBlock = '';
+  const eligibleForReview = o.kitchenStatus==='selesai' && o.selesaiAt && (Date.now() - o.selesaiAt >= REVIEW_DELAY_MS);
+  if(existingReview){
+    reviewBlock = existingReview.rating >= 4 ? `
+    <div class="card review-card">
+      <h3>Terima kasih atas ulasannya! 🙏</h3>
+      <p class="muted">Mau bantu kami juga dengan kasih rating di Google Maps?</p>
+      <a class="btn btn-yellow" style="margin-top:10px;text-decoration:none;display:block;box-sizing:border-box;" href="${GOOGLE_REVIEW_LINK}" target="_blank" rel="noopener">⭐ Beri Rating di Google Maps</a>
+    </div>` : `
+    <div class="card review-card">
+      <h3>Terima kasih atas masukannya 🙏</h3>
+      <p class="muted">Kami akan segera tindak lanjuti supaya pengalaman Anda berikutnya lebih baik.</p>
+    </div>`;
+  } else if(eligibleForReview){
+    reviewBlock = `
+    <div class="card review-card">
+      <h3>Bagaimana pengalaman Anda bersantap di resto kami? 😊</h3>
+      <div class="star-row">
+        ${[1,2,3,4,5].map(n=>`<button class="star-btn ${state.reviewRating>=n?'filled':''}" data-action="setReviewStar" data-n="${n}">★</button>`).join('')}
+      </div>
+      <textarea class="review-textarea" id="reviewCommentInput" placeholder="Ceritakan pengalaman Anda (opsional)">${escapeHtml(state.reviewComment)}</textarea>
+      <button class="btn btn-primary" style="margin-top:10px;" data-action="submitReview" data-id="${o.id}" ${state.reviewRating===0?'disabled':''}>Kirim Ulasan</button>
+    </div>`;
+  }
+
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="go" data-view="beranda">←</button><span class="eyebrow">Status Pesanan</span></div>
+    <h1>Antrian ${o.queueNumber}</h1>
+    <div class="sub">${orderTypeLabelRaw(o)}</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="status-track">
+        <div class="status-step ${statusStepClass(o,'diterima')}"><div class="status-dot">✓</div><small>Diterima</small></div>
+        <div class="status-step ${statusStepClass(o,'dimasak')}"><div class="status-dot">🔥</div><small>Dimasak</small></div>
+        <div class="status-step ${statusStepClass(o,'selesai')}"><div class="status-dot">🍽️</div><small>Selesai</small></div>
+      </div>
+      <div class="banner ok">${msgs[o.kitchenStatus]}</div>
+      ${o.hasAddon ? `<div class="banner warn">🆕 Pesanan Anda baru saja ditambah item oleh kasir. Total & daftar pesanan sudah diperbarui.</div>` : ''}
+      <div class="banner warn">${payText}</div>
+    </div>
+    <div class="card">
+      <h3>Rincian Pesanan</h3>
+      <div class="order-items">${itemsHtml}</div>
+      <div style="display:flex;justify-content:space-between;font-weight:700;margin-top:8px;"><span>Total</span><span>${rupiah(o.total)}</span></div>
+    </div>
+    ${reviewBlock}
+    <button class="btn btn-outline" data-action="go" data-view="status">🔄 Refresh Status</button>
+  </div>
+  `;
+}
+function orderTypeLabelRaw(o){
+  if(o.orderType==='dinein') return `Dine In · ${o.tableCode}`;
+  if(o.orderType==='takeaway') return 'Take Away';
+  if(o.orderType==='group') return `Group Booking · ${o.groupSize} orang · 📅 ${formatBookingDateTime(o)}`;
+  return '';
+}
+
+/* ============ RENDER: KITCHEN ============ */
+async function renderKitchen(){
+  const orders = await getAllOrders();
+  checkKitchenSound(orders);
+  const list = Object.values(orders).filter(o=>o.kitchenStatus!=='selesai').sort((a,b)=>a.createdAt-b.createdAt);
+  const doneList = Object.values(orders).filter(o=>o.kitchenStatus==='selesai').sort((a,b)=>b.createdAt-a.createdAt).slice(0,10);
+
+  const cardHtml = (o, showActions) => {
+    const itemsHtml = Object.keys(o.items).map(id=>{
+      const m = MENU.find(x=>x.id===id); const it = o.items[id];
+      return `<div>${m.name} ×${it.qty} ${it.note?`<span class="note-tag">${escapeHtml(it.note)}</span>`:''}</div>`;
+    }).join('');
+    const statusPill = o.kitchenStatus==='diterima' ? '<span class="pill yellow">Diterima</span>'
+      : o.kitchenStatus==='dimasak' ? '<span class="pill green">Sedang Dimasak</span>'
+      : '<span class="pill gray">Selesai</span>';
+    let actions = '';
+    if(showActions){
+      if(o.kitchenStatus==='diterima') actions = `<div class="action-row"><button class="btn btn-primary" data-action="kitchenAdvance" data-id="${o.id}">🔥 Mulai Masak</button></div>`;
+      else if(o.kitchenStatus==='dimasak') actions = `<div class="action-row"><button class="btn btn-primary" data-action="kitchenAdvance" data-id="${o.id}">✅ Selesai Dimasak</button></div>`;
+    }
+    return `
+    <div class="order-card">
+      <div class="row1">
+        <div><div class="qnum">#${o.queueNumber}</div><div class="meta">${orderTypeLabelRaw(o)} · masuk ${timeStr(o.createdAt)}</div></div>
+        ${statusPill}
+      </div>
+      ${o.orderType==='group' ? `<div class="banner ok" style="margin:6px 0;padding:8px 10px;">📅 Booking untuk <b>${formatBookingDateTime(o)}</b> — bukan untuk dimasak sekarang, siapkan menjelang jadwal tersebut.</div>` : ''}
+      ${o.paymentMethod==='cash' && o.paymentStatus==='belum_bayar' ? `<div class="banner warn" style="margin:6px 0;padding:8px 10px;">💵 Bayar tunai — pastikan pelanggan benar hadir di resto sebelum mulai masak.</div>` : ''}
+      ${showActions && o.hasAddon ? `<div class="banner warn" style="margin:6px 0;padding:8px 10px;">🆕 Ada tambahan item baru! <button class="btn-ghost btn-sm" style="margin-left:6px;" data-action="ackAddon" data-id="${o.id}">✓ Sudah Lihat</button></div>` : ''}
+      <div class="order-items">${itemsHtml}</div>
+      ${actions}
+    </div>`;
+  };
+
+  return `
+  <div class="dash-header"><h2>👨‍🍳 Panel Dapur</h2><button class="back-btn" data-action="logoutDapur">✕</button></div>
+  ${list.length===0 ? `<div class="empty-state"><span class="em">🍽️</span>Belum ada pesanan masuk.</div>` : list.map(o=>cardHtml(o,true)).join('')}
+  ${doneList.length>0 ? `<h3 style="margin:18px 20px 0;color:var(--gray);font-size:13px;">Riwayat Selesai</h3>${doneList.map(o=>cardHtml(o,false)).join('')}` : ''}
+  <div class="content"><button class="btn btn-outline" data-action="go" data-view="kitchen">🔄 Refresh</button></div>
+  `;
+}
+
+/* ============ RENDER: CASHIER ============ */
+async function renderCashier(){
+  const tabs = `
+  <div class="dash-tabs">
+    <button class="${state.cashierTab==='pesanan'?'active':''}" data-action="cashierTab" data-t="pesanan">Pesanan</button>
+    <button class="${state.cashierTab==='pelanggan'?'active':''}" data-action="cashierTab" data-t="pelanggan">Pelanggan</button>
+    <button class="${state.cashierTab==='ulasan'?'active':''}" data-action="cashierTab" data-t="ulasan">Ulasan</button>
+    <button class="${state.cashierTab==='stok'?'active':''}" data-action="cashierTab" data-t="stok">Stok Menu</button>
+    <button class="${state.cashierTab==='qr'?'active':''}" data-action="cashierTab" data-t="qr">Cetak QR</button>
+    <button class="${state.cashierTab==='settings'?'active':''}" data-action="cashierTab" data-t="settings">Pengaturan</button>
+  </div>`;
+  const header = `<div class="dash-header"><h2>🧾 Panel Kasir</h2><button class="back-btn" data-action="logoutKasir">✕</button></div>`;
+
+  if(state.cashierTab==='pelanggan') return header + tabs + await renderCashierPelanggan();
+  if(state.cashierTab==='ulasan') return header + tabs + await renderCashierUlasan();
+  if(state.cashierTab==='stok') return header + tabs + await renderCashierStok();
+  if(state.cashierTab==='qr') return header + tabs + renderCashierQR();
+  if(state.cashierTab==='settings') return header + tabs + await renderCashierSettings();
+  return header + tabs + await renderCashierOrders();
+}
+
+async function renderCashierUlasan(){
+  const reviews = Object.values(await getAllReviews()).sort((a,b)=>b.createdAt-a.createdAt);
+  if(reviews.length===0){
+    return `<div class="empty-state"><span class="em">⭐</span>Belum ada ulasan masuk.</div>`;
+  }
+  const avg = (reviews.reduce((s,r)=>s+r.rating,0) / reviews.length).toFixed(1);
+  const rows = reviews.map(r=>`
+    <div class="order-card">
+      <div class="row1">
+        <div><b style="font-size:15px;">${escapeHtml(r.customerName||'Pelanggan')}</b><div class="meta">${new Date(r.createdAt).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</div></div>
+        <span class="pill ${r.rating>=4?'green':'yellow'}">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+      </div>
+      ${r.comment ? `<div class="order-items">${escapeHtml(r.comment)}</div>` : `<div class="muted">Tidak ada komentar.</div>`}
+    </div>`).join('');
+  return `
+  <div class="content" style="padding-bottom:0;">
+    <div class="banner ok">⭐ Rating rata-rata: <b>${avg} / 5</b> dari ${reviews.length} ulasan.</div>
+  </div>
+  ${rows}
+  `;
+}
+
+async function renderCashierPelanggan(){
+  const orders = await getAllOrders();
+  const list = Object.values(orders);
+  const byPhone = {};
+  list.forEach(o=>{
+    if(!o.customerPhone) return;
+    if(!byPhone[o.customerPhone]){
+      byPhone[o.customerPhone] = { name: o.customerName, phone: o.customerPhone, orderCount: 0, totalSpend: 0, lastOrderAt: 0 };
+    }
+    const c = byPhone[o.customerPhone];
+    c.orderCount += 1;
+    c.totalSpend += (o.total || 0);
+    if(o.createdAt > c.lastOrderAt){ c.lastOrderAt = o.createdAt; c.name = o.customerName; }
+  });
+  const customers = Object.values(byPhone).sort((a,b)=>b.lastOrderAt - a.lastOrderAt);
+
+  if(customers.length===0){
+    return `<div class="empty-state"><span class="em">👥</span>Belum ada data pelanggan.</div>`;
+  }
+
+  const rows = customers.map(c=>{
+    const waNumber = c.phone.replace(/^0/, '62').replace(/[^0-9]/g,'');
+    return `
+    <div class="order-card">
+      <div class="row1">
+        <div><b style="font-size:15px;">${escapeHtml(c.name || '(tanpa nama)')}</b><div class="meta">${escapeHtml(c.phone)}</div></div>
+        <span class="pill green">${c.orderCount}× pesan</span>
+      </div>
+      <div class="order-items">
+        <div>Total belanja: <b>${rupiah(c.totalSpend)}</b></div>
+        <div>Terakhir pesan: ${new Date(c.lastOrderAt).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'})}</div>
+      </div>
+      <div class="action-row">
+        <a class="btn btn-outline btn-sm" style="text-decoration:none;" href="https://wa.me/${waNumber}" target="_blank" rel="noopener">💬 Chat WA</a>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="content" style="padding-bottom:0;">
+    <div class="banner ok">👥 Total <b>${customers.length}</b> pelanggan unik tercatat dari semua pesanan yang masuk.</div>
+  </div>
+  ${rows}
+  `;
+}
+
+async function renderCashierStok(){
+  const availability = await getMenuAvailability();
+  const catLabels = { utama: '🍗 Menu Utama', sterofom: '🍱 Paket Sterofom', piring: '🍛 Menu Paket' };
+  const cats = ['utama','sterofom','piring'];
+  const sections = cats.map(cat=>{
+    const items = MENU.filter(m=>m.cat===cat);
+    const rows = items.map(m=>{
+      const available = isMenuItemAvailable(availability, m.id);
+      return `
+      <div class="toggle-row" style="margin:0 0 10px;">
+        <div><b>${m.name}</b><div class="muted">${rupiah(m.price)}</div></div>
+        <label class="switch"><input type="checkbox" ${available?'checked':''} data-action="toggleStok" data-id="${m.id}"><span class="slider"></span></label>
+      </div>`;
+    }).join('');
+    return `<h3 style="margin:16px 20px 8px;color:var(--green-deep);">${catLabels[cat]}</h3><div class="content" style="padding-top:0;">${rows}</div>`;
+  }).join('');
+  return `
+  <div class="content" style="padding-bottom:0;">
+    <div class="banner ok">Geser ke kiri (nonaktifkan) kalau menu sedang habis — pelanggan langsung melihat status "Habis" dan tidak bisa memesannya.</div>
+  </div>
+  ${sections}
+  `;
+}
+
+/* ============ KITCHEN NOTIFICATION SOUND ============ */
+/* ============ TAB TITLE BLINK (lightweight background alert) ============ */
+const ORIGINAL_TITLE = document.title;
+let titleBlinkInterval = null;
+function startTitleBlink(message){
+  if(titleBlinkInterval) return; // already blinking
+  let showAlt = true;
+  titleBlinkInterval = setInterval(()=>{
+    document.title = showAlt ? message : ORIGINAL_TITLE;
+    showAlt = !showAlt;
+  }, 1500);
+}
+function stopTitleBlink(){
+  if(titleBlinkInterval){ clearInterval(titleBlinkInterval); titleBlinkInterval = null; }
+  document.title = ORIGINAL_TITLE;
+}
+document.addEventListener('visibilitychange', ()=>{
+  if(!document.hidden) stopTitleBlink();
+});
+
+function playNotifSound(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const now = ctx.currentTime;
+    function tone(freq, start, dur, vol){
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, now+start);
+      gain.gain.linearRampToValueAtTime(vol, now+start+0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now+start+dur);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(now+start); osc.stop(now+start+dur+0.05);
+    }
+    tone(880, 0, 0.18, 0.4);
+    tone(1175, 0.15, 0.32, 0.4);
+  }catch(e){ /* audio not available/allowed — ignore */ }
+}
+let kitchenKnownOrders = {};
+let kitchenSoundPrimed = false;
+function checkKitchenSound(orders){
+  let shouldRing = false;
+  Object.values(orders).forEach(o=>{
+    const prev = kitchenKnownOrders[o.id];
+    if(!prev){
+      if(kitchenSoundPrimed) shouldRing = true;
+    } else if((o.addonAt||0) > (prev.addonAt||0)){
+      shouldRing = true;
+    }
+    kitchenKnownOrders[o.id] = { addonAt: o.addonAt||0 };
+  });
+  kitchenSoundPrimed = true;
+  if(shouldRing) playNotifSound();
+}
+
+async function renderCashierOrders(){
+  const orders = await getAllOrders();
+  const list = Object.values(orders).sort((a,b)=>b.createdAt-a.createdAt);
+  const reportBtn = `<div class="content" style="padding-bottom:0;"><button class="btn btn-yellow" data-action="printDailyReport">🖨️ Cetak Laporan Harian (Hari Ini)</button></div>`;
+  if(list.length===0) return reportBtn + `<div class="empty-state"><span class="em">🧾</span>Belum ada pesanan.</div>`;
+
+  const rows = list.map(o=>{
+    const itemsHtml = Object.keys(o.items).map(id=>{
+      const m = MENU.find(x=>x.id===id); const it = o.items[id];
+      return `<div>${m.name} ×${it.qty} ${it.note?`<span class="note-tag">${escapeHtml(it.note)}</span>`:''}</div>`;
+    }).join('');
+
+    let payLabel, payActions='';
+    if(o.paymentMethod==='cash'){
+      payLabel = o.paymentStatus==='lunas' ? '<span class="pill green">Tunai · Lunas</span>' : '<span class="pill yellow">Tunai · Belum Bayar</span>';
+      if(o.paymentStatus!=='lunas') payActions = `<button class="btn btn-primary btn-sm" data-action="cashierApprove" data-id="${o.id}">Tandai Lunas</button>`;
+    } else {
+      const methodName = o.paymentMethod==='transfer' ? 'Transfer Bank' : ('E-Wallet · '+(o.ewalletProvider||''));
+      payLabel = o.paymentStatus==='disetujui' ? `<span class="pill green">${methodName} · Disetujui</span>` : `<span class="pill yellow">${methodName} · Menunggu</span>`;
+      if(o.paymentStatus!=='disetujui') payActions = `<button class="btn btn-primary btn-sm" data-action="cashierApprove" data-id="${o.id}">Setujui Pembayaran</button>`;
+    }
+
+    return `
+    <div class="order-card">
+      <div class="row1">
+        <div><div class="qnum">#${o.queueNumber}</div><div class="meta">${orderTypeLabelRaw(o)} · ${escapeHtml(o.customerName)} (${escapeHtml(o.customerPhone)})</div></div>
+        <span class="pill gray">${o.kitchenStatus}</span>
+      </div>
+      ${o.hasAddon ? `<span class="pill yellow">🆕 Ada tambahan item</span>` : ''}
+      <div class="order-items">${itemsHtml}</div>
+      <div style="display:flex;justify-content:space-between;font-weight:700;margin:6px 0;"><span>Total</span><span>${rupiah(o.total)}</span></div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        ${payLabel}
+        ${o.paymentProof ? `<img class="proof-thumb" src="${o.paymentProof}" data-action="viewProof" data-id="${o.id}">` : ''}
+      </div>
+      <div class="action-row">
+        ${payActions}
+        ${o.kitchenStatus!=='selesai' ? `<button class="btn btn-outline btn-sm" data-action="openAddon" data-id="${o.id}">➕ Tambah Item</button>` : ''}
+        <button class="btn btn-outline btn-sm" data-action="printReceipt" data-id="${o.id}">🖨️ Cetak Struk</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  return reportBtn + rows;
+}
+
+async function renderCashierAddItem(){
+  const all = await getAllOrders();
+  const o = all[state.addonOrderId];
+  if(!o){
+    return `<div class="content"><div class="empty-state">Pesanan tidak ditemukan. <br><button class="btn btn-outline" style="margin-top:12px;" data-action="cancelAddon">Kembali</button></div></div>`;
+  }
+  const availability = await getMenuAvailability();
+  const filtered = MENU.filter(m=>m.cat===state.category);
+  const rows = filtered.map(m=>{
+    const cur = state.addonItems[m.id];
+    const qty = cur ? cur.qty : 0;
+    const available = isMenuItemAvailable(availability, m.id);
+    if(!available){
+      return `
+      <div class="menu-item menu-item-disabled">
+        <div class="emoji">${m.emoji}</div>
+        <div class="info">
+          <b>${m.name}</b>
+          <div class="desc">${m.desc}</div>
+          <div class="price">${rupiah(m.price)}</div>
+          <span class="pill red">Habis</span>
+        </div>
+      </div>`;
+    }
+    return `
+    <div class="menu-item">
+      <div class="emoji">${m.emoji}</div>
+      <div class="info">
+        <b>${m.name}</b>
+        <div class="desc">${m.desc}</div>
+        <div class="price">${rupiah(m.price)}</div>
+        <div class="qty-box">
+          <button class="qty-btn" data-action="addonQtyDec" data-id="${m.id}">−</button>
+          <span class="qty-num">${qty}</span>
+          <button class="qty-btn" data-action="addonQtyInc" data-id="${m.id}">+</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  const addonCount = Object.values(state.addonItems).reduce((a,it)=>a+it.qty,0);
+  const addonTotal = Object.keys(state.addonItems).reduce((sum,id)=>{
+    const m = MENU.find(x=>x.id===id);
+    return sum + (m ? m.price*state.addonItems[id].qty : 0);
+  }, 0);
+  return `
+  <div class="topbar">
+    <div class="back-row"><button class="back-btn" data-action="cancelAddon">←</button><span class="eyebrow">Tambah ke Pesanan #${o.queueNumber}</span></div>
+    <h1>Tambah Item</h1>
+    <div class="sub">${orderTypeLabelRaw(o)} · ${escapeHtml(o.customerName)}</div>
+  </div>
+  <div class="content">
+    <div class="category-tabs">
+      <button class="${state.category==='utama'?'active':''}" data-action="setCategory" data-cat="utama">🍗 Menu Utama</button>
+      <button class="${state.category==='sterofom'?'active':''}" data-action="setCategory" data-cat="sterofom">🍱 Sterofom</button>
+      <button class="${state.category==='piring'?'active':''}" data-action="setCategory" data-cat="piring">🍛 Menu Paket</button>
+    </div>
+    <div class="card" style="padding:4px 16px;">${rows}</div>
+  </div>
+  ${addonCount>0 ? `
+  <div class="cart-fab">
+    <div><b>${addonCount} item tambahan</b><br><span style="opacity:0.8;font-size:12.5px;">+${rupiah(addonTotal)}</span></div>
+    <button class="go" data-action="confirmAddon">Tambahkan →</button>
+  </div>` : ''}
+  `;
+}
+
+async function renderCashierSettings(){
+  const s = await getSettings();
+  return `
+  <div class="content">
+    <div class="toggle-row" style="margin:0 0 14px;">
+      <div><b>Fitur Group Booking</b><div class="muted">Nonaktifkan saat resto penuh</div></div>
+      <label class="switch"><input type="checkbox" id="groupToggle" ${s.groupBookingEnabled?'checked':''} data-action="toggleGroup"><span class="slider"></span></label>
+    </div>
+    <div class="toggle-row" style="margin:0 0 14px;">
+      <div><b>Terima Pembayaran Tunai</b><div class="muted">Matikan sementara kalau sering ada pesanan tunai fiktif/iseng</div></div>
+      <label class="switch"><input type="checkbox" id="cashToggle" ${s.cashEnabled!==false?'checked':''} data-action="toggleCash"><span class="slider"></span></label>
+    </div>
+    <div class="card">
+      <h3>Kirim Notifikasi ke Pelanggan</h3>
+      <div class="muted" style="margin-bottom:8px;">Muncul di lonceng notifikasi semua pelanggan yang sudah punya profil.</div>
+      <textarea id="notifText" placeholder="Contoh: Resto tutup lebih awal hari ini pukul 20.00"></textarea>
+      <button class="btn btn-primary" style="margin-top:8px;" data-action="sendNotif">Kirim Notifikasi</button>
+    </div>
+    <div class="card">
+      <h3>Info</h3>
+      <div class="muted">Nomor antrian berjalan saat ini: <b>${String(s.queueCounter).padStart(3,'0')}</b></div>
+      <div class="muted" style="margin-top:6px;">Titik koordinat geofencing resto: ${RESTO.lat}, ${RESTO.lng} (toleransi ${GEOFENCE_TOLERANCE_M}m)</div>
+    </div>
+  </div>`;
+}
+
+function renderCashierQR(){
+  let cells = '';
+  for(let i=1;i<=TABLE_COUNT;i++){
+    cells += `<div class="qr-cell" id="qrcell-meja${i}"><b>Meja ${i}</b></div>`;
+  }
+  cells += `<div class="qr-cell" id="qrcell-takeaway"><b>Take Away</b></div>`;
+  cells += `<div class="qr-cell" id="qrcell-group"><b>Group Booking</b></div>`;
+  return `
+  <div class="content" style="padding-bottom:0;">
+    <button class="btn btn-yellow" data-action="printQR">🖨️ Cetak Semua QR</button>
+  </div>
+  <div class="qr-grid printable" id="qrGridContainer">${cells}</div>
+  `;
+}
+
+function generateQRCodes(){
+  const base = location.origin + location.pathname;
+  for(let i=1;i<=TABLE_COUNT;i++){
+    const el = document.getElementById('qrcell-meja'+i);
+    if(el && !el.dataset.rendered){
+      new QRCode(el, { text: base+'#meja'+i, width:90, height:90 });
+      el.dataset.rendered = '1';
+      el.innerHTML += `<b>Meja ${i}</b>`;
+    }
+  }
+  const t = document.getElementById('qrcell-takeaway');
+  if(t && !t.dataset.rendered){ new QRCode(t, {text: base+'#takeaway', width:90, height:90}); t.dataset.rendered='1'; t.innerHTML += '<b>Take Away</b>'; }
+  const g = document.getElementById('qrcell-group');
+  if(g && !g.dataset.rendered){ new QRCode(g, {text: base+'#group', width:90, height:90}); g.dataset.rendered='1'; g.innerHTML += '<b>Group Booking</b>'; }
+}
+
+/* ============ RECEIPT PRINTING ============ */
+function printReceiptFor(order){
+  const itemsHtml = Object.keys(order.items).map(id=>{
+    const m = MENU.find(x=>x.id===id); const it = order.items[id];
+    return `<tr><td>${m.name}</td><td>${it.qty}</td><td>${rupiah(m.price)}</td><td>${rupiah(m.price*it.qty)}</td></tr>`;
+  }).join('');
+  const win = window.open('', '_blank', 'width=380,height=600');
+  win.document.write(`
+    <html><head><title>Struk #${order.queueNumber}</title>
+    <style>
+      body{font-family:monospace;padding:14px;font-size:13px;color:#000;}
+      h2{text-align:center;margin:4px 0;}
+      table{width:100%;border-collapse:collapse;margin-top:8px;}
+      td{padding:2px 0;}
+      hr{border:none;border-top:1px dashed #000;}
+      .right{text-align:right;}
+    </style></head><body>
+    <h2>${RESTO.name}</h2>
+    <div style="text-align:center;">${RESTO.addr}</div>
+    <hr>
+    <div>No. Antrian: <b>${order.queueNumber}</b></div>
+    <div>Tipe: ${orderTypeLabelRaw(order)}</div>
+    <div>Nama: ${escapeHtml(order.customerName)}</div>
+    <div>Telp: ${escapeHtml(order.customerPhone)}</div>
+    <div>Waktu: ${new Date(order.createdAt).toLocaleString('id-ID')}</div>
+    <hr>
+    <table>${itemsHtml}</table>
+    <hr>
+    <div class="right"><b>Total: ${rupiah(order.total)}</b></div>
+    <div>Metode Bayar: ${order.paymentMethod==='cash'?'Tunai':order.paymentMethod==='transfer'?'Transfer Bank':'E-Wallet ('+(order.ewalletProvider||'')+')'}</div>
+    <hr>
+    <div style="text-align:center;">Terima kasih! 🙏</div>
+    <script>window.onload=()=>window.print();<\/script>
+    </body></html>
+  `);
+  win.document.close();
+}
+
+function printDailyReport(orders){
+  const todayStr = new Date().toDateString();
+  const list = Object.values(orders).filter(o=>new Date(o.createdAt).toDateString()===todayStr).sort((a,b)=>a.createdAt-b.createdAt);
+  let grand = 0;
+  const byMethod = { cash:0, transfer:0, ewallet:0 };
+  const rowsHtml = list.map(o=>{
+    grand += o.total;
+    byMethod[o.paymentMethod] = (byMethod[o.paymentMethod]||0) + o.total;
+    return `<tr><td>${o.queueNumber}</td><td>${orderTypeLabelRaw(o)}</td><td>${o.paymentMethod==='cash'?'Tunai':o.paymentMethod==='transfer'?'Transfer':'E-Wallet'}</td><td>${rupiah(o.total)}</td></tr>`;
+  }).join('');
+  const win = window.open('', '_blank', 'width=380,height=600');
+  win.document.write(`
+    <html><head><title>Laporan Harian</title>
+    <style>
+      body{font-family:monospace;padding:14px;font-size:12.5px;color:#000;}
+      h2{text-align:center;margin:4px 0;}
+      table{width:100%;border-collapse:collapse;margin-top:8px;}
+      td,th{padding:3px 2px;text-align:left;border-bottom:1px dashed #ccc;}
+      hr{border:none;border-top:1px dashed #000;}
+      .right{text-align:right;}
+    </style></head><body>
+    <h2>${RESTO.name}</h2>
+    <div style="text-align:center;">Laporan Transaksi Harian — ${new Date().toLocaleDateString('id-ID')}</div>
+    <hr>
+    ${list.length===0 ? '<div style="text-align:center;padding:14px 0;">Belum ada transaksi hari ini.</div>' : `
+    <table>
+      <tr><th>No.</th><th>Tipe</th><th>Bayar</th><th>Total</th></tr>
+      ${rowsHtml}
+    </table>
+    <hr>
+    <div>Total Transaksi: ${list.length}</div>
+    <div>Tunai: ${rupiah(byMethod.cash||0)}</div>
+    <div>Transfer Bank: ${rupiah(byMethod.transfer||0)}</div>
+    <div>E-Wallet: ${rupiah(byMethod.ewallet||0)}</div>
+    <hr>
+    <div class="right"><b>Grand Total: ${rupiah(grand)}</b></div>
+    `}
+    <hr>
+    <div style="text-align:center;">Dicetak otomatis oleh sistem</div>
+    <script>window.onload=()=>window.print();<\/script>
+    </body></html>
+  `);
+  win.document.close();
+}
+
+/* ============ MAIN RENDER ============ */
+let previousView = null;
+async function render(){
+  const app = document.getElementById('app');
+  app.className = (state.view==='kitchen' || state.view==='cashier' || state.view==='cashierAddItem') ? 'wide' : '';
+  if(previousView==='scanCamera' && state.view!=='scanCamera'){
+    stopScanCamera();
+  }
+  let html = '';
+  switch(state.view){
+    case 'home': html = renderHome(); break;
+    case 'pinDapur': html = renderPinDapur(); break;
+    case 'pinKasir': html = renderPinKasir(); break;
+    case 'onboarding': html = renderOnboarding(); break;
+    case 'story': html = renderStory(); break;
+    case 'beranda': html = await renderBeranda(); break;
+    case 'scanCamera': html = renderScanCamera(); break;
+    case 'riwayat': html = await renderRiwayat(); break;
+    case 'profil': html = renderProfil(); break;
+    case 'notifikasi': html = await renderNotifikasi(); break;
+    case 'scanSim': html = renderScanSim(); break;
+    case 'groupSize': {
+      const s = await getSettings();
+      state.groupDisabled = !s.groupBookingEnabled;
+      html = renderGroupSize(); break;
+    }
+    case 'menu': html = await renderMenu(); break;
+    case 'cart': html = renderCart(); break;
+    case 'info': html = renderInfo(); break;
+    case 'payment': html = await renderPayment(); break;
+    case 'confirm': html = renderConfirm(); break;
+    case 'status': html = await renderStatus(); break;
+    case 'kitchen': html = await renderKitchen(); break;
+    case 'cashier': html = await renderCashier(); break;
+    case 'cashierAddItem': html = await renderCashierAddItem(); break;
+    default: html = renderHome();
+  }
+  if(state.lightbox){
+    html += renderLightbox();
+  }
+  app.innerHTML = html;
+  if(state.view==='cashier' && state.cashierTab==='qr'){
+    setTimeout(generateQRCodes, 30);
+  }
+  if(state.view==='scanCamera'){
+    setTimeout(startScanCamera, 30);
+  }
+  previousView = state.view;
+}
+function renderLightbox(){
+  return `
+  <div class="lightbox-overlay" data-action="closeLightbox">
+    <div class="lightbox-hint">🔍 Cubit layar untuk zoom</div>
+    <button class="back-btn lightbox-close" data-action="closeLightbox">✕</button>
+    <img class="lightbox-img" src="${state.lightbox}" data-action="ignoreClick">
+  </div>`;
+}
+
+/* ============ CAMERA QR SCANNER ============ */
+let scanStream = null;
+let scanRAF = null;
+function stopScanCamera(){
+  if(scanRAF) cancelAnimationFrame(scanRAF);
+  scanRAF = null;
+  if(scanStream){
+    scanStream.getTracks().forEach(t=>t.stop());
+    scanStream = null;
+  }
+}
+async function startScanCamera(){
+  const video = document.getElementById('scanVideo');
+  const statusEl = document.getElementById('scanStatus');
+  if(!video) return;
+  try{
+    scanStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    video.srcObject = scanStream;
+    await video.play();
+    if(statusEl) statusEl.textContent = 'Arahkan kamera ke barcode meja...';
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    function tick(){
+      if(!scanStream) return; // scanning was stopped (view changed)
+      if(!video.videoWidth){ scanRAF = requestAnimationFrame(tick); return; }
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, imageData.width, imageData.height);
+      if(code && code.data){
+        stopScanCamera();
+        handleScannedText(code.data);
+        return;
+      }
+      scanRAF = requestAnimationFrame(tick);
+    }
+    scanRAF = requestAnimationFrame(tick);
+  }catch(e){
+    if(statusEl) statusEl.textContent = 'Tidak bisa mengakses kamera. Coba pilih manual di bawah, atau izinkan akses kamera di pengaturan browser.';
+  }
+}
+function handleScannedText(text){
+  let hash = '';
+  try{
+    const url = new URL(text);
+    hash = url.hash.replace('#','');
+  }catch(e){
+    hash = text.replace('#','');
+  }
+  location.hash = hash;
+  parseEntryHash();
+  render();
+}
+
+/* ============ EVENT HANDLING ============ */
+document.addEventListener('click', async (e)=>{
+  const el = e.target.closest('[data-action]');
+  if(!el) return;
+  const action = el.dataset.action;
+
+  if(action==='go'){ setView(el.dataset.view); return; }
+
+  if(action==='switchAccount'){
+    const ok = confirm('Ganti akun akan menghapus nama & nomor WA yang tersimpan di HP/perangkat ini. Lanjutkan?');
+    if(!ok) return;
+    try{ localStorage.removeItem('kmf_customer_profile'); }catch(e){ /* ignore */ }
+    location.hash = '';
+    parseEntryHash();
+    render();
+    return;
+  }
+
+  if(action==='enterDapur'){
+    location.hash = 'dapur';
+    parseEntryHash();
+    render();
+    return;
+  }
+  if(action==='enterKasir'){
+    location.hash = 'kasir';
+    parseEntryHash();
+    render();
+    return;
+  }
+  if(action==='submitPinDapur'){
+    const pass = document.getElementById('pinDapurInput').value;
+    const errEl = document.getElementById('pinDapurError');
+    if(!pass){ if(errEl) errEl.textContent = 'Mohon isi kata sandi.'; return; }
+    try{
+      await auth.signInWithEmailAndPassword(DAPUR_EMAIL, pass);
+      setView('kitchen');
+    }catch(e){
+      if(errEl) errEl.textContent = 'Kata sandi salah, atau akun Dapur belum dibuat di Firebase Console.';
+    }
+    return;
+  }
+  if(action==='submitPinKasir'){
+    const pass = document.getElementById('pinKasirInput').value;
+    const errEl = document.getElementById('pinKasirError');
+    if(!pass){ if(errEl) errEl.textContent = 'Mohon isi kata sandi.'; return; }
+    try{
+      await auth.signInWithEmailAndPassword(KASIR_EMAIL, pass);
+      setView('cashier');
+    }catch(e){
+      if(errEl) errEl.textContent = 'Kata sandi salah, atau akun Kasir belum dibuat di Firebase Console.';
+    }
+    return;
+  }
+  if(action==='logoutDapur'){
+    if(auth) await auth.signOut();
+    location.hash = 'staff';
+    setView('home');
+    return;
+  }
+  if(action==='logoutKasir'){
+    if(auth) await auth.signOut();
+    location.hash = 'staff';
+    setView('home');
+    return;
+  }
+
+  if(action==='saveOnboarding'){
+    const name = document.getElementById('onbName').value.trim();
+    const phone = document.getElementById('onbPhone').value.trim();
+    if(!name){ alert('Mohon isi nama Anda.'); return; }
+    if(!phone || phone.length<9){ alert('Mohon isi nomor WhatsApp yang valid.'); return; }
+    saveCustomerProfile({name, phone});
+    if(!hasSeenStory()){
+      setView('story');
+    } else {
+      setView(state.pendingView || 'beranda');
+    }
+    return;
+  }
+  if(action==='continueFromStory'){
+    markStorySeen();
+    setView(state.pendingView || 'beranda');
+    return;
+  }
+  if(action==='saveProfil'){
+    const name = document.getElementById('profName').value.trim();
+    const phone = document.getElementById('profPhone').value.trim();
+    if(!name){ alert('Mohon isi nama Anda.'); return; }
+    if(!phone || phone.length<9){ alert('Mohon isi nomor WhatsApp yang valid.'); return; }
+    saveCustomerProfile({name, phone});
+    alert('Profil berhasil disimpan.');
+    setView('beranda'); return;
+  }
+  if(action==='viewRiwayatDetail'){
+    const all = await getAllOrders();
+    const o = all[el.dataset.id];
+    if(o){ state.createdOrder = o; setView('status'); }
+    return;
+  }
+  if(action==='setReviewStar'){
+    state.reviewRating = parseInt(el.dataset.n, 10);
+    render();
+    return;
+  }
+  if(action==='submitReview'){
+    const orderId = el.dataset.id;
+    const rating = state.reviewRating;
+    if(!rating) return;
+    const all = await getAllOrders();
+    const o = all[orderId];
+    if(!o) return;
+    const review = {
+      orderId,
+      customerName: o.customerName,
+      customerPhone: o.customerPhone,
+      rating,
+      comment: state.reviewComment || '',
+      createdAt: Date.now()
+    };
+    await saveReview(review);
+    state.reviewRating = 0;
+    state.reviewComment = '';
+    render();
+    return;
+  }
+  if(action==='sendNotif'){
+    const textEl = document.getElementById('notifText');
+    const message = textEl ? textEl.value.trim() : '';
+    if(!message){ alert('Tulis dulu pesan notifikasinya.'); return; }
+    if(firebaseReady){
+      try{
+        await db.ref('notifications').push({ message, createdAt: Date.now() });
+        alert('Notifikasi terkirim ke semua pelanggan.');
+        if(textEl) textEl.value = '';
+        render();
+      }catch(e){ alert('Gagal mengirim notifikasi. Coba lagi.'); }
+    }
+    return;
+  }
+  if(action==='printDailyReport'){
+    const all = await getAllOrders();
+    printDailyReport(all);
+    return;
+  }
+
+  if(action==='scanTable'){
+    location.hash = 'meja'+el.dataset.n;
+    state.order = newDraftOrder('dinein', 'Meja '+el.dataset.n);
+    setView('menu'); return;
+  }
+  if(action==='scanTakeaway'){
+    location.hash = 'takeaway';
+    state.order = newDraftOrder('takeaway', null);
+    setView('menu'); return;
+  }
+  if(action==='scanGroup'){
+    location.hash = 'group';
+    state.order = newDraftOrder('group', null);
+    setView('groupSize'); return;
+  }
+  if(action==='confirmGroupSize'){
+    const val = parseInt(document.getElementById('groupSizeInput').value, 10);
+    const bookingDate = document.getElementById('bookingDateInput').value;
+    const bookingTime = document.getElementById('bookingTimeInput').value;
+    if(!val || val < 10){ alert('Jumlah rombongan minimal 10 orang.'); return; }
+    if(!bookingDate){ alert('Mohon isi tanggal booking.'); return; }
+    if(!bookingTime){ alert('Mohon isi jam booking.'); return; }
+    state.order.groupSize = val;
+    state.order.bookingDate = bookingDate;
+    state.order.bookingTime = bookingTime;
+    setView('menu'); return;
+  }
+  if(action==='setCategory'){ state.category = el.dataset.cat; render(); return; }
+  if(action==='qtyInc'){
+    const id = el.dataset.id;
+    const availability = await getMenuAvailability();
+    if(!isMenuItemAvailable(availability, id)){ alert('Maaf, menu ini sedang habis.'); render(); return; }
+    if(!state.order.items[id]) state.order.items[id] = {qty:0, note:''};
+    state.order.items[id].qty++;
+    render(); return;
+  }
+  if(action==='qtyDec'){
+    const id = el.dataset.id;
+    if(state.order.items[id]){
+      state.order.items[id].qty--;
+      if(state.order.items[id].qty<=0) delete state.order.items[id];
+    }
+    render(); return;
+  }
+  if(action==='submitInfo'){
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    if(!name){ alert('Mohon isi nama Anda.'); return; }
+    if(!phone || phone.length<9){ alert('Mohon isi nomor WhatsApp yang valid.'); return; }
+    state.order.customerName = name;
+    state.order.customerPhone = phone;
+    saveCustomerProfile({name, phone});
+    setView('payment'); return;
+  }
+  if(action==='setMethod'){
+    state.order.paymentMethod = el.dataset.m;
+    state.geoResult = null; state.proofPreview = null;
+    render(); return;
+  }
+  if(action==='setEwallet'){ state.order.ewalletProvider = el.dataset.p; render(); return; }
+  if(action==='checkGeo'){
+    state.geoChecking = true; render();
+    if(!navigator.geolocation){
+      state.geoResult = {ok:false, error:'Geolocation tidak didukung perangkat ini'};
+      state.geoChecking = false; render(); return;
+    }
+    navigator.geolocation.getCurrentPosition(pos=>{
+      const d = distanceMeters(pos.coords.latitude, pos.coords.longitude, RESTO.lat, RESTO.lng);
+      state.geoResult = { ok: d <= GEOFENCE_TOLERANCE_M, distance: d };
+      state.geoChecking = false; render();
+    }, err=>{
+      state.geoResult = {ok:false, error: err.message || 'Izin lokasi ditolak'};
+      state.geoChecking = false; render();
+    }, {enableHighAccuracy:true, timeout:12000});
+    return;
+  }
+  if(action==='placeOrder'){
+    if(!canSubmitOrder()) return;
+    if(state.isSubmittingOrder) return; // guard against double-tap creating duplicate orders
+    state.isSubmittingOrder = true;
+    render();
+    try{
+      const o = state.order;
+      const queueNumber = await nextQueueNumber();
+      const id = 'ord_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
+      const total = cartTotal(o);
+      const finalOrder = {
+        id, queueNumber,
+        orderType: o.orderType, tableCode: o.tableCode, groupSize: o.groupSize,
+        bookingDate: o.bookingDate || null, bookingTime: o.bookingTime || null,
+        items: o.items, total,
+        customerName: o.customerName, customerPhone: o.customerPhone,
+        paymentMethod: o.paymentMethod, ewalletProvider: o.ewalletProvider,
+        paymentProof: state.proofPreview || null,
+        paymentStatus: o.paymentMethod==='cash' ? 'belum_bayar' : 'menunggu',
+        kitchenStatus: 'diterima',
+        createdAt: Date.now()
+      };
+      await saveOrder(finalOrder);
+      state.createdOrder = finalOrder;
+      state.proofPreview = null;
+      state.isSubmittingOrder = false;
+      setView('confirm');
+    }catch(e){
+      state.isSubmittingOrder = false;
+      alert('Gagal membuat pesanan, coba lagi.');
+      render();
+    }
+    return;
+  }
+  if(action==='kitchenAdvance'){
+    const all = await getAllOrders();
+    const o = all[el.dataset.id];
+    if(o){
+      let newStatus = o.kitchenStatus;
+      if(o.kitchenStatus==='diterima') newStatus='dimasak';
+      else if(o.kitchenStatus==='dimasak') newStatus='selesai';
+      const fields = { kitchenStatus: newStatus, hasAddon: false };
+      if(newStatus==='selesai') fields.selesaiAt = Date.now();
+      await updateOrderFields(o.id, fields);
+    }
+    render(); return;
+  }
+  if(action==='ackAddon'){
+    await updateOrderFields(el.dataset.id, { hasAddon: false });
+    render(); return;
+  }
+  if(action==='openAddon'){
+    state.addonOrderId = el.dataset.id;
+    state.addonItems = {};
+    state.category = 'sterofom';
+    setView('cashierAddItem');
+    return;
+  }
+  if(action==='cancelAddon'){
+    state.addonOrderId = null;
+    state.addonItems = {};
+    setView('cashier');
+    return;
+  }
+  if(action==='addonQtyInc'){
+    const id = el.dataset.id;
+    const availability = await getMenuAvailability();
+    if(!isMenuItemAvailable(availability, id)){ alert('Maaf, menu ini sedang habis.'); render(); return; }
+    if(!state.addonItems[id]) state.addonItems[id] = { qty:0 };
+    state.addonItems[id].qty++;
+    render(); return;
+  }
+  if(action==='addonQtyDec'){
+    const id = el.dataset.id;
+    if(state.addonItems[id]){
+      state.addonItems[id].qty--;
+      if(state.addonItems[id].qty<=0) delete state.addonItems[id];
+    }
+    render(); return;
+  }
+  if(action==='confirmAddon'){
+    const addonIds = Object.keys(state.addonItems);
+    if(addonIds.length===0) return;
+    const all = await getAllOrders();
+    const o = all[state.addonOrderId];
+    if(!o){ alert('Pesanan tidak ditemukan.'); setView('cashier'); return; }
+    addonIds.forEach(id=>{
+      if(o.items[id]) o.items[id].qty += state.addonItems[id].qty;
+      else o.items[id] = { qty: state.addonItems[id].qty, note: '' };
+    });
+    o.total = cartTotal({ items: o.items });
+    o.hasAddon = true;
+    o.addonAt = Date.now();
+    if(o.paymentMethod==='cash' && o.paymentStatus==='lunas') o.paymentStatus = 'belum_bayar';
+    else if((o.paymentMethod==='transfer'||o.paymentMethod==='ewallet') && o.paymentStatus==='disetujui') o.paymentStatus = 'menunggu';
+    await saveOrder(o);
+    const queueNumber = o.queueNumber, newTotal = o.total;
+    state.addonOrderId = null;
+    state.addonItems = {};
+    setView('cashier');
+    alert('Item tambahan berhasil ditambahkan ke pesanan #'+queueNumber+'. Total baru: '+rupiah(newTotal));
+    return;
+  }
+  if(action==='cashierTab'){ state.cashierTab = el.dataset.t; render(); return; }
+  if(action==='cashierApprove'){
+    const all = await getAllOrders();
+    const o = all[el.dataset.id];
+    if(o){
+      await updateOrderFields(o.id, { paymentStatus: o.paymentMethod==='cash' ? 'lunas' : 'disetujui' });
+    }
+    render(); return;
+  }
+  if(action==='printReceipt'){
+    const all = await getAllOrders();
+    printReceiptFor(all[el.dataset.id]);
+    return;
+  }
+  if(action==='printQR'){ window.print(); return; }
+  if(action==='viewProof'){
+    const all = await getAllOrders();
+    const o = all[el.dataset.id];
+    if(o && o.paymentProof){ state.lightbox = o.paymentProof; render(); }
+    return;
+  }
+  if(action==='closeLightbox'){ state.lightbox = null; render(); return; }
+  if(action==='ignoreClick'){ return; }
+});
+
+document.addEventListener('change', async (e)=>{
+  if(e.target.id==='proofFileInput'){
+    const file = e.target.files[0];
+    if(file){
+      const dataUrl = await resizeImageFile(file);
+      state.proofPreview = dataUrl;
+      render();
+    }
+  }
+  if(e.target.id==='groupToggle'){
+    await setGroupBookingEnabled(e.target.checked);
+    render();
+  }
+  if(e.target.id==='cashToggle'){
+    await setCashEnabled(e.target.checked);
+    render();
+  }
+  if(e.target.dataset && e.target.dataset.action==='toggleStok'){
+    await setMenuAvailability(e.target.dataset.id, e.target.checked);
+    render();
+  }
+});
+
+document.addEventListener('input', (e)=>{
+  if(e.target.classList && e.target.classList.contains('note-input')){
+    const id = e.target.dataset.id;
+    if(state.order && state.order.items[id]){
+      state.order.items[id].note = e.target.value;
+    }
+  }
+  if(e.target.id === 'reviewCommentInput'){
+    state.reviewComment = e.target.value;
+  }
+});
+
+/* ============ INIT ============ */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('service-worker.js').catch(()=>{ /* ignore if unavailable */ });
+  });
+}
+
+parseEntryHash();
+render();
+
+if(firebaseReady){
+  auth.onAuthStateChanged((user)=>{
+    currentAuthUser = user;
+    authReady = true;
+    const h = location.hash.replace('#','');
+    // Re-evaluate dapur/kasir routing now that we know the real login state
+    // (covers both: staff already logged in from before, and just logged out).
+    if(h === 'dapur' || h === 'kasir' || state.view==='pinDapur' || state.view==='pinKasir' || state.view==='kitchen' || state.view==='cashier'){
+      if(h === 'dapur' || h === 'kasir'){
+        parseEntryHash();
+        render();
+      }
+    }
+  });
+}
+
+/* Real-time updates: whenever /orders or /settings changes in Firebase
+   (from any device — customer, kitchen, or cashier), re-render the current
+   live view automatically. Falls back to a light poll if Firebase isn't
+   configured yet, so the app still works while you set that up. */
+if(firebaseReady){
+  db.ref('orders').on('value', ()=>{
+    if(['status','kitchen','cashier','riwayat'].includes(state.view) && !state.lightbox) render();
+  });
+  db.ref('settings').on('value', ()=>{
+    if(state.view==='groupSize' || (state.view==='cashier' && state.cashierTab==='settings')) render();
+  });
+  let knownNotifIds = null;
+  db.ref('notifications').on('value', (snap)=>{
+    const v = snap.val() || {};
+    const ids = Object.keys(v);
+    if(knownNotifIds === null){
+      knownNotifIds = new Set(ids); // first load — don't blink for pre-existing notifications
+    } else {
+      const isNew = ids.some(id => !knownNotifIds.has(id));
+      knownNotifIds = new Set(ids);
+      const staffViews = ['kitchen','cashier','cashierAddItem','pinDapur','pinKasir','home'];
+      if(isNew && document.hidden && !staffViews.includes(state.view)){
+        startTitleBlink('🔔 Ada info baru dari resto!');
+      }
+    }
+    if(['beranda','notifikasi'].includes(state.view) && !state.lightbox) render();
+  });
+  db.ref('menuAvailability').on('value', ()=>{
+    if(['menu','cashierAddItem'].includes(state.view) || (state.view==='cashier' && state.cashierTab==='stok')) render();
+  });
+  db.ref('reviews').on('value', ()=>{
+    if(state.view==='status' || (state.view==='cashier' && state.cashierTab==='ulasan')) render();
+  });
+} else {
+  setInterval(()=>{
+    if(['status','kitchen','cashier','riwayat','beranda'].includes(state.view) && !state.lightbox){
+      render();
+    }
+  }, 4000);
+}
+</script>
+</body>
+</html>

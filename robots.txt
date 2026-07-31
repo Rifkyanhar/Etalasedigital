@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rifkyanhar.github.io/Etalasedigital/sitemap.xml
