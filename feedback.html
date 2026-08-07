@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beri Penilaian — NAFA Tech</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#0A0E24; --navy-900:#12183B; --navy-800:#1B2354;
+    --gold:#F2A93B; --teal:#33C6B0; --cream:#F5F1E6; --muted:#A7AED0;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--navy-950); color:var(--cream); font-family:'Inter',sans-serif;
+    min-height:100vh; display:flex; align-items:flex-start; justify-content:center;
+    padding:0 0 60px;
+  }
+  .shell{max-width:460px; width:100%;}
+  .topbar{
+    display:flex; align-items:center; gap:8px; padding:16px 20px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .topbar a{color:var(--muted); text-decoration:none; font-size:20px;}
+  .card{
+    background:var(--navy-900); border:1px solid rgba(255,255,255,.08); border-radius:20px;
+    margin:20px; padding:30px 26px; text-align:center;
+  }
+  h1{font-family:'Space Grotesk',sans-serif; font-size:24px; line-height:1.25; margin-bottom:8px;}
+  .sub{color:var(--muted); font-size:13.5px; margin-bottom:26px; line-height:1.6;}
+  .stars{display:flex; justify-content:center; gap:10px; margin-bottom:10px;}
+  .star-btn{
+    background:none; border:none; font-size:40px; line-height:1; cursor:pointer;
+    color:rgba(255,255,255,.18); transition:color .15s, transform .15s;
+  }
+  .star-btn.active{color:var(--gold); transform:scale(1.08);}
+  .rating-label{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; min-height:20px; margin-bottom:22px;}
+  textarea{
+    width:100%; min-height:90px; background:#00000030; border:1px solid rgba(255,255,255,.15);
+    border-radius:10px; color:var(--cream); padding:12px 14px; font-family:inherit; font-size:13.5px;
+    resize:vertical; margin-bottom:18px; display:none;
+  }
+  textarea.show{display:block;}
+  .submit-btn{
+    width:100%; background:var(--gold); color:var(--navy-950); border:none; border-radius:999px;
+    padding:14px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14.5px;
+    cursor:pointer; display:none;
+  }
+  .submit-btn.show{display:block;}
+  .submit-btn:disabled{opacity:.6; cursor:not-allowed;}
+
+  /* ---- thank you screen ---- */
+  .thanks{display:none; text-align:center; padding:10px 6px 6px;}
+  .thanks.show{display:block;}
+  .thanks img.logo{width:96px; margin:0 auto 20px; display:block;}
+  .thanks h2{font-family:'Space Grotesk',sans-serif; font-size:21px; margin-bottom:10px;}
+  .thanks p{color:var(--muted); font-size:13.5px; line-height:1.7; margin-bottom:24px;}
+  .gmaps-btn{
+    display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+    background:var(--teal); color:var(--navy-950); font-family:'Space Grotesk',sans-serif; font-weight:700;
+    font-size:14px; padding:13px 24px; border-radius:999px;
+  }
+  .footer-note{color:var(--muted); font-size:11.5px; text-align:center; padding:0 30px;}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <a href="javascript:history.back()">←</a>
+  </div>
+
+  <div class="card" id="formCard">
+    <h1>Bagaimana pengalaman Anda?</h1>
+    <p class="sub" id="subText">Masukan Anda membantu NAFA Tech meningkatkan layanan ke depannya.</p>
+
+    <div class="stars" id="stars">
+      <button class="star-btn" data-val="1">★</button>
+      <button class="star-btn" data-val="2">★</button>
+      <button class="star-btn" data-val="3">★</button>
+      <button class="star-btn" data-val="4">★</button>
+      <button class="star-btn" data-val="5">★</button>
+    </div>
+    <div class="rating-label" id="ratingLabel"></div>
+
+    <textarea id="comment" placeholder="Ceritakan pengalaman Anda (opsional)..."></textarea>
+    <button class="submit-btn" id="submitBtn">Kirim Penilaian</button>
+  </div>
+
+  <div class="card thanks" id="thanksCard">
+    <img class="logo" src="image/logo-nafatech.jpeg" alt="NAFA Tech">
+    <h2 id="thanksTitle">Terima kasih!</h2>
+    <p id="thanksDesc">Terima kasih telah mengisi survei kepuasan kami. Masukan Anda sangat berarti untuk NAFA Tech.</p>
+    <a class="gmaps-btn" id="gmapsBtn" href="#" target="_blank" rel="noopener" style="display:none;">⭐ Beri Rating di Google Maps</a>
+  </div>
+
+  <p class="footer-note">© 2026 NAFA Tech — Digital Solutions & Web Development</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/config.js"></script>
+<script>
+  // >>> GANTI dengan link "Tulis Ulasan" Google Maps bisnis NAFA Tech Anda <<<
+  // Cara dapatkan: search "NAFA Tech" di Google Maps -> buka profil bisnis
+  // -> tap "Tulis Ulasan" -> copy link dari address bar / tombol "Share".
+  const GOOGLE_MAPS_REVIEW_LINK = "https://g.page/r/GANTI_DENGAN_LINK_ASLI/review";
+
+  const WA_NUMBER = "6285290078889";
+
+  const params = new URLSearchParams(window.location.search);
+  const orderQueue = params.get('order') || '';
+  const layanan = params.get('layanan') || '';
+
+  let sb = null;
+  try{
+    if(window.supabase && window.NAFA_CONFIG){
+      sb = window.supabase.createClient(window.NAFA_CONFIG.SUPABASE_URL, window.NAFA_CONFIG.SUPABASE_ANON_KEY);
+    }
+  }catch(e){ console.warn('Supabase tidak tersedia:', e); }
+
+  let selectedRating = 0;
+  const labels = {1:'Sangat Kurang', 2:'Kurang', 3:'Cukup', 4:'Baik', 5:'Sangat Baik'};
+
+  const starBtns = document.querySelectorAll('.star-btn');
+  const ratingLabel = document.getElementById('ratingLabel');
+  const commentBox = document.getElementById('comment');
+  const submitBtn = document.getElementById('submitBtn');
+
+  starBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      selectedRating = Number(btn.dataset.val);
+      starBtns.forEach(b=> b.classList.toggle('active', Number(b.dataset.val) <= selectedRating));
+      ratingLabel.textContent = labels[selectedRating] || '';
+      commentBox.classList.add('show');
+      submitBtn.classList.add('show');
+      commentBox.placeholder = selectedRating <= 3
+        ? 'Ceritakan apa yang membuat Anda kurang puas, agar kami bisa perbaiki...'
+        : 'Ceritakan pengalaman Anda (opsional)...';
+    });
+  });
+
+  submitBtn.addEventListener('click', async ()=>{
+    if(!selectedRating){ return; }
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Mengirim...';
+
+    const comment = commentBox.value.trim();
+
+    // Simpan ke Supabase untuk arsip/evaluasi internal (kalau tersedia)
+    try{
+      if(sb){
+        await sb.from('feedback').insert({
+          rating: selectedRating,
+          comment: comment || null,
+          order_queue: orderQueue || null,
+          layanan: layanan || null
+        });
+      }
+    }catch(e){ console.warn('Gagal simpan feedback ke Supabase:', e); }
+
+    document.getElementById('formCard').style.display = 'none';
+    const thanksCard = document.getElementById('thanksCard');
+    thanksCard.classList.add('show');
+
+    if(selectedRating >= 4){
+      // Rating bagus -> arahkan ke Google Maps
+      document.getElementById('thanksTitle').textContent = 'Terima kasih! 🎉';
+      document.getElementById('thanksDesc').textContent = 'Senang mendengar Anda puas dengan layanan kami. Kalau berkenan, bantu kami dengan memberi rating di Google Maps juga ya!';
+      const gmapsBtn = document.getElementById('gmapsBtn');
+      gmapsBtn.href = GOOGLE_MAPS_REVIEW_LINK;
+      gmapsBtn.style.display = 'inline-flex';
+    } else {
+      // Rating rendah -> teruskan ke WhatsApp pribadi perusahaan sebagai evaluasi
+      document.getElementById('thanksTitle').textContent = 'Terima kasih atas masukannya';
+      document.getElementById('thanksDesc').textContent = 'Masukan Anda sudah kami terima dan akan langsung kami tindaklanjuti. Tim kami mungkin akan menghubungi Anda untuk klarifikasi lebih lanjut.';
+
+      const waText = encodeURIComponent(
+        'Halo, ada masukan dari pelanggan (evaluasi internal):\n' +
+        'Rating: ' + selectedRating + '/5 (' + (labels[selectedRating]||'') + ')\n' +
+        (orderQueue ? 'No. Order: #' + orderQueue + '\n' : '') +
+        (layanan ? 'Layanan: ' + layanan + '\n' : '') +
+        'Catatan: ' + (comment || '(tidak ada catatan tertulis)')
+      );
+      // Buka otomatis ke WA bisnis supaya langsung masuk sebagai bahan evaluasi
+      window.open('https://wa.me/' + WA_NUMBER + '?text=' + waText, '_blank');
+    }
+  });
+</script>
+</body>
+</html>
