@@ -1,1 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <url>
+    <loc>https://rifkyanhar.github.io/Etalasedigital/</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://rifkyanhar.github.io/Etalasedigital/blog/</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://rifkyanhar.github.io/Etalasedigital/blog/pentingnya-keamanan-website-bisnis-kecil.html</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://rifkyanhar.github.io/Etalasedigital/blog/kesalahan-umum-umkm-bikin-website.html</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://rifkyanhar.github.io/Etalasedigital/blog/proses-kerja-nafa-tech.html</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://rifkyanhar.github.io/Etalasedigital/blog/qr-code-vs-aplikasi-kasir-resto.html</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://rifkyanhar.github.io/Etalasedigital/blog/biaya-sistem-absensi-digital.html</loc>
+    <lastmod>2026-08-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://rifkyanhar.github.io/Etalasedigital/blog/tanda-bisnis-butuh-website-profesional.html</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://rifkyanhar.github.io/Etalasedigital/blog/menu-resto-scan-barcode-qr-code-semarang.html</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://rifkyanhar.github.io/Etalasedigital/blog/kenapa-sekolah-instansi-semarang-butuh-absensi-digital.html</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>
