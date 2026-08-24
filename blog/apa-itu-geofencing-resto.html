@@ -1,1 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apa Itu Geofencing dan Kenapa Penting untuk Sistem Pesan Antar Resto? | NAFA Tech</title>
+<meta name="description" content="Kenali fitur geofencing pada sistem menu resto scan barcode — cara kerjanya mencegah pesanan fiktif dari luar lokasi resto.">
+<meta name="keywords" content="geofencing resto, cegah pesanan fiktif, sistem take away resto, fitur keamanan QR resto">
+<link rel="canonical" href="https://rifkyanhar.github.io/Etalasedigital/blog/apa-itu-geofencing-resto.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apa Itu Geofencing dan Kenapa Penting untuk Sistem Pesan Antar Resto?">
+<meta property="og:description" content="Cara kerja fitur geofencing dalam mencegah pesanan fiktif dari luar lokasi resto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Apa Itu Geofencing dan Kenapa Penting untuk Sistem Pesan Antar Resto?",
+  "author": { "@type": "Organization", "name": "NAFA Tech" },
+  "publisher": { "@type": "Organization", "name": "NAFA Tech" },
+  "datePublished": "2026-08-21",
+  "description": "Cara kerja fitur geofencing dalam mencegah pesanan fiktif dari luar lokasi resto.",
+  "mainEntityOfPage": "https://rifkyanhar.github.io/Etalasedigital/blog/apa-itu-geofencing-resto.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa itu geofencing pada sistem menu resto?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Teknologi yang membuat batas virtual di sekitar lokasi resto untuk mendeteksi apakah pemesan benar-benar berada di dalam radius lokasi tersebut atau jauh di luar sana." }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah geofencing mempersulit pelanggan yang sah saat memesan?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Tidak. Proses validasi berjalan otomatis di belakang layar dan tidak menambah langkah rumit bagi pelanggan yang memang berada di lokasi resto." }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa geofencing penting untuk fitur take away?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Untuk mencegah pesanan fiktif dari luar lokasi resto dan memastikan fitur take away dipakai sesuai tujuannya, bukan disalahgunakan dari jarak jauh." }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah fitur geofencing sudah termasuk dalam paket sistem menu resto dari NAFA Tech?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Sudah. Geofencing eksklusif untuk take away menjadi bagian dari paket jasa pembuatan sistem menu resto scan barcode dari NAFA Tech." }
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --navy-950:#0A0E24; --navy-900:#12183B; --navy-800:#1B2354;
+    --gold:#F2A93B; --teal:#33C6B0; --cream:#F5F1E6; --muted:#A7AED0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--navy-950); color:var(--cream); font-family:'Inter',sans-serif; line-height:1.75;}
+  .container{max-width:720px; margin:0 auto; padding:0 24px;}
+  header{padding:28px 0 0;}
+  .back-link{font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--teal); text-decoration:none; font-weight:600;}
+  .post-tag{display:inline-block; margin-top:20px; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); font-weight:700;}
+  h1{font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,5vw,38px); line-height:1.2; margin:10px 0 14px;}
+  .post-meta{color:var(--muted); font-size:13px; margin-bottom:30px; display:flex; gap:14px; border-bottom:1px solid rgba(255,255,255,.08); padding-bottom:24px;}
+  article{padding:6px 0 20px; font-size:15.5px; color:#DCE1F0;}
+  article h2{font-family:'Space Grotesk',sans-serif; color:var(--cream); font-size:21px; margin:32px 0 12px;}
+  article p{margin-bottom:16px;}
+  article ul{margin:0 0 16px 20px;}
+  article li{margin-bottom:8px;}
+  .cta-box{
+    margin:36px 0; padding:24px; background:var(--navy-900); border:1px solid rgba(242,169,59,.3);
+    border-radius:16px; text-align:center;
+  }
+  .cta-box p{color:var(--muted); font-size:14px; margin-bottom:14px;}
+  .cta-btn{
+    display:inline-block; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px;
+    background:var(--gold); color:var(--navy-950); text-decoration:none;
+    padding:12px 26px; border-radius:999px;
+  }
+  .faq-section{margin:36px 0 12px;}
+  .faq-item{
+    background:var(--navy-900); border:1px solid rgba(255,255,255,.08);
+    border-radius:14px; padding:18px 20px; margin-bottom:12px;
+  }
+  .faq-q{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px;
+    color:var(--cream); margin-bottom:8px; display:flex; gap:8px;
+  }
+  .faq-q::before{content:"Q:"; color:var(--gold); flex:none;}
+  .faq-a{font-size:14.5px; color:var(--muted); line-height:1.7; padding-left:24px; margin-bottom:0;}
+  footer{text-align:center; padding:24px; color:var(--muted); font-size:12px; border-top:1px solid rgba(255,255,255,.08); margin-top:30px;}
+  footer a{color:var(--gold); text-decoration:none;}
+</style>
+</head>
+<body>
+<header class="container">
+  <a class="back-link" href="index.html">← Semua Artikel</a>
+  <span class="post-tag">Sistem Resto</span>
+  <h1>Apa Itu Geofencing dan Kenapa Penting untuk Sistem Pesan Antar Resto?</h1>
+  <div class="post-meta"><span>📅 Jumat, 21 Agustus 2026</span><span>⏱ 4 menit baca</span><span>✍️ Tim NAFA Tech</span></div>
+</header>
 
+<article class="container">
+  <p>Salah satu fitur yang sering ditanyakan pemilik resto saat membahas sistem menu scan barcode adalah: "bagaimana kalau ada yang pesan dari luar lokasi resto, padahal fiturnya untuk take away di tempat?" Jawabannya ada di satu teknologi bernama <strong>geofencing</strong>.</p>
+
+  <h2>Apa itu geofencing?</h2>
+  <p>Geofencing adalah teknologi yang membuat "batas virtual" di sekitar lokasi tertentu — dalam hal ini, lokasi resto. Sistem bisa mendeteksi apakah perangkat yang melakukan pemesanan benar-benar berada di dalam radius lokasi resto, atau jauh di luar sana.</p>
+
+  <h2>Kenapa ini penting untuk resto?</h2>
+  <ul>
+    <li><strong>Mencegah pesanan fiktif</strong> — orang iseng dari luar kota tidak bisa asal pesan tanpa benar-benar berada di lokasi</li>
+    <li><strong>Memastikan fitur take away dipakai sesuai tujuannya</strong> — untuk pelanggan yang memang sedang berada di resto, bukan disalahgunakan dari jarak jauh</li>
+    <li><strong>Mengurangi potensi kerugian</strong> dari pesanan yang tidak valid namun sempat masuk ke sistem dapur</li>
+  </ul>
+
+  <h2>Bagaimana pengalaman pelanggan yang sah tetap lancar?</h2>
+  <p>Pelanggan yang benar-benar berada di lokasi resto tidak akan merasakan hambatan apa pun — proses validasi berjalan otomatis di belakang layar begitu mereka scan QR Code dan mulai memesan. Fitur ini murni bekerja untuk menyaring pesanan yang mencurigakan, bukan menambah langkah rumit bagi pelanggan yang jujur.</p>
+
+  <h2>Implementasi di sistem NAFA Tech</h2>
+  <p>Fitur geofencing eksklusif untuk take away ini menjadi bagian dari paket <strong>jasa pembuatan sistem menu resto scan barcode</strong> dari NAFA Tech — dirancang khusus untuk resto yang ingin sistem pemesanan digital tanpa khawatir disalahgunakan dari luar lokasi.</p>
+
+  <div class="cta-box">
+    <p>Ingin melihat bagaimana sistem ini bekerja secara langsung?</p>
+    <a class="cta-btn" href="https://rifkyanhar.github.io/Meja-Pintar/" target="_blank" rel="noopener">Coba Demo Sistem Menu Resto</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Pertanyaan yang Sering Diajukan</h2>
+    <div class="faq-item">
+      <div class="faq-q">Apa itu geofencing pada sistem menu resto?</div>
+      <p class="faq-a">Teknologi yang membuat batas virtual di sekitar lokasi resto untuk mendeteksi apakah pemesan benar-benar berada di dalam radius lokasi tersebut atau jauh di luar sana.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Apakah geofencing mempersulit pelanggan yang sah saat memesan?</div>
+      <p class="faq-a">Tidak. Proses validasi berjalan otomatis di belakang layar dan tidak menambah langkah rumit bagi pelanggan yang memang berada di lokasi resto.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Kenapa geofencing penting untuk fitur take away?</div>
+      <p class="faq-a">Untuk mencegah pesanan fiktif dari luar lokasi resto dan memastikan fitur take away dipakai sesuai tujuannya, bukan disalahgunakan dari jarak jauh.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Apakah fitur geofencing sudah termasuk dalam paket sistem menu resto dari NAFA Tech?</div>
+      <p class="faq-a">Sudah. Geofencing eksklusif untuk take away menjadi bagian dari paket jasa pembuatan sistem menu resto scan barcode dari NAFA Tech.</p>
+    </div>
+  </div>
+</article>
+
+<footer>
+  Baca artikel lainnya di <a href="index.html">Blog NAFA Tech</a>
+</footer>
+</body>
+</html>
