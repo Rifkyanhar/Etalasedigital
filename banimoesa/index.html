@@ -353,6 +353,14 @@ tr:hover td{background:var(--krem)}
 footer{background:var(--hijau-tua);color:rgba(255,255,255,.5);text-align:center;padding:2.5rem 1.5rem 5rem;font-size:.82rem}
 .footer-brand{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--emas-t);margin-bottom:.5rem}
 footer a{color:var(--emas-t);text-decoration:none}
+.footer-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-top:12px}
+.footer-web-link{color:var(--emas-t);text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  background:rgba(201,168,76,.15);padding:6px 16px;border-radius:20px;border:1px solid rgba(201,168,76,.3);
+  font-size:.82rem;white-space:nowrap}
+.footer-thanks{color:rgba(255,255,255,.6);font-size:.78rem}
+@media(max-width:420px){
+  .footer-cta{flex-direction:column;gap:8px}
+}
 
 /* RESPONSIVE */
 @media(max-width:900px){
@@ -969,9 +977,15 @@ footer a{color:var(--emas-t);text-decoration:none}
   <span style="font-size:.75rem;margin-top:6px;display:block">Dibuat dengan ❤️ untuk menjaga tali silaturahmi</span>
   <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1);font-size:.78rem;">
     Dirancang &amp; dibuat oleh <strong style="color:var(--emas-t)">Rifky Anhar</strong><br>
-    <a href="tel:+6285290078889" style="color:var(--emas-t);text-decoration:none;margin-top:6px;display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.15);padding:6px 16px;border-radius:20px;border:1px solid rgba(201,168,76,.3)">
-      📞 0852-9007-8889
-    </a>
+    <div class="footer-cta">
+      <a href="tel:+6285290078889" style="color:var(--emas-t);text-decoration:none;display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.15);padding:6px 16px;border-radius:20px;border:1px solid rgba(201,168,76,.3)">
+        📞 0852-9007-8889
+      </a>
+      <a href="https://nafatech.web.id" target="_blank" rel="noopener" class="footer-web-link">
+        🌐 Kunjungi website saya di nafatech.web.id
+      </a>
+    </div>
+    <div class="footer-thanks">Maturnuwun 🙏</div>
   </div>
 </footer>
 
