@@ -1,1 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apa Itu SSL dan Kenapa Website Anda Wajib Punya? | NAFA Tech</title>
+<meta name="description" content="Penjelasan sederhana soal SSL certificate — apa fungsinya, ciri website yang sudah pakai, dan kenapa ini bukan sekadar fitur opsional.">
+<meta name="keywords" content="apa itu SSL, SSL certificate penting, website aman https, ciri website terpercaya">
+<link rel="canonical" href="https://nafatech.web.id/blog/apa-itu-ssl-website.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apa Itu SSL dan Kenapa Website Anda Wajib Punya?">
+<meta property="og:description" content="Penjelasan sederhana soal SSL certificate dan kenapa website Anda wajib memilikinya.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org", "@type": "Article",
+  "headline": "Apa Itu SSL dan Kenapa Website Anda Wajib Punya?",
+  "author": { "@type": "Organization", "name": "NAFA Tech" },
+  "publisher": { "@type": "Organization", "name": "NAFA Tech" },
+  "datePublished": "2026-08-28",
+  "description": "Penjelasan sederhana soal SSL certificate dan kenapa website Anda wajib memilikinya.",
+  "mainEntityOfPage": "https://nafatech.web.id/blog/apa-itu-ssl-website.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa itu SSL pada website?",
+      "acceptedAnswer": { "@type": "Answer", "text": "SSL (Secure Sockets Layer) adalah teknologi yang mengenkripsi data yang dikirim antara browser pengunjung dan server website, ditandai dengan alamat https:// dan ikon gembok pada browser." }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa website tanpa SSL bisa membuat pengunjung ragu?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Browser modern menandai website tanpa SSL dengan peringatan \"Tidak Aman\", yang bisa membuat calon pelanggan ragu dan langsung menutup halaman." }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah SSL memengaruhi peringkat pencarian di Google?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Ya. Google secara terbuka menyatakan HTTPS menjadi salah satu sinyal yang dipertimbangkan dalam peringkat pencarian." }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah SSL sekarang masih berbayar mahal?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Tidak. Banyak penyedia hosting sekarang menyediakan SSL gratis, misalnya lewat Let's Encrypt, yang otomatis aktif begitu website online." }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah semua website dari NAFA Tech sudah termasuk SSL?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Sudah. Semua website dan sistem yang dikerjakan NAFA Tech sudah termasuk SSL Certificate secara default, bukan biaya tambahan terpisah." }
+    }
+  ]
+}
+</script>
+<style>
+  :root{ --navy-950:#0A0E24; --navy-900:#12183B; --navy-800:#1B2354; --gold:#F2A93B; --teal:#33C6B0; --cream:#F5F1E6; --muted:#A7AED0; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--navy-950); color:var(--cream); font-family:'Inter',sans-serif; line-height:1.75;}
+  .container{max-width:720px; margin:0 auto; padding:0 24px;}
+  header{padding:28px 0 0;}
+  .back-link{font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--teal); text-decoration:none; font-weight:600;}
+  .post-tag{display:inline-block; margin-top:20px; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); font-weight:700;}
+  h1{font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,5vw,38px); line-height:1.2; margin:10px 0 14px;}
+  .post-meta{color:var(--muted); font-size:13px; margin-bottom:30px; display:flex; gap:14px; border-bottom:1px solid rgba(255,255,255,.08); padding-bottom:24px;}
+  article{padding:6px 0 20px; font-size:15.5px; color:#DCE1F0;}
+  article h2{font-family:'Space Grotesk',sans-serif; color:var(--cream); font-size:21px; margin:32px 0 12px;}
+  article p{margin-bottom:16px;}
+  article ul{margin:0 0 16px 20px;}
+  article li{margin-bottom:8px;}
+  .cta-box{margin:36px 0; padding:24px; background:var(--navy-900); border:1px solid rgba(242,169,59,.3); border-radius:16px; text-align:center;}
+  .cta-box p{color:var(--muted); font-size:14px; margin-bottom:14px;}
+  .cta-btn{display:inline-block; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; background:var(--gold); color:var(--navy-950); text-decoration:none; padding:12px 26px; border-radius:999px;}
+  .faq-section{margin:36px 0 12px;}
+  .faq-item{
+    background:var(--navy-900); border:1px solid rgba(255,255,255,.08);
+    border-radius:14px; padding:18px 20px; margin-bottom:12px;
+  }
+  .faq-q{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px;
+    color:var(--cream); margin-bottom:8px; display:flex; gap:8px;
+  }
+  .faq-q::before{content:"Q:"; color:var(--gold); flex:none;}
+  .faq-a{font-size:14.5px; color:var(--muted); line-height:1.7; padding-left:24px; margin-bottom:0;}
+  footer{text-align:center; padding:24px; color:var(--muted); font-size:12px; border-top:1px solid rgba(255,255,255,.08); margin-top:30px;}
+  footer a{color:var(--gold); text-decoration:none;}
+</style>
+</head>
+<body>
+<header class="container">
+  <a class="back-link" href="index.html">← Semua Artikel</a>
+  <span class="post-tag">Keamanan Website</span>
+  <h1>Apa Itu SSL dan Kenapa Website Anda Wajib Punya?</h1>
+  <div class="post-meta"><span>📅 Jumat, 28 Agustus 2026</span><span>⏱ 4 menit baca</span><span>✍️ Tim NAFA Tech</span></div>
+</header>
 
+<article class="container">
+  <p>Pernah perhatikan ikon gembok kecil di sebelah alamat website saat browsing? Itu tanda website tersebut sudah pakai SSL. Tapi apa sebenarnya SSL itu, dan kenapa penting?</p>
+
+  <h2>SSL, sederhananya</h2>
+  <p>SSL (Secure Sockets Layer) adalah teknologi yang mengenkripsi data yang dikirim antara browser pengunjung dan server website. Website yang sudah pakai SSL alamatnya diawali <code>https://</code> (bukan <code>http://</code> saja), dan browser menampilkan ikon gembok sebagai tanda aman.</p>
+
+  <h2>Kenapa ini penting?</h2>
+  <ul>
+    <li><strong>Melindungi data yang dikirim lewat form</strong> — nama, nomor HP, alamat yang diisi pelanggan di form order tidak bisa dibaca pihak lain saat proses pengiriman ke server</li>
+    <li><strong>Kepercayaan pengunjung</strong> — browser modern menandai website tanpa SSL dengan peringatan "Tidak Aman", yang bisa membuat calon pelanggan ragu dan langsung tutup halaman</li>
+    <li><strong>Faktor SEO</strong> — Google secara terbuka menyatakan HTTPS jadi salah satu sinyal yang dipertimbangkan dalam peringkat pencarian</li>
+  </ul>
+
+  <h2>Apakah SSL mahal?</h2>
+  <p>Dulu SSL memang berbayar dan cukup mahal, tapi sekarang banyak penyedia hosting menyediakan SSL gratis (misalnya lewat Let's Encrypt) yang otomatis aktif begitu website online. Jadi tidak ada alasan lagi website modern tidak memakainya.</p>
+
+  <h2>Cara mengecek website sudah pakai SSL atau belum</h2>
+  <p>Paling gampang: buka website-nya, lihat alamat di address bar. Kalau ada ikon gembok dan alamatnya diawali <code>https://</code>, berarti sudah aman. Kalau muncul tulisan "Tidak Aman" atau alamatnya cuma <code>http://</code>, itu tandanya belum.</p>
+
+  <h2>Standar di NAFA Tech</h2>
+  <p>Semua website dan sistem yang kami kerjakan — baik website biasa, toko online, sistem menu resto, maupun absensi digital — sudah termasuk SSL Certificate secara default, bukan biaya tambahan terpisah.</p>
+
+  <div class="cta-box">
+    <p>Ingin pastikan website Anda aman dan terpercaya di mata pengunjung?</p>
+    <a class="cta-btn" href="https://wa.me/6285290078889?text=Hai%20kak%2C%20saya%20mau%20tanya%20soal%20keamanan%20website%20saya" target="_blank" rel="noopener">Konsultasi via WhatsApp</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Pertanyaan yang Sering Diajukan</h2>
+    <div class="faq-item">
+      <div class="faq-q">Apa itu SSL pada website?</div>
+      <p class="faq-a">SSL (Secure Sockets Layer) adalah teknologi yang mengenkripsi data yang dikirim antara browser pengunjung dan server website, ditandai dengan alamat https:// dan ikon gembok pada browser.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Kenapa website tanpa SSL bisa membuat pengunjung ragu?</div>
+      <p class="faq-a">Browser modern menandai website tanpa SSL dengan peringatan "Tidak Aman", yang bisa membuat calon pelanggan ragu dan langsung menutup halaman.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Apakah SSL memengaruhi peringkat pencarian di Google?</div>
+      <p class="faq-a">Ya. Google secara terbuka menyatakan HTTPS menjadi salah satu sinyal yang dipertimbangkan dalam peringkat pencarian.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Apakah SSL sekarang masih berbayar mahal?</div>
+      <p class="faq-a">Tidak. Banyak penyedia hosting sekarang menyediakan SSL gratis, misalnya lewat Let's Encrypt, yang otomatis aktif begitu website online.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Apakah semua website dari NAFA Tech sudah termasuk SSL?</div>
+      <p class="faq-a">Sudah. Semua website dan sistem yang dikerjakan NAFA Tech sudah termasuk SSL Certificate secara default, bukan biaya tambahan terpisah.</p>
+    </div>
+  </div>
+</article>
+
+<footer>Baca artikel lainnya di <a href="index.html">Blog NAFA Tech</a></footer>
+</body>
+</html>
