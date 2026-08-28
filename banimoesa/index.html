@@ -572,9 +572,9 @@ footer a{color:var(--emas-t);text-decoration:none}
       <div id="silsilahLockedMsg" style="display:none">
         <div class="tabel-hidden-msg">
           <div class="icon">🔒</div>
-          <p>Pohon keluarga (silsilah) <strong>sedang dikunci sementara waktu</strong><br>
-           hingga batas waktu yang belum bisa ditentukan.<br><br>
-           Mohon maaf atas ketidaknyamanannya.🙏</p>
+          <p>Pohon keluarga (silsilah) <strong>sedang dikunci</strong><br>
+          hingga batas waktu yang belum bisa ditentukan.<br><br>
+          Mohon maaf atas ketidaknyamanannya🙏</p>
         </div>
       </div>
 
@@ -1298,20 +1298,21 @@ function renderSilsilahLock() {
 // Klik nama → centang ✅, urutan otomatis sesuai abjad
 // ================================================================
 const daftarHadirData = [
-  "FUADI","NINIK","Ibu Tutuk","Yanti","Johan",
-  "Imam","Jeki","Bu Harti","Andi","Masykur",
-  "Muflikhah","Ach. Sodiq","Mu'dimah","Ibu Khasanah","Aisyah",
+  "Bpk. FUADI","Bu NINIK","Ibu Tutuk","Bu Yanti","Bpk. Johan",
+  "Bpk. Imam","Bu Jeki","Bu Harti","Andi","Bpk. Masykur",
+  "Bu Muflikhah"," Bpk. Ach. Sodiq","Bu Mu'dimah","Ibu Khasanah","Aisyah",
   "Mardhiyah","Yulaicha (Kp.Batik)","Mucharrom (Kp.Batik)","Saufika Zahra (anak Mucharrom)","Taufiq",
-  "Salamul Huda","Nafiah (usm)","Toni","Aulia (anak)","Z. Arifin",
-  "S. Faizah R.","Indra","Titien","Tutik","Ita",
-  "Rifki","Sanaya","Aan (putra Pak Muharrom, Kp.Batik)","Mustofa","Sri Mulyati",
+  "Salamul Huda","Nafiah (usm)","Toni","Aulia (anak)","Bpk. Zaenal Arifin",
+  "S. Faizah R.","Mas Indra","Mbak Titien","Tutik","Ita",
+  "Mas Rifki","Sanaya","Aan (putra Pak Muharrom, Kp.Batik)","Bpk. Mustofa","Bu Sri Mulyati",
   "Luluk (anak Bu Yulaicha, Kp.Batik)","Imron","Khoiriyah","Aira","Ibu Hj. Atikah",
-  "Daelami","Anis","Hanum","H. Muslich","Hj. Rinta",
-  "Erie Sasmito","Siti Chafsoh","Anis (Mranggen)","Agus S. (Mranggen)","Wahyu",
+  "Daelami","Anis","Hanum","Bpk. H. Muslich","Bu Hj. Rinta",
+  "Bpk. Erie Sasmito","Bu Siti Chafsoh","Bu Anis (Mranggen)","Bpk Agus S. (Mranggen)","Wahyu",
   "Lia","H. Fathoni","Azid","Nurul","Sopik",
-  "A'la","Hanna","Fauzan","Yuni","Shofi",
-  "Rizka","Fahma","Fauzi","Ina Assegaf","Mbak Maya (Bu Harti)",
-  "Nur Faizah (anak Pak Muharrom, Kp.Batik)","Fakhri (Cucu Pak Muharrom Kp.Batik)"
+  "A'la","Hanna","Bpk. Fauzan","Yuni","Shofi",
+  "Rizka","Fahma","Bpk. Fauzi","Kak Ina Assegaf","Mbak Maya (Bu Harti)",
+  "Nur Faizah (anak Pak Muharrom, Kp.Batik)","Fakhri (Cucu Pak Muharrom Kp.Batik)", 
+  "Bu Arum Mufida" 
 ].sort((a,b)=>a.localeCompare(b,'id'));
 
 // ================================================================
