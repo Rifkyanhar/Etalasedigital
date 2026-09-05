@@ -34,7 +34,7 @@ window.NAFA_CONFIG = {
 
   // 4. Client Key dari dashboard Midtrans (bukan Server Key!).
   //    Dipakai untuk load Snap.js. Isi setelah akun Midtrans aktif.
-  MIDTRANS_CLIENT_KEY: "ISI_SETELAH_MIDTRANS_ACC",
+  MIDTRANS_CLIENT_KEY: "Mid-client-k67XiEXLPTxoKvVs",
   // Ganti ke false setelah live/production (bukan sandbox lagi)
   MIDTRANS_IS_SANDBOX: true
 };
