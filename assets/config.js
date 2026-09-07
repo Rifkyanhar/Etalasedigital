@@ -30,11 +30,11 @@ window.NAFA_CONFIG = {
   // Cukup ubah SATU baris ini jadi true, lalu push ke repo —
   // TIDAK perlu edit ulang index.html, promo/index.html, atau
   // halaman lain manapun, karena semuanya baca nilai dari sini.
-  MIDTRANS_ACTIVE: false,
+  MIDTRANS_ACTIVE: true,
 
   // 4. Client Key dari dashboard Midtrans (bukan Server Key!).
   //    Dipakai untuk load Snap.js. Isi setelah akun Midtrans aktif.
   MIDTRANS_CLIENT_KEY: "Mid-client-k67XiEXLPTxoKvVs",
   // Ganti ke false setelah live/production (bukan sandbox lagi)
-  MIDTRANS_IS_SANDBOX: true
+  MIDTRANS_IS_SANDBOX: false
 };
