@@ -54,6 +54,20 @@
     overflow:hidden;
     opacity:0;
   }
+  /* ===== Login Google/Facebook wajib sebelum lanjut ke Midtrans (khusus layanan berbayar/terkunci) ===== */
+  .auth-box{
+    background:#00000030; border:1px solid #33C6B060; border-radius:9px;
+    padding:14px; margin-top:14px;
+  }
+  .auth-note{ font-size:.78rem; color:#8D98AC; line-height:1.6; margin-bottom:10px; }
+  .login-btns{ display:flex; flex-direction:column; gap:8px; }
+  .login-btns button{
+    padding:10px; border-radius:8px; border:1px solid #34405640;
+    background:#1F2836; color:#EAEEF5; font-size:.82rem; font-weight:600; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px; margin:0;
+  }
+  .login-btns button:hover{ border-color:#33C6B0; }
+  .logged-in-info{ font-size:.82rem; color:#4FB57F; font-weight:700; display:none; }
 </style>
 </head>
 <body>
@@ -169,6 +183,29 @@
       <input type="checkbox" id="o_midtrans_ack">
       <span>⚠️ <b>Wajib:</b> pemilik usaha diwajibkan mendaftarkan sistem pembayaran digital otomatis Midtrans untuk kelengkapan Menu Resto QR ini, sesuai ketentuan yang berlaku di <b>nafatech.web.id/promo</b>. Tim kami akan membantu proses pendaftarannya setelah order masuk.</span>
     </label>
+  </div>
+
+  <!-- ===== Login Google/Facebook (wajib sebelum lanjut ke Midtrans, khusus layanan berbayar) ===== -->
+  <div class="auth-box" id="authBox" style="display:none;">
+    <div class="auth-note">🔐 Untuk keamanan transaksi pembayaran otomatis, mohon masuk dengan akun Google atau Facebook dulu sebelum lanjut ke pembayaran. Data form di atas (termasuk paket domain di sini) tidak akan hilang.</div>
+    <div class="login-btns" id="authLoginBtns">
+      <button type="button" id="authLoginGoogle">
+        <svg width="16" height="16" viewBox="0 0 18 18" style="flex:none;">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.55 0 9s.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        Masuk dengan Google
+      </button>
+      <button type="button" id="authLoginFacebook">
+        <svg width="16" height="16" viewBox="0 0 36 36" style="flex:none;">
+          <path fill="#1877F2" d="M36 18c0-9.941-8.059-18-18-18S0 8.059 0 18c0 8.981 6.581 16.428 15.188 17.785V23.203h-4.57V18h4.57v-3.97c0-4.512 2.688-7.005 6.8-7.005 1.97 0 4.03.352 4.03.352v4.43h-2.27c-2.237 0-2.935 1.389-2.935 2.814V18h4.996l-.799 5.203h-4.197v12.582C29.419 34.428 36 26.981 36 18z"/>
+        </svg>
+        Masuk dengan Facebook
+      </button>
+    </div>
+    <div class="logged-in-info" id="authLoggedInInfo"></div>
   </div>
 
   <label id="notesLabel">Catatan (opsional)</label>
@@ -305,6 +342,7 @@
       webappTypeBlock.style.display = 'none';
       customOnlyNote.style.display = 'none';
       mejaPintarAckBox.style.display = 'none';
+      document.getElementById('authBox').style.display = 'none';
       notesLabel.textContent = 'Catatan (opsional)';
       notesEl.required = false;
       submitBtn.textContent = 'Kirim Order — Konsultasi via WhatsApp';
@@ -322,6 +360,10 @@
     fillFirstHint.style.display = ready ? 'none' : 'block';
     domainBlock.style.display = ready ? 'block' : 'none';
     mejaPintarAckBox.style.display = (ready && locked.requiresMidtransAck) ? 'block' : 'none';
+
+    const authBox = document.getElementById('authBox');
+    authBox.style.display = ready ? 'block' : 'none';
+    if(ready) refreshAuthUI();
 
     if(!ready){
       webappTypeBlock.style.display = 'none';
@@ -381,6 +423,81 @@
   }
   setupDomainContactChoice();
 
+  // ---------- Login Google/Facebook (syarat sebelum lanjut ke Midtrans) ----------
+  // Karena OAuth redirect me-reload halaman, isian form disimpan dulu ke
+  // localStorage sebelum redirect, lalu dikembalikan setelah customer
+  // berhasil login (lihat restoreFormSnapshot() di initForm()).
+  const PENDING_KEY = 'nafa_pending_order_v1';
+
+  function collectFormSnapshot(){
+    const domainMethodEl = document.querySelector('input[name="o_domain_contact_method"]:checked');
+    const webappTypeEl = document.querySelector('input[name="o_webapp_type"]:checked');
+    return {
+      name: document.getElementById('o_name').value,
+      contact: document.getElementById('o_contact').value,
+      service_type_id: document.getElementById('o_service').value,
+      notes: document.getElementById('o_notes').value,
+      domain_name: document.getElementById('o_domain_name').value,
+      domain_ext: document.getElementById('o_domain_ext').value,
+      domain_contact_method: domainMethodEl ? domainMethodEl.value : 'wa',
+      domain_wa: document.getElementById('o_domain_wa').value,
+      domain_email: document.getElementById('o_domain_email').value,
+      webapp_type: webappTypeEl ? webappTypeEl.value : 'demo',
+      midtrans_ack: document.getElementById('o_midtrans_ack').checked
+    };
+  }
+
+  function restoreFormSnapshot(snap){
+    if(!snap) return;
+    document.getElementById('o_name').value = snap.name || '';
+    document.getElementById('o_contact').value = snap.contact || '';
+    const sel = document.getElementById('o_service');
+    if(snap.service_type_id && !sel.disabled && [...sel.options].some(o => o.value === snap.service_type_id)){
+      sel.value = snap.service_type_id;
+    }
+    document.getElementById('o_notes').value = snap.notes || '';
+    document.getElementById('o_domain_name').value = snap.domain_name || '';
+    document.getElementById('o_domain_ext').value = snap.domain_ext || '.com';
+    if(snap.domain_contact_method){
+      const r = document.querySelector(`input[name="o_domain_contact_method"][value="${snap.domain_contact_method}"]`);
+      if(r) r.checked = true;
+    }
+    document.getElementById('o_domain_wa').value = snap.domain_wa || '';
+    document.getElementById('o_domain_email').value = snap.domain_email || '';
+    if(snap.webapp_type){
+      const r = document.querySelector(`input[name="o_webapp_type"][value="${snap.webapp_type}"]`);
+      if(r) r.checked = true;
+    }
+    if(typeof snap.midtrans_ack === 'boolean'){
+      document.getElementById('o_midtrans_ack').checked = snap.midtrans_ack;
+    }
+    refreshTierOptions();
+    setupDomainContactChoice();
+    updateExtraFieldsUI();
+  }
+
+  async function refreshAuthUI(){
+    const { data } = await sb.auth.getSession();
+    const loginBtns = document.getElementById('authLoginBtns');
+    const loggedInInfo = document.getElementById('authLoggedInInfo');
+    if(data.session){
+      loginBtns.style.display = 'none';
+      loggedInInfo.style.display = 'block';
+      loggedInInfo.textContent = '✓ Masuk sebagai ' + (data.session.user.email || data.session.user.user_metadata?.full_name || 'Pengguna') + ' — silakan lanjut kirim order.';
+    } else {
+      loginBtns.style.display = 'flex';
+      loggedInInfo.style.display = 'none';
+    }
+  }
+
+  async function startOAuthLogin(provider){
+    localStorage.setItem(PENDING_KEY, JSON.stringify(collectFormSnapshot()));
+    await sb.auth.signInWithOAuth({ provider, options: { redirectTo: window.location.href } });
+  }
+  document.getElementById('authLoginGoogle').addEventListener('click', () => startOAuthLogin('google'));
+  document.getElementById('authLoginFacebook').addEventListener('click', () => startOAuthLogin('facebook'));
+  sb.auth.onAuthStateChange(() => { refreshAuthUI(); });
+
   async function initForm(){
     const { data: services } = await sb.from('service_types').select('*').eq('active', true);
     SERVICE_TYPES = services || [];
@@ -422,6 +539,20 @@
 
     const { data: lps } = await sb.from('landing_pages').select('*').eq('name', SOURCE_LP_NAME);
     if(lps && lps.length > 0) LP_ID = lps[0].id;
+
+    // Kalau baru saja kembali dari redirect login Google/Facebook dan
+    // ada isian form yang sempat disimpan, kembalikan lagi ke form ini.
+    const pending = localStorage.getItem(PENDING_KEY);
+    if(pending){
+      const { data: sessionData } = await sb.auth.getSession();
+      if(sessionData.session){
+        try{ restoreFormSnapshot(JSON.parse(pending)); }catch(e){}
+        const msgEl = document.getElementById('msg');
+        msgEl.style.color = "#4FB57F";
+        msgEl.textContent = "✓ Login berhasil! Isian form Anda sudah dikembalikan — silakan klik tombol di bawah untuk lanjut ke pembayaran.";
+      }
+      localStorage.removeItem(PENDING_KEY);
+    }
   }
   initForm();
 
@@ -531,6 +662,16 @@
           submitBtn.disabled = false; submitBtn.textContent = originalBtnText;
           return;
         }
+      }
+
+      // ---- Wajib login Google/Facebook sebelum lanjut ke Midtrans ----
+      const { data: sessionData } = await sb.auth.getSession();
+      if(!sessionData.session){
+        msgEl.textContent = "Mohon masuk dengan Google atau Facebook dulu (tombol login di atas) sebelum lanjut ke pembayaran.";
+        msgEl.style.color = "#E06B54";
+        submitBtn.disabled = false; submitBtn.textContent = originalBtnText;
+        document.getElementById('authBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
       }
 
       extraFields = {
