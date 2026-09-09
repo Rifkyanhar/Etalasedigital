@@ -1,1 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Daftar Mitra Referral - NAFATech</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{ --bg:#17130F; --surface:#221C17; --ember:#E85D25; --ember-dark:#B8431A; --gold:#D9A441; --text:#F3E9DD; --muted:#9C8F82; --line:#3A2F27; --radius:14px; }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ background:var(--bg); font-family:'Work Sans', sans-serif; display:flex; justify-content:center; color:var(--text); }
+  #wrap{ width:100%; max-width:480px; min-height:100vh; padding:36px 28px 60px; }
+  .brand-mark{ width:56px; height:56px; border-radius:12px; background:linear-gradient(155deg, var(--ember), var(--ember-dark));
+    display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue', sans-serif; font-size:28px; color:#17130F; margin-bottom:22px; }
+  .eyebrow{ color:var(--ember); font-size:12px; letter-spacing:2px; text-transform:uppercase; font-weight:600; margin-bottom:8px; }
+  h1{ font-family:'Bebas Neue', sans-serif; font-size:34px; line-height:1.08; margin-bottom:10px; }
+  .sub{ color:var(--muted); font-size:13.5px; line-height:1.55; margin-bottom:28px; }
+  label{ font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; display:block; }
+  .field{ margin-bottom:18px; }
+  input{ width:100%; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:15px;
+    color:var(--text); font-size:15px; outline:none; }
+  input::placeholder{ color:var(--muted); opacity:1; }
+  input:focus{ border-color:var(--ember); }
+  input#kode{ text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+  small{ display:block; margin-top:6px; color:var(--muted); font-size:11.5px; }
+  #msg{ font-size:13px; margin-bottom:14px; min-height:16px; }
+  #msg.err{ color:var(--ember); }
+  #msg.ok{ color:#8FCB8F; }
+  button{ width:100%; padding:16px; border:none; border-radius:var(--radius); background:var(--ember); color:#17130F;
+    font-size:15px; font-weight:700; cursor:pointer; }
+  button:disabled{ opacity:.6; }
+  #successBox{ display:none; text-align:center; padding:40px 10px; }
+  #successBox .icon{ font-size:38px; margin-bottom:14px; }
+  #successBox h2{ font-family:'Bebas Neue', sans-serif; font-size:26px; margin-bottom:10px; }
+  #successBox p{ color:var(--muted); font-size:13.5px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div id="wrap">
 
+  <div id="formBox">
+    <div class="brand-mark">QR</div>
+    <div class="eyebrow">Program Mitra Referral</div>
+    <h1>Gabung Jadi Mitra NAFATech</h1>
+    <p class="sub">Isi data di bawah. Setelah admin approve, kamu bisa masuk ke dashboard mitra pakai kode referral yang kamu buat sendiri di sini.</p>
+
+    <div class="field">
+      <label>Nama Lengkap</label>
+      <input id="nama" type="text" placeholder="Nama kamu">
+    </div>
+    <div class="field">
+      <label>Nomor WhatsApp</label>
+      <input id="noWa" type="tel" placeholder="08xxxxxxxxxx">
+    </div>
+    <div class="field">
+      <label>Buat Username</label>
+      <input id="kode" type="text" placeholder="Contoh: BUDI123" maxlength="20">
+      <small>Ini jadi username login & kode link referral kamu. Huruf/angka saja, tanpa spasi.</small>
+    </div>
+    <div class="field">
+      <label>Buat Password</label>
+      <input id="password" type="password" placeholder="Minimal 6 karakter">
+    </div>
+
+    <div id="msg"></div>
+    <button id="submitBtn" onclick="submitDaftar()">Daftar Sekarang</button>
+  </div>
+
+  <div id="successBox">
+    <div class="icon">✅</div>
+    <h2>Pendaftaran Terkirim</h2>
+    <p>Data kamu sudah masuk ke admin. Kami akan konfirmasi lewat WhatsApp begitu akun kamu disetujui dan aktif.</p>
+  </div>
+
+</div>
+
+<script>
+  const SUPABASE_URL = "https://xxxxxxxxxxxx.supabase.co";
+  const SUPABASE_ANON_KEY = "GANTI_DENGAN_ANON_KEY_KAMU";
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function submitDaftar(){
+    const nama = document.getElementById('nama').value.trim();
+    const noWa = document.getElementById('noWa').value.trim();
+    const kode = document.getElementById('kode').value.trim().toUpperCase();
+    const password = document.getElementById('password').value;
+    const msg = document.getElementById('msg');
+    const btn = document.getElementById('submitBtn');
+
+    msg.textContent = ""; msg.className = "";
+
+    if(!nama || !noWa || !kode || !password){
+      msg.textContent = "Semua kolom wajib diisi.";
+      msg.className = "err";
+      return;
+    }
+    if(password.length < 6){
+      msg.textContent = "Password minimal 6 karakter.";
+      msg.className = "err";
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Mengirim...";
+
+    const { data, error } = await sb.rpc('daftar_mitra', {
+      p_nama: nama, p_no_wa: noWa, p_kode_referral: kode, p_password: password
+    });
+
+    btn.disabled = false;
+    btn.textContent = "Daftar Sekarang";
+
+    if(error){
+      msg.textContent = "Terjadi kesalahan, coba lagi.";
+      msg.className = "err";
+      return;
+    }
+    if(!data.sukses){
+      msg.textContent = data.pesan || "Gagal mendaftar.";
+      msg.className = "err";
+      return;
+    }
+
+    document.getElementById('formBox').style.display = 'none';
+    document.getElementById('successBox').style.display = 'block';
+  }
+</script>
+</body>
+</html>
