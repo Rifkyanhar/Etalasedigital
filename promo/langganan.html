@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Langganan Bulanan — NAFA Tech</title>
+
+<!-- ⚠️ Sesuaikan path ini dengan lokasi config.js kamu yang sebenarnya
+     (file yang sama dipakai dashboard.html, order-form-example.html, promo/index.html) -->
+<script src="../config.js"></script>
+
+<link rel="icon" href="../image/logo-nafatech.jpeg" type="image/jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy-950:#0A0E24; --navy-900:#12183B; --navy-800:#1B2354;
+    --gold:#F2A93B; --teal:#33C6B0; --cream:#F5F1E6; --muted:#A7AED0; --danger:#F2673B;
+    --radius:18px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: radial-gradient(ellipse 900px 500px at 50% -10%, rgba(51,198,176,0.14), transparent 60%), var(--navy-950);
+    color:var(--cream); font-family:'Inter', sans-serif; min-height:100vh; padding:32px 16px 60px;
+  }
+  .container{max-width:520px; margin:0 auto;}
+  header{ text-align:center; margin-bottom:28px; }
+  .brand{ display:inline-flex; align-items:center; gap:9px; margin-bottom:18px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; text-decoration:none; color:var(--cream);}
+  .brand img{width:28px; height:28px; border-radius:8px; object-fit:cover;}
+  h1{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(24px,6vw,32px); margin-bottom:10px;}
+  h1 span{color:var(--gold);}
+  header p{ color:var(--muted); font-size:14px; line-height:1.6; }
+  .card{
+    background:var(--navy-900); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius);
+    padding:24px; margin-bottom:18px;
+  }
+  label{ display:block; font-size:13px; color:var(--muted); margin-bottom:6px; font-weight:600; }
+  input, select{
+    width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12);
+    background:var(--navy-800); color:var(--cream); font-size:14.5px; margin-bottom:16px; font-family:inherit;
+  }
+  input:focus, select:focus{ outline:none; border-color:var(--teal); }
+  .price-preview{
+    display:flex; justify-content:space-between; align-items:baseline;
+    background:var(--navy-800); border-radius:12px; padding:14px 16px; margin-bottom:18px;
+  }
+  .price-preview .l{ font-size:13px; color:var(--muted); }
+  .price-preview .v{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px; color:var(--gold); }
+  button.submit{
+    width:100%; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;
+    padding:14px; border-radius:999px; border:none; cursor:pointer;
+    background:var(--gold); color:var(--navy-950);
+  }
+  button.submit:disabled{ opacity:.6; cursor:not-allowed; }
+  .msg{ margin-top:14px; font-size:13.5px; line-height:1.6; padding:12px 14px; border-radius:12px; display:none; }
+  .msg.error{ display:block; background:rgba(242,103,59,.1); border:1px solid rgba(242,103,59,.35); color:var(--cream); }
+  .msg.info{ display:block; background:rgba(51,198,176,.1); border:1px solid rgba(51,198,176,.3); color:var(--cream); }
+  .note{ font-size:12px; color:var(--muted); text-align:center; margin-top:20px; line-height:1.6; }
+  .note a{ color:var(--teal); }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <a href="../index.html" class="brand">
+      <img src="../image/logo-nafatech.jpeg" alt="NAFA Tech">
+      <span>NAFA · TECH</span>
+    </a>
+    <h1>Coba Dulu, <span>Langganan Bulanan</span></h1>
+    <p>Isi form di bawah, bayar langsung lewat Midtrans — tanpa perlu japri dulu untuk urusan pembayaran. Setelah pembayaran terkonfirmasi, tim kami siapkan sistem sesuai nama usaha Anda (termasuk akun login kasir & dapur), lalu link dan akun aksesnya dikirim ke kontak Anda. Khusus tanggal 16 sampai akhir bulan.</p>
+  </header>
+
+  <div class="card" id="closedNotice" style="display:none; text-align:center;">
+    <p style="font-size:15px; line-height:1.7; margin-bottom:6px;">🔒 <b>Belum dibuka</b></p>
+    <p style="color:var(--muted); font-size:13.5px; line-height:1.7;">
+      Pendaftaran langganan bulanan baru dibuka tanggal <b>16 sampai akhir bulan</b>.
+      Tanggal 1–15 berlaku harga promo sekali bayar — cek halaman promo utama untuk itu.
+    </p>
+  </div>
+
+  <form class="card" id="subForm">
+    <label for="product_key">Pilih produk</label>
+    <select id="product_key" required>
+      <option value="">-- Pilih produk --</option>
+      <option value="absensi-guru" data-price="200000">Absensi Digital Guru — Rp200.000/bulan</option>
+      <option value="absensi-instansi" data-price="200000">Absensi Digital Instansi & Karyawan — Rp200.000/bulan</option>
+      <option value="menu-resto-qr" data-price="250000">Sistem Menu Resto QR — Rp250.000/bulan</option>
+    </select>
+
+    <label for="customer_name">Nama Anda / usaha</label>
+    <input type="text" id="customer_name" placeholder="Contoh: Budi / SD Negeri 1 / Warung Makan Sedap" required>
+
+    <label for="customer_contact">Nomor WhatsApp atau Email</label>
+    <input type="text" id="customer_contact" placeholder="08xxxxxxxxxx atau email@contoh.com" required>
+
+    <div class="price-preview">
+      <span class="l">Total tagihan</span>
+      <span class="v" id="priceDisplay">Rp0</span>
+    </div>
+
+    <button type="submit" class="submit" id="submitBtn">Bayar Sekarang</button>
+    <div class="msg" id="formMsg"></div>
+  </form>
+
+  <p class="note">
+    Pembayaran diproses aman lewat Midtrans dan terkonfirmasi otomatis. Setelah itu, tim kami siapkan sistem dengan nama usaha Anda sendiri (estimasi 1–3 hari kerja), lalu link & akun login kasir/dapur dikirim ke kontak yang Anda isi di atas.<br>
+    Ada pertanyaan? <a href="https://wa.me/6285290078889?text=Halo%20kak%2C%20saya%20mau%20tanya%20soal%20langganan%20NAFA%20Tech" target="_blank" rel="noopener">Chat WhatsApp →</a>
+  </p>
+</div>
+
+<script>
+  // Ambil konfigurasi dari window.NAFA_CONFIG (config.js), dengan fallback
+  // kalau file config.js belum ter-load di halaman ini.
+  const CONFIG = window.NAFA_CONFIG || {
+    SUPABASE_URL: "https://uuejlrebqanlkgguerhk.supabase.co",
+    MIDTRANS_CLIENT_KEY: "",
+    MIDTRANS_IS_SANDBOX: true,
+  };
+
+  const FUNCTION_URL = `${CONFIG.SUPABASE_URL}/functions/v1/create-subscription-transaction`;
+
+  // Muat Snap.js secara dinamis sesuai mode sandbox/production dari config.js,
+  // supaya tidak perlu edit manual tiap ganti mode.
+  (function loadSnapJs() {
+    const script = document.createElement('script');
+    script.src = CONFIG.MIDTRANS_IS_SANDBOX
+      ? "https://app.sandbox.midtrans.com/snap/snap.js"
+      : "https://app.midtrans.com/snap/snap.js";
+    script.setAttribute('data-client-key', CONFIG.MIDTRANS_CLIENT_KEY || "");
+    document.head.appendChild(script);
+  })();
+
+  const productSelect = document.getElementById('product_key');
+  const priceDisplay = document.getElementById('priceDisplay');
+  const form = document.getElementById('subForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const formMsg = document.getElementById('formMsg');
+  const closedNotice = document.getElementById('closedNotice');
+
+  // Cek tanggal (waktu perangkat pengguna) supaya form langsung terkunci
+  // kalau dibuka tanggal 1-15. Validasi ASLI tetap di server (tidak bisa
+  // dilewati lewat devtools), ini cuma supaya pengalamannya lebih jelas.
+  (function checkDateWindow() {
+    const day = new Date().getDate();
+    if (day < 16) {
+      form.style.display = 'none';
+      closedNotice.style.display = 'block';
+    }
+  })();
+
+  function formatRupiah(n){
+    return 'Rp' + Number(n).toLocaleString('id-ID');
+  }
+
+  // Kalau datang dari tombol promo (?product=absensi-guru dst), otomatis pilihkan
+  const urlParams = new URLSearchParams(window.location.search);
+  const preselect = urlParams.get('product');
+  if (preselect && productSelect.querySelector(`option[value="${preselect}"]`)) {
+    productSelect.value = preselect;
+    productSelect.dispatchEvent(new Event('change'));
+  }
+
+  productSelect.addEventListener('change', () => {
+    const opt = productSelect.options[productSelect.selectedIndex];
+    const price = opt?.dataset?.price || 0;
+    priceDisplay.textContent = formatRupiah(price);
+  });
+
+  function showMsg(text, type){
+    formMsg.textContent = text;
+    formMsg.className = 'msg ' + type;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formMsg.className = 'msg';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Memproses...';
+
+    try {
+      const res = await fetch(FUNCTION_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          product_key: productSelect.value,
+          customer_name: document.getElementById('customer_name').value,
+          customer_contact: document.getElementById('customer_contact').value,
+        }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        showMsg(data.error || 'Terjadi kesalahan, coba lagi.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Bayar Sekarang';
+        return;
+      }
+
+      // Buka popup pembayaran Midtrans Snap
+      window.snap.pay(data.token, {
+        onSuccess: function(){
+          showMsg('Pembayaran berhasil! Tim kami akan siapkan sistem sesuai nama usaha Anda dan kirim link + akun login kasir/dapur ke kontak Anda (estimasi 1–3 hari kerja).', 'info');
+        },
+        onPending: function(){
+          showMsg('Pembayaran kamu masih diproses. Begitu terkonfirmasi, kami mulai siapkan sistemnya dan hubungi Anda lewat kontak yang diisi.', 'info');
+        },
+        onError: function(){
+          showMsg('Pembayaran gagal. Silakan coba lagi.', 'error');
+        },
+        onClose: function(){
+          showMsg('Kamu menutup jendela pembayaran sebelum selesai. Klik tombol lagi kalau mau lanjut.', 'error');
+        }
+      });
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Bayar Sekarang';
+    } catch (err) {
+      showMsg('Gagal menghubungi server. Cek koneksi internet kamu.', 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Bayar Sekarang';
+    }
+  });
+</script>
+</body>
+</html>
