@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apa Itu VPS dan Bedanya dengan Shared Hosting? | NAFA Tech</title>
+<meta name="description" content="Penjelasan sederhana perbedaan VPS dan shared hosting, serta kapan sebaiknya bisnis Anda beralih ke VPS.">
+<meta name="keywords" content="apa itu VPS, VPS vs shared hosting, kapan butuh VPS, hosting untuk sistem bisnis">
+<link rel="canonical" href="https://nafatech.web.id/blog/apa-itu-vps-dan-bedanya-dengan-shared-hosting.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apa Itu VPS dan Bedanya dengan Shared Hosting?">
+<meta property="og:description" content="Perbedaan VPS dan shared hosting, serta kapan sebaiknya beralih ke VPS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org", "@type": "Article",
+  "headline": "Apa Itu VPS dan Bedanya dengan Shared Hosting?",
+  "author": { "@type": "Organization", "name": "NAFA Tech" },
+  "publisher": { "@type": "Organization", "name": "NAFA Tech" },
+  "datePublished": "2026-09-15",
+  "description": "Perbedaan VPS dan shared hosting, serta kapan sebaiknya beralih ke VPS.",
+  "mainEntityOfPage": "https://nafatech.web.id/blog/apa-itu-vps-dan-bedanya-dengan-shared-hosting.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apa perbedaan utama shared hosting dan VPS?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Shared hosting berbagi sumber daya server dengan banyak website lain sekaligus, sedangkan VPS punya alokasi sumber daya sendiri yang lebih terjamin meski masih dalam satu server fisik yang sama." }
+    },
+    {
+      "@type": "Question",
+      "name": "Kapan shared hosting masih cukup untuk website bisnis?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Untuk website sederhana dengan trafik rendah dan tidak banyak proses berat, seperti landing page profil bisnis, shared hosting biasanya masih cukup." }
+    },
+    {
+      "@type": "Question",
+      "name": "Kenapa VPS lebih disarankan untuk sistem seperti toko online atau menu resto?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Karena sistem seperti ini memproses transaksi dan data secara real-time, yang butuh sumber daya lebih stabil supaya tidak melambat saat banyak pengunjung mengakses bersamaan." }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah paket dari NAFA Tech menggunakan VPS?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Ya. Semua paket dari NAFA Tech menggunakan hosting VPS dengan Cyberpanel, bukan shared hosting biasa." }
+    }
+  ]
+}
+</script>
+<style>
+  :root{ --navy-950:#0A0E24; --navy-900:#12183B; --navy-800:#1B2354; --gold:#F2A93B; --teal:#33C6B0; --cream:#F5F1E6; --muted:#A7AED0; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--navy-950); color:var(--cream); font-family:'Inter',sans-serif; line-height:1.75;}
+  .container{max-width:720px; margin:0 auto; padding:0 24px;}
+  header{padding:28px 0 0;}
+  .back-link{font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--teal); text-decoration:none; font-weight:600;}
+  .post-tag{display:inline-block; margin-top:20px; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); font-weight:700;}
+  h1{font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,5vw,38px); line-height:1.2; margin:10px 0 14px;}
+  .post-meta{color:var(--muted); font-size:13px; margin-bottom:30px; display:flex; gap:14px; border-bottom:1px solid rgba(255,255,255,.08); padding-bottom:24px;}
+  article{padding:6px 0 20px; font-size:15.5px; color:#DCE1F0;}
+  article h2{font-family:'Space Grotesk',sans-serif; color:var(--cream); font-size:21px; margin:32px 0 12px;}
+  article p{margin-bottom:16px;}
+  table{width:100%; border-collapse:collapse; margin:16px 0 24px; font-size:13.5px;}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid rgba(255,255,255,.1); vertical-align:top;}
+  th{color:var(--teal); font-family:'Space Grotesk',sans-serif; font-size:12px; text-transform:uppercase;}
+  .cta-box{margin:36px 0; padding:24px; background:var(--navy-900); border:1px solid rgba(242,169,59,.3); border-radius:16px; text-align:center;}
+  .cta-box p{color:var(--muted); font-size:14px; margin-bottom:14px;}
+  .cta-btn{display:inline-block; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; background:var(--gold); color:var(--navy-950); text-decoration:none; padding:12px 26px; border-radius:999px;}
+  .faq-section{margin:36px 0 12px;}
+  .faq-item{
+    background:var(--navy-900); border:1px solid rgba(255,255,255,.08);
+    border-radius:14px; padding:18px 20px; margin-bottom:12px;
+  }
+  .faq-q{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px;
+    color:var(--cream); margin-bottom:8px; display:flex; gap:8px;
+  }
+  .faq-q::before{content:"Q:"; color:var(--gold); flex:none;}
+  .faq-a{font-size:14.5px; color:var(--muted); line-height:1.7; padding-left:24px; margin-bottom:0;}
+  footer{text-align:center; padding:24px; color:var(--muted); font-size:12px; border-top:1px solid rgba(255,255,255,.08); margin-top:30px;}
+  footer a{color:var(--gold); text-decoration:none;}
+</style>
+</head>
+<body>
+<header class="container">
+  <a class="back-link" href="index.html">← Semua Artikel</a>
+  <span class="post-tag">Website Bisnis</span>
+  <h1>Apa Itu VPS dan Bedanya dengan Shared Hosting?</h1>
+  <div class="post-meta"><span>📅 Selasa, 15 September 2026</span><span>⏱ 4 menit baca</span><span>✍️ Tim NAFA Tech</span></div>
+</header>
+
+<article class="container">
+  <p>Istilah VPS sering muncul saat membahas hosting website, tapi apa sebenarnya bedanya dengan shared hosting biasa? Berikut penjelasan sederhananya.</p>
+
+  <h2>Shared hosting, sederhananya</h2>
+  <p>Shared hosting adalah satu server fisik yang dipakai bersama oleh ratusan (bahkan ribuan) website lain sekaligus. Sumber daya server (RAM, prosesor) dibagi rata, jadi kalau salah satu website "tetangga" sedang ramai trafik, website Anda ikut terdampak.</p>
+
+  <h2>VPS, sederhananya</h2>
+  <p>VPS (Virtual Private Server) tetap berada di server fisik yang sama dengan website lain, tapi sumber dayanya sudah dialokasikan khusus untuk Anda — seperti punya "kamar sendiri" di dalam satu bangunan, bukan berbagi ruang terbuka dengan semua orang.</p>
+
+  <h2>Perbandingan singkat</h2>
+  <table>
+    <tr><th>Aspek</th><th>Shared Hosting</th><th>VPS</th></tr>
+    <tr><td>Sumber daya</td><td>Dibagi dengan banyak website lain</td><td>Dialokasikan khusus untuk Anda</td></tr>
+    <tr><td>Harga</td><td>Lebih murah</td><td>Lebih mahal, sepadan dengan performa</td></tr>
+    <tr><td>Performa saat trafik naik</td><td>Rawan melambat</td><td>Lebih stabil</td></tr>
+    <tr><td>Kontrol</td><td>Terbatas</td><td>Lebih fleksibel, bisa dikelola sendiri</td></tr>
+  </table>
+
+  <h2>Kapan shared hosting masih cukup?</h2>
+  <p>Untuk website sederhana dengan trafik rendah dan tidak banyak proses berat — seperti landing page profil bisnis tanpa sistem transaksi — shared hosting masih bisa berjalan baik.</p>
+
+  <h2>Kapan sebaiknya pakai VPS?</h2>
+  <p>Kalau website Anda menjalankan sistem yang memproses data secara real-time — seperti toko online, sistem menu resto, atau absensi digital — VPS lebih disarankan supaya performa tetap stabil meski banyak pengguna mengakses bersamaan.</p>
+
+  <h2>Standar NAFA Tech</h2>
+  <p>Semua paket dari NAFA Tech menggunakan hosting VPS dengan Cyberpanel, bukan shared hosting biasa — supaya sistem yang kami bangun tetap responsif, apa pun skala penggunaannya.</p>
+
+  <div class="cta-box">
+    <p>Ingin tahu jenis hosting yang paling sesuai untuk kebutuhan Anda?</p>
+    <a class="cta-btn" href="https://wa.me/6285290078889?text=Hai%20kak%2C%20saya%20mau%20tanya%20soal%20VPS%20untuk%20website%2Fsistem%20bisnis%20saya" target="_blank" rel="noopener">Konsultasi via WhatsApp</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Pertanyaan yang Sering Diajukan</h2>
+    <div class="faq-item">
+      <div class="faq-q">Apa perbedaan utama shared hosting dan VPS?</div>
+      <p class="faq-a">Shared hosting berbagi sumber daya server dengan banyak website lain sekaligus, sedangkan VPS punya alokasi sumber daya sendiri yang lebih terjamin meski masih dalam satu server fisik yang sama.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Kapan shared hosting masih cukup untuk website bisnis?</div>
+      <p class="faq-a">Untuk website sederhana dengan trafik rendah dan tidak banyak proses berat, seperti landing page profil bisnis, shared hosting biasanya masih cukup.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Kenapa VPS lebih disarankan untuk sistem seperti toko online atau menu resto?</div>
+      <p class="faq-a">Karena sistem seperti ini memproses transaksi dan data secara real-time, yang butuh sumber daya lebih stabil supaya tidak melambat saat banyak pengunjung mengakses bersamaan.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Apakah paket dari NAFA Tech menggunakan VPS?</div>
+      <p class="faq-a">Ya. Semua paket dari NAFA Tech menggunakan hosting VPS dengan Cyberpanel, bukan shared hosting biasa.</p>
+    </div>
+  </div>
+</article>
+
+<footer>Baca artikel lainnya di <a href="index.html">Blog NAFA Tech</a></footer>
+</body>
+</html>
