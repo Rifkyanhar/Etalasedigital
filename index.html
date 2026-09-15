@@ -1746,9 +1746,9 @@ document.addEventListener('keydown', e=>{
 });
 
 // auto rotate
-let autoTimer = setPlus Jakarta Sansval(()=> goTo(active+1), 4200);
+let autoTimer = setInterval(()=> goTo(active+1), 4200);
 ['pointerdown','click'].forEach(evt=>{
-  document.querySelector('.stage').addEventListener(evt, ()=>{clearPlus Jakarta Sansval(autoTimer);});
+  document.querySelector('.stage').addEventListener(evt, ()=>{clearInterval(autoTimer);});
 });
 
 // ---- Panel detail ----
