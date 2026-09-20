@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Masuk - NAFA Tech Member Area</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="auth-card">
+    <div class="brand">
+      <div class="brand-logo">N</div>
+      <div class="brand-name">NAFA Tech</div>
+    </div>
+    <h1 class="title">Selamat Datang 👋</h1>
+    <p class="subtitle">Masuk ke akun member area kamu</p>
+
+    <div id="alertBox" class="alert"></div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required placeholder="nama@email.com">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required placeholder="Password kamu">
+      </div>
+      <button type="submit" class="btn-primary" id="submitBtn">Masuk</button>
+    </form>
+
+    <p class="foot-link"><a href="forgot-password.html">Lupa password?</a></p>
+    <p class="foot-link">Belum punya akun? <a href="register.html">Daftar di sini</a></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/supabase-config.js"></script>
+  <script>
+    const form = document.getElementById('loginForm');
+    const alertBox = document.getElementById('alertBox');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function showAlert(message, type) {
+      alertBox.textContent = message;
+      alertBox.className = 'alert alert-' + type;
+      alertBox.style.display = 'block';
+    }
+
+    // Kalau sudah login, langsung lempar ke dashboard
+    (async () => {
+      const { data } = await supabaseClient.auth.getSession();
+      if (data.session) window.location.href = 'dashboard.html';
+    })();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Memproses...';
+      alertBox.style.display = 'none';
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Masuk';
+
+      if (error) {
+        showAlert(error.message === 'Invalid login credentials'
+          ? 'Email atau password salah.'
+          : error.message, 'error');
+        return;
+      }
+
+      window.location.href = 'dashboard.html';
+    });
+  </script>
+</body>
+</html>
