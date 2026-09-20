@@ -1,1 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard - NAFA Tech Member Area</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  body { align-items: flex-start; padding-top: 40px; }
+  [hidden] { display: none !important; }
+  .dash-wrap { width: 100%; max-width: 880px !important; }
 
+  .ord-head { margin: 0 0 4px; font-size: 18px; }
+  .ord-sub { margin: 0 0 16px; font-size: 14px; color: #6b7280; line-height: 1.5; }
+  .ord-badge {
+    display: inline-block; font-size: 12.5px; font-weight: 600; padding: 3px 10px;
+    border-radius: 999px; background: #f3f4f6; color: #374151;
+  }
+  .ord-badge.ok { background: #dcfce7; color: #166534; }
+  .ord-badge.warn { background: #fef3c7; color: #92400e; }
+  .ord-badge.bad { background: #fee2e2; color: #991b1b; }
+  .ord-badge.info { background: #dbeafe; color: #1e40af; }
+
+  /* ---- Tabel pesanan ---- */
+  .ord-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .ord-table th {
+    text-align: left; font-size: 12.5px; color: #6b7280; padding: 8px 10px;
+    border-bottom: 2px solid #e5e7eb; font-weight: 600;
+  }
+  .ord-table td { padding: 10px; border-bottom: 1px solid #f0f1f3; vertical-align: top; line-height: 1.45; }
+  .ord-table tr.detail td { background: #f9fafb; }
+  .ord-btn {
+    border: 1px solid #d1d5db; background: #fff; color: #111827; border-radius: 8px;
+    padding: 6px 12px; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .ord-mini {
+    margin-left: 8px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px;
+    padding: 2px 8px; font-size: 12px; cursor: pointer;
+  }
+
+  @media (max-width: 640px) {
+    .ord-table thead { display: none; }
+    .ord-table, .ord-table tbody, .ord-table tr, .ord-table td { display: block; width: 100%; }
+    .ord-table tbody.ord-group { margin-top: 12px; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; }
+    .ord-table td { padding: 6px 12px; border: none; }
+    .ord-table td::before {
+      content: attr(data-label); display: block; font-size: 11.5px; color: #9ca3af; font-weight: 600;
+    }
+    .ord-table td[data-label=""]::before { display: none; }
+    .ord-table tr.main { padding: 8px 0 4px; }
+    .ord-table tr.detail td { padding: 10px 12px; }
+  }
+
+  /* ---- Rincian ---- */
+  .ord-steps { display: flex; align-items: flex-start; margin: 4px 0 12px; }
+  .ord-step { flex: 1; text-align: center; position: relative; font-size: 12px; color: #9ca3af; }
+  .ord-step::before {
+    content: ""; position: absolute; top: 8px; left: -50%; width: 100%; height: 3px;
+    background: #e5e7eb; z-index: 0;
+  }
+  .ord-step:first-child::before { display: none; }
+  .ord-dot { position: relative; z-index: 1; width: 18px; height: 18px; border-radius: 50%; background: #e5e7eb; margin: 0 auto 6px; }
+  .ord-step.done { color: #166534; }
+  .ord-step.done .ord-dot { background: #22c55e; }
+  .ord-step.done::before { background: #22c55e; }
+  .ord-step.now { color: #1e40af; font-weight: 700; }
+  .ord-step.now .ord-dot { background: #3b82f6; box-shadow: 0 0 0 4px #dbeafe; }
+  .ord-step.now::before { background: #22c55e; }
+
+  .ord-meta { margin: 8px 0 0; padding: 0; list-style: none; font-size: 13.5px; color: #4b5563; line-height: 1.8; word-break: break-word; }
+  .ord-meta b { color: #111827; font-weight: 600; }
+  .ho-box { margin-top: 12px; padding: 12px; border: 1px solid #bbf7d0; background: #f0fdf4; border-radius: 10px; }
+  .ho-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; color: #166534; }
+  .ho-warn { margin: 10px 0 0; font-size: 12.5px; color: #92400e; line-height: 1.5; }
+  .ho-wait { margin: 12px 0 0; font-size: 13.5px; color: #4b5563; }
+
+  .ord-empty, .ord-error { font-size: 14.5px; line-height: 1.6; margin: 0; }
+  .ord-error { color: #991b1b; }
+  .ord-wa {
+    display: inline-block; margin-top: 12px; padding: 10px 16px; border-radius: 999px;
+    background: #16a34a; color: #fff; text-decoration: none; font-weight: 600; font-size: 14px;
+  }
+  .ord-unverified {
+    background: #fef3c7; color: #92400e; border-radius: 10px; padding: 10px 12px;
+    font-size: 13.5px; line-height: 1.5; margin: 12px 0 0;
+  }
+
+  /* ---- Tiket ---- */
+  .tk-form label { display: block; font-size: 12.5px; font-weight: 600; color: #6b7280; margin: 12px 0 5px; }
+  .tk-form input, .tk-form select, .tk-form textarea {
+    width: 100%; padding: 10px 11px; border: 1px solid #d1d5db; border-radius: 9px;
+    font-size: 15px; font-family: inherit; background: #fff; color: #111827;
+  }
+  .tk-form textarea { min-height: 90px; resize: vertical; }
+  .tk-submit {
+    margin-top: 14px; width: 100%; padding: 12px; border: none; border-radius: 10px;
+    background: #2563eb; color: #fff; font-size: 15px; font-weight: 700; cursor: pointer;
+  }
+  .tk-submit:disabled { opacity: .6; cursor: not-allowed; }
+  .tk-msg { font-size: 13.5px; margin-top: 10px; line-height: 1.5; }
+  .tk-msg.ok { color: #166534; }
+  .tk-msg.err { color: #991b1b; }
+  .tk-item { border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; margin-top: 12px; }
+  .tk-top { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
+  .tk-subject { font-weight: 700; font-size: 14.5px; }
+  .tk-date { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+  .tk-text { margin: 8px 0 0; font-size: 14px; color: #374151; white-space: pre-wrap; line-height: 1.5; }
+  .tk-reply { margin-top: 10px; padding: 10px; background: #eff6ff; border-radius: 8px; font-size: 14px; white-space: pre-wrap; line-height: 1.5; }
+  .tk-reply b { display: block; font-size: 12px; color: #1e40af; margin-bottom: 3px; }
+</style>
+</head>
+<body>
+  <div id="loadingScreen" class="loading-screen">Memuat...</div>
+
+  <div id="dashContent" class="dash-wrap" style="display:none;">
+    <div class="dash-card">
+      <div class="dash-header">
+        <h1>Halo, <span id="userName">Member</span> 👋</h1>
+        <button class="btn-logout" id="logoutBtn">Keluar</button>
+      </div>
+      <p class="user-email" id="userEmail"></p>
+      <div id="unverifiedNote" class="ord-unverified" style="display:none;">
+        Email kamu belum terverifikasi. Cek kotak masuk (atau folder spam) untuk link verifikasi, supaya pesananmu bisa tampil di sini.
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <h2 class="ord-head">Pesanan &amp; Progress Pengerjaan</h2>
+      <p class="ord-sub">Pesanan ditampilkan berdasarkan email akun ini. Pastikan email yang dipakai sama dengan email saat order. Tekan "Lihat" untuk rincian, dan setelah pekerjaan selesai, data serah terima produk akan muncul di sana.</p>
+      <div id="ordersBox">Memuat pesanan...</div>
+    </div>
+
+    <div class="dash-card tk-form">
+      <h2 class="ord-head">Tiket Bantuan</h2>
+      <p class="ord-sub">Ada kendala dengan produk atau pesananmu? Kirim tiket, tim NAFA Tech akan membalas di sini.</p>
+      <label for="tkSubject">Judul</label>
+      <input id="tkSubject" maxlength="120" placeholder="Contoh: Tidak bisa login akun kasir">
+      <label for="tkOrder">Terkait pesanan (opsional)</label>
+      <select id="tkOrder"><option value="">— Tidak terkait pesanan tertentu —</option></select>
+      <label for="tkMessage">Ceritakan kendalanya</label>
+      <textarea id="tkMessage" maxlength="2000" placeholder="Jelaskan apa yang terjadi, sejak kapan, dan pesan error yang muncul (kalau ada)."></textarea>
+      <button class="tk-submit" id="tkSubmit" type="button">Kirim Tiket</button>
+      <div class="tk-msg" id="tkMsg"></div>
+      <div id="tkList"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/supabase-config.js"></script>
+  <script>
+    const WA_LINK = 'https://wa.me/6285290078889';
+    const $ = (id) => document.getElementById(id);
+
+    const STATUS_LABEL = {
+      waiting: ['Menunggu antrian', 'warn'],
+      in_progress: ['Progress', 'info'],
+      done: ['Selesai', 'ok'],
+      cancelled: ['Dibatalkan', 'bad']
+    };
+    const PAYMENT_LABEL = {
+      unpaid: 'Belum dibayar', pending: 'Menunggu pembayaran', verifying: 'Pembayaran diverifikasi',
+      paid: 'Lunas', failed: 'Pembayaran gagal', expired: 'Pembayaran kedaluwarsa'
+    };
+    const TICKET_LABEL = {
+      open: ['Menunggu', 'warn'], in_progress: ['Diproses', 'info'], resolved: ['Selesai', 'ok']
+    };
+    const TYPE_LABEL = {
+      langganan: 'Langganan', resto_qr: 'Web App Resto QR',
+      otp: 'Produk sekali bayar (OTP)', lainnya: 'Lainnya'
+    };
+    const STEPS = ['Antrian', 'Progress', 'Selesai'];
+    const STEP_INDEX = { waiting: 0, in_progress: 1, done: 2 };
+
+    let ORDERS = [];
+
+    function el(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text !== undefined && text !== null) node.textContent = text;
+      return node;
+    }
+    function fmtDate(iso) {
+      if (!iso) return null;
+      const d = new Date(iso);
+      if (isNaN(d)) return null;
+      return d.toLocaleString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+    function addMeta(list, label, value) {
+      if (!value) return;
+      const li = document.createElement('li');
+      li.appendChild(el('b', null, label + ': '));
+      li.appendChild(document.createTextNode(value));
+      list.appendChild(li);
+    }
+    function addSecret(list, label, value) {
+      if (!value) return;
+      const li = document.createElement('li');
+      li.appendChild(el('b', null, label + ': '));
+      const mask = '••••••••';
+      const span = el('span', null, mask);
+      const btn = el('button', 'ord-mini', 'Tampilkan');
+      btn.type = 'button';
+      let shown = false;
+      btn.addEventListener('click', () => {
+        shown = !shown;
+        span.textContent = shown ? value : mask;
+        btn.textContent = shown ? 'Sembunyikan' : 'Tampilkan';
+      });
+      li.appendChild(span);
+      li.appendChild(btn);
+      list.appendChild(li);
+    }
+    function cell(label, text) {
+      const td = el('td', null, text);
+      td.dataset.label = label;
+      return td;
+    }
+
+    // ---------- Rincian serah terima ----------
+    function renderHandover(o) {
+      const box = el('div', 'ho-box');
+      box.appendChild(el('div', 'ho-title', 'Serah Terima Produk'));
+      const has = o.product_name || o.github_repo || o.handover_domain || o.product_login ||
+        o.product_password || o.kitchen_email || o.kitchen_password ||
+        o.cashier_email || o.cashier_password || o.handover_notes;
+      if (!has) {
+        box.appendChild(el('p', 'ho-wait', 'Pekerjaan sudah selesai. Rincian akses produk sedang disiapkan admin dan akan muncul di sini.'));
+        return box;
+      }
+      const list = el('ul', 'ord-meta');
+      addMeta(list, 'Jenis produk', TYPE_LABEL[o.handover_type]);
+      addMeta(list, 'Produk / layanan', o.product_name);
+      addMeta(list, 'Repo GitHub', o.github_repo);
+      addMeta(list, 'Domain', o.handover_domain);
+      addMeta(list, 'Login produk', o.product_login);
+      addSecret(list, 'Password produk', o.product_password);
+      addMeta(list, 'Email dapur', o.kitchen_email);
+      addSecret(list, 'Password dapur', o.kitchen_password);
+      addMeta(list, 'Email kasir', o.cashier_email);
+      addSecret(list, 'Password kasir', o.cashier_password);
+      addMeta(list, 'Catatan', o.handover_notes);
+      box.appendChild(list);
+      if (o.product_password || o.kitchen_password || o.cashier_password) {
+        box.appendChild(el('p', 'ho-warn',
+          '⚠️ Ini password awal untuk akun di dalam produk. Segera ganti setelah login pertama, dan jangan bagikan ke orang lain.'));
+      }
+      return box;
+    }
+
+    function renderDetail(o) {
+      const wrap = el('div');
+      if (o.status !== 'cancelled') {
+        const idx = STEP_INDEX[o.status] ?? 0;
+        const steps = el('div', 'ord-steps');
+        STEPS.forEach((label, i) => {
+          let cls = 'ord-step';
+          if (o.status === 'done' || i < idx) cls += ' done';
+          else if (i === idx) cls += ' now';
+          const s = el('div', cls);
+          s.appendChild(el('div', 'ord-dot'));
+          s.appendChild(document.createTextNode(label));
+          steps.appendChild(s);
+        });
+        wrap.appendChild(steps);
+      }
+      const meta = el('ul', 'ord-meta');
+      if (o.queue_number) addMeta(meta, 'Nomor antrian', '#' + o.queue_number);
+      addMeta(meta, 'Pembayaran', PAYMENT_LABEL[o.payment_status] || o.payment_status);
+      if (o.price !== null && o.price !== undefined) addMeta(meta, 'Harga', 'Rp' + Number(o.price).toLocaleString('id-ID'));
+      if (o.domain_name) addMeta(meta, 'Domain dipesan', o.domain_name + (o.domain_ext || ''));
+      addMeta(meta, 'Dipesan', fmtDate(o.created_at));
+      addMeta(meta, 'Mulai dikerjakan', fmtDate(o.started_at));
+      addMeta(meta, 'Selesai', fmtDate(o.completed_at));
+      addMeta(meta, 'Dibayar', fmtDate(o.paid_at));
+      wrap.appendChild(meta);
+      if (o.status === 'done') wrap.appendChild(renderHandover(o));
+      return wrap;
+    }
+
+    // ---------- Tabel ----------
+    function renderOrderGroup(o) {
+      const tb = el('tbody', 'ord-group');
+      const tr = el('tr', 'main');
+      tr.appendChild(cell('Nama', o.customer_name || '-'));
+      tr.appendChild(cell('WhatsApp', o.contact || '-'));
+      tr.appendChild(cell('Jenis Pekerjaan', o.service_name || '-'));
+
+      const st = STATUS_LABEL[o.status] || [o.status || '-', ''];
+      const tdSt = el('td');
+      tdSt.dataset.label = 'Status';
+      tdSt.appendChild(el('span', 'ord-badge ' + st[1], st[0]));
+      tr.appendChild(tdSt);
+
+      const tdBtn = el('td');
+      tdBtn.dataset.label = '';
+      const btn = el('button', 'ord-btn', 'Lihat');
+      btn.type = 'button';
+      tdBtn.appendChild(btn);
+      tr.appendChild(tdBtn);
+      tb.appendChild(tr);
+
+      const dr = el('tr', 'detail');
+      dr.hidden = true;
+      const dtd = el('td');
+      dtd.colSpan = 5;
+      dtd.appendChild(renderDetail(o));
+      dr.appendChild(dtd);
+      tb.appendChild(dr);
+
+      btn.addEventListener('click', () => {
+        dr.hidden = !dr.hidden;
+        btn.textContent = dr.hidden ? 'Lihat' : 'Tutup';
+      });
+      return tb;
+    }
+
+    function renderOrders(orders) {
+      const box = $('ordersBox');
+      box.textContent = '';
+      const table = el('table', 'ord-table');
+      const thead = el('thead');
+      const hr = el('tr');
+      ['Nama', 'WhatsApp', 'Jenis Pekerjaan', 'Status', 'Rincian'].forEach(h => hr.appendChild(el('th', null, h)));
+      thead.appendChild(hr);
+      table.appendChild(thead);
+      orders.forEach(o => table.appendChild(renderOrderGroup(o)));
+      box.appendChild(table);
+    }
+
+    function showMessage(box, className, text, withWa) {
+      box.textContent = '';
+      box.appendChild(el('p', className, text));
+      if (withWa) {
+        const a = el('a', 'ord-wa', 'Hubungi kami via WhatsApp');
+        a.href = WA_LINK; a.target = '_blank'; a.rel = 'noopener';
+        box.appendChild(a);
+      }
+    }
+
+    async function loadOrders() {
+      const box = $('ordersBox');
+      const { data, error } = await supabaseClient.rpc('get_my_orders');
+      if (error) {
+        console.error('[Member Area] Gagal memuat pesanan:', error);
+        showMessage(box, 'ord-error', 'Data pesanan belum bisa dimuat saat ini. Coba lagi nanti atau hubungi kami.', true);
+        return;
+      }
+      ORDERS = data || [];
+      if (ORDERS.length === 0) {
+        showMessage(box, 'ord-empty',
+          'Belum ada pesanan yang terhubung dengan email ini. Kalau kamu sudah order, pastikan mendaftar dengan email yang sama saat order, atau hubungi kami.', true);
+        return;
+      }
+      renderOrders(ORDERS);
+      const sel = $('tkOrder');
+      ORDERS.forEach(o => {
+        const opt = document.createElement('option');
+        opt.value = o.id;
+        opt.textContent = (o.service_name || 'Pesanan') + (o.queue_number ? ' (#' + o.queue_number + ')' : '');
+        sel.appendChild(opt);
+      });
+    }
+
+    // ---------- Tiket ----------
+    async function loadTickets() {
+      const box = $('tkList');
+      const { data, error } = await supabaseClient.rpc('get_my_tickets');
+      box.textContent = '';
+      if (error || !data) return;
+      data.forEach(t => {
+        const item = el('div', 'tk-item');
+        const top = el('div', 'tk-top');
+        const left = el('div');
+        left.appendChild(el('div', 'tk-subject', t.subject));
+        left.appendChild(el('div', 'tk-date', fmtDate(t.created_at) + (t.order_queue ? ' · Pesanan #' + t.order_queue : '')));
+        top.appendChild(left);
+        const st = TICKET_LABEL[t.status] || [t.status, ''];
+        top.appendChild(el('span', 'ord-badge ' + st[1], st[0]));
+        item.appendChild(top);
+        item.appendChild(el('p', 'tk-text', t.message));
+        if (t.admin_reply) {
+          const r = el('div', 'tk-reply');
+          r.appendChild(el('b', null, 'Balasan NAFA Tech'));
+          r.appendChild(document.createTextNode(t.admin_reply));
+          item.appendChild(r);
+        }
+        box.appendChild(item);
+      });
+    }
+
+    async function notifyAdmin(subject, message, userEmail) {
+      // Notifikasi email ke admin lewat function yang sudah ada.
+      // Kalau gagal, tiket tetap tersimpan di database.
+      try {
+        await supabaseClient.functions.invoke('send-admin-email', {
+          body: {
+            template_params: {
+              queue_number: 'TIKET',
+              customer_name: userEmail,
+              contact: userEmail,
+              service_name: 'Tiket Bantuan: ' + subject,
+              source_lp: 'Member Area',
+              notes: message,
+              order_time: new Date().toLocaleString('id-ID')
+            }
+          }
+        });
+      } catch (e) { console.warn('[Member Area] Notifikasi email tiket gagal:', e); }
+    }
+
+    $('tkSubmit').addEventListener('click', async () => {
+      const msg = $('tkMsg');
+      const btn = $('tkSubmit');
+      const subject = $('tkSubject').value.trim();
+      const message = $('tkMessage').value.trim();
+      const orderId = $('tkOrder').value || null;
+      msg.className = 'tk-msg';
+      if (subject.length < 3 || message.length < 5) {
+        msg.classList.add('err');
+        msg.textContent = 'Judul minimal 3 karakter dan isi kendala minimal 5 karakter.';
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = 'Mengirim...';
+      const { error } = await supabaseClient.rpc('create_my_ticket', {
+        p_subject: subject, p_message: message, p_order_id: orderId
+      });
+      btn.disabled = false;
+      btn.textContent = 'Kirim Tiket';
+      if (error) {
+        msg.classList.add('err');
+        msg.textContent = 'Tiket gagal dikirim: ' + error.message;
+        return;
+      }
+      msg.classList.add('ok');
+      msg.textContent = 'Tiket terkirim. Tim kami akan membalas di sini.';
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      notifyAdmin(subject, message, session ? session.user.email : '-');
+      $('tkSubject').value = '';
+      $('tkMessage').value = '';
+      $('tkOrder').value = '';
+      loadTickets();
+    });
+
+    // ---------- Mulai ----------
+    (async () => {
+      const { data } = await supabaseClient.auth.getSession();
+      if (!data.session) { window.location.href = 'login.html'; return; }
+
+      const user = data.session.user;
+      $('userName').textContent = (user.user_metadata && user.user_metadata.full_name) || 'Member';
+      $('userEmail').textContent = user.email;
+      if (!user.email_confirmed_at) $('unverifiedNote').style.display = 'block';
+
+      $('loadingScreen').style.display = 'none';
+      $('dashContent').style.display = 'block';
+
+      loadOrders();
+      loadTickets();
+    })();
+
+    $('logoutBtn').addEventListener('click', async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = 'login.html';
+    });
+
+    supabaseClient.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>
