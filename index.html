@@ -70,7 +70,8 @@
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Absensi Digital untuk Instansi dan Guru" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Pembuatan Sistem Menu Resto Scan Barcode (QR)" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Pembuatan Website" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Pembuatan Website Toko Online" } }
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Pembuatan Website Toko Online" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Pembuatan Website Donasi" } }
     ]
   }
 }
@@ -127,7 +128,7 @@
       "name": "Layanan apa saja yang tersedia di NAFA Tech?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "NAFA Tech menyediakan jasa absensi digital untuk instansi dan guru, jasa pembuatan sistem menu resto scan barcode (QR), jasa pembuatan website profesional, dan jasa pembuatan website toko online — semuanya berbasis di Semarang."
+        "text": "NAFA Tech menyediakan jasa absensi digital untuk instansi dan guru, jasa pembuatan sistem menu resto scan barcode (QR), jasa pembuatan website profesional, jasa pembuatan website toko online, dan jasa pembuatan website donasi — semuanya berbasis di Semarang."
       }
     }
   ]
@@ -865,6 +866,19 @@
     .stage{height:400px;}
     .ring{width:250px; height:250px;}
   }
+
+  /* ---------- OPSI MIDTRANS (opsional) ---------- */
+  .mt-opt{
+    background:rgba(51,198,176,.08); border:1px solid rgba(51,198,176,.3);
+    border-radius:14px; padding:12px 14px; margin-bottom:16px;
+    font-size:14px; line-height:1.6; color:var(--cream);
+  }
+  .mt-opt-check{ display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-weight:600; }
+  .mt-opt-check input{ flex:none; width:18px; height:18px; margin-top:3px; accent-color:var(--teal); }
+  .mt-opt-check em{ font-style:normal; font-weight:500; color:var(--muted); }
+  .mt-opt-detail{ margin-top:10px; padding-top:10px; border-top:1px dashed rgba(51,198,176,.35); color:var(--muted); }
+  .mt-opt-detail a{ color:var(--teal); font-weight:600; text-decoration:underline; }
+  .mt-opt-skip{ margin-top:8px; font-size:12.5px; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -929,7 +943,7 @@
       </ul>
     </div>
     <div class="stat-strip">
-      <div class="stat-card"><div class="v">4</div><div class="l">Lini layanan digital — website, toko online, sistem resto & absensi</div></div>
+      <div class="stat-card"><div class="v">5</div><div class="l">Lini layanan digital — website, toko online, donasi, sistem resto & absensi</div></div>
       <div class="stat-card"><div class="v">1 Tahun</div><div class="l">Maintenance penuh di setiap paket utama</div></div>
       <div class="stat-card"><div class="v">100%</div><div class="l">Proyek melalui pengecekan keamanan sebelum serah terima</div></div>
     </div>
@@ -981,6 +995,7 @@
       <a href="jasa-absensi-digital-guru.html"><span>Jasa Absensi Digital Guru</span><span class="arrow">→</span></a>
       <a href="jasa-menu-resto-qr.html"><span>Jasa Menu Resto Scan QR</span><span class="arrow">→</span></a>
       <a href="jasa-pembuatan-website.html"><span>Jasa Pembuatan Website</span><span class="arrow">→</span></a>
+      <a href="jasa-pembuatan-website-donasi.html"><span>Jasa Pembuatan Website Donasi</span><span class="arrow">→</span></a>
     </div>
   </div>
 </section>
@@ -1101,7 +1116,7 @@
     </div>
     <div class="faq-item">
       <button class="faq-q"><span>Layanan apa saja yang tersedia di NAFA Tech?</span><span class="plus">+</span></button>
-      <div class="faq-a">NAFA Tech menyediakan jasa absensi digital untuk instansi dan guru, jasa pembuatan sistem menu resto scan barcode (QR), jasa pembuatan website profesional, dan jasa pembuatan website toko online — semuanya berbasis di Semarang.</div>
+      <div class="faq-a">NAFA Tech menyediakan jasa absensi digital untuk instansi dan guru, jasa pembuatan sistem menu resto scan barcode (QR), jasa pembuatan website profesional, jasa pembuatan website toko online, dan jasa pembuatan website donasi — semuanya berbasis di Semarang.</div>
     </div>
   </div>
 </section>
@@ -1143,6 +1158,7 @@
       <div class="panel-title" id="panelTitle"></div>
       <div class="panel-desc" id="panelDesc"></div>
       <div class="requirement-notice" id="panelRequirementNote" style="display:none;"></div>
+      <div id="panelMidtransOptional" style="display:none;"></div>
       <div class="pending-price-notice" id="panelPendingPrice" style="display:none;"></div>
       <div class="panel-products" id="panelProducts"></div>
       <div class="panel-grid" id="panelStats"></div>
@@ -1531,7 +1547,8 @@ const BUSINESSES = [
     img:"image/qrresto.jpg",
     cat:"03 · Resto Digital · Scan Barcode / QR Code Ordering · Semarang",
     desc:"Pesan Makanan, Cukup Scan Barcode di Meja Anda. NAFA Tech (Semarang) menyediakan jasa pembuatan sistem menu resto scan barcode berbasis QR Code — tanpa kertas menu, tanpa antre, tanpa ribet. Pelanggan puas, omzet naik. Sistem siap operasional langsung dengan keamanan data yang sudah diaudit.",
-    requirementNote:"✅ Wajib daftar akun merchant Midtrans (pembayaran digital resmi berizin Bank Indonesia & Kominfo) — supaya pembayaran pelanggan resto Anda masuk otomatis lewat sistem, cepat diproses resto & terhindar dari pesanan fiktif. Prosesnya cukup <b>sekali di awal</b> dan dipandu langkah demi langkah. <a href=\"https://rifkyanhar.github.io/tutorial-merchant-midtrans\" target=\"_blank\" rel=\"noopener\">Lihat cara daftarnya di sini →</a>",
+    midtransOptional:true,
+    midtransOptionalText:"Dengan Midtrans (berizin Bank Indonesia & Kominfo), pembayaran pelanggan resto Anda masuk otomatis lewat sistem dan lebih cepat diproses. Prosesnya cukup sekali di awal dan dipandu langkah demi langkah.",
     stats:[["Rp700rb","Mulai dari — Fitur Khusus"],["Rp6,75jt","Fitur Komplit — sudah termasuk domain"],["Per Meja","QR unik anti tertukar"]],
     featuresKhusus:[
       "Print Kode QR maksimal 30 meja",
@@ -1615,12 +1632,54 @@ const BUSINESSES = [
     ]
   },
   {
+    id:"webdonasi",
+    tag:"Jasa Digital",
+    name:"Jasa Pembuatan Website Donasi",
+    // Nama di bawah HARUS sama persis dengan kolom name di tabel service_types (dipakai form order sebagai pengunci layanan)
+    orderServiceName:"Jasa Pembuatan Website Donasi",
+    short:"Website donasi transparan untuk yayasan, masjid, sekolah, dan komunitas.",
+    img:"image/web-donasi.svg",
+    cat:"06 · Jasa Profesional & Terpercaya",
+    desc:"Galang donasi online yang transparan, tanpa rekap manual. Halaman kampanye lengkap, verifikasi donasi, kuitansi, dan laporan penyaluran dalam satu website yang bisa Anda kelola sendiri. Pilih sekali bayar (OTP) atau coba dulu lewat langganan bulanan.",
+    midtransOptional:true,
+    midtransOptionalText:"Dengan Midtrans (berizin Bank Indonesia & Kominfo), donasi masuk otomatis tanpa perlu mencocokkan bukti transfer satu per satu. Prosesnya cukup sekali di awal dan dipandu langkah demi langkah.",
+    stats:[["Rp750rb","Sekali bayar (OTP)"],["Rp250rb","Langganan / bulan"],["+Rp250rb","Domain pribadi (opsional)"]],
+    // ===== Daftar fitur di bawah ini bebas Anda edit sendiri (maksimal 10 baris per tabel) =====
+    featuresKhusus:[
+      "Halaman kampanye: cerita, foto, target, progres dana, dan kabar terbaru",
+      "Donasi via transfer bank & QRIS dengan unggah bukti",
+      "Verifikasi admin dan kuitansi donasi",
+      "Laporan penyaluran dana yang terbuka",
+      "Dasbor admin dengan ringkasan dan grafik",
+      "Tombol dukung dan pesan doa dari donatur",
+      "Tombol bagikan kampanye lewat WhatsApp",
+      "Tampilan rapi di HP, tablet, dan desktop"
+    ],
+    featuresKomplit:[
+      "Semua fitur pada tabel Fitur Khusus",
+      "Pengaturan Situs: logo, favicon, warna tema, nama, dan teks beranda diubah sendiri",
+      "Domain pribadi .com / .id (opsional, +Rp250.000, dipilih di form order)",
+      "Pembayaran otomatis lewat Midtrans (opsional, merchant didaftarkan sendiri)",
+      "Maintenance & pendampingan 1 tahun (paket sekali bayar)",
+      "Setiap sistem melewati security audit sebelum diserahkan"
+    ],
+    // Satu harga (OTP) -> tombol order ada di bawah, bukan di tiap tabel. Hapus baris ini bila nanti dibuat 2 paket
+    // (lalu isi orderServiceName / orderServiceIdKomplit seperti produk Resto QR).
+    hideTableOrderButtons:true,
+    cta:[
+      ["Order Sekali Bayar — Rp750.000","primary", orderLink(null, "Jasa Pembuatan Website Donasi")],
+      ["Langganan Rp250.000 / bulan","alt","promo/langganan.html?product=web-donasi"],
+      ["Lihat Halaman Lengkap","ghost","jasa-pembuatan-website-donasi.html"],
+      ["Coba Demo","ghost","https://www.donasipeduli.web.id"]
+    ]
+  },
+  {
     id:"tokokelontong",
     tag:"Sistem Digital",
     name:"Toko Kelontong Online (Segera Hadir)",
     short:"Toko kelontong Anda, buka 24 jam dari genggaman pelanggan — pesan dan bayar cukup dari rumah.",
     img:"image/toko-kelontong.svg",
-    cat:"06 · Sistem Digital Karya Sendiri · Segera Hadir",
+    cat:"07 · Sistem Digital Karya Sendiri · Segera Hadir",
     desc:"Toko Kelontong Online dari NAFA Tech menghadirkan toko Anda ke rumah pelanggan — tanpa mereka perlu keluar rumah sama sekali. Pelanggan memesan barang lewat aplikasi web khusus dari HP masing-masing, membayar otomatis lewat sistem pembayaran digital, dan pesanan diantar cepat oleh kurir instan. Praktis untuk pelanggan, dan membuka jangkauan penjualan toko Anda lebih luas tanpa menambah tenaga kerja.",
     comingSoon:true,
     requirementNote:"✅ Wajib daftar akun merchant Midtrans (payment gateway resmi berizin Bank Indonesia & Kominfo) — supaya pembayaran pelanggan toko Anda masuk lewat jalur resmi & aman, bukan transfer manual ke rekening pribadi. Prosesnya cukup <b>sekali di awal</b> dan dipandu langkah demi langkah. <a href=\"https://rifkyanhar.github.io/tutorial-merchant-midtrans\" target=\"_blank\" rel=\"noopener\">Lihat cara daftarnya di sini →</a>",
@@ -1787,8 +1846,43 @@ function renderFeatureTable(items, badgeClass, badgeLabel, orderHref, orderLabel
       <div class="table-scroll">
         <table class="panel-table"><tbody>${rows}</tbody></table>
       </div>
-      <a class="cta alt panel-table-order" href="${orderHref}" target="_blank" rel="noopener">${orderLabel}</a>
+      ${orderHref ? `<a class="cta alt panel-table-order" href="${orderHref}" target="_blank" rel="noopener">${orderLabel}</a>` : ''}
     </div>`;
+}
+
+const MIDTRANS_TUTORIAL_URL = "https://rifkyanhar.github.io/tutorial-merchant-midtrans";
+
+function setMidtransParam(href, on){
+  try{
+    const u = new URL(href, window.location.href);
+    if(on) u.searchParams.set('midtrans','ya'); else u.searchParams.delete('midtrans');
+    return u.toString();
+  }catch(e){ return href; }
+}
+
+// Midtrans OPSIONAL: tutorial baru muncul kalau pelanggan mencentang. Kalau tidak, langsung lanjut.
+// Pilihan ikut dikirim ke form order/langganan lewat parameter ?midtrans=ya
+function renderMidtransOptional(b){
+  const el = document.getElementById('panelMidtransOptional');
+  if(!b.midtransOptional){ el.style.display='none'; el.innerHTML=''; return; }
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="mt-opt">
+      <label class="mt-opt-check"><input type="checkbox" id="panelMidtransChk"> <span>Saya ingin mengaktifkan pembayaran otomatis lewat Midtrans <em>(opsional)</em></span></label>
+      <div class="mt-opt-detail" id="panelMidtransDetail" hidden>
+        ${b.midtransOptionalText || ''}<br>
+        <a href="${MIDTRANS_TUTORIAL_URL}" target="_blank" rel="noopener">Lihat cara daftar merchant Midtrans →</a>
+      </div>
+      <p class="mt-opt-skip">Boleh dilewati — lanjutkan saja ke tahap berikutnya.</p>
+    </div>`;
+  const chk = document.getElementById('panelMidtransChk');
+  const detail = document.getElementById('panelMidtransDetail');
+  const links = Array.from(document.querySelectorAll('#panelFeatureTables a, #panelCta a'))
+    .filter(a => /pesan\.html|langganan\.html/.test(a.getAttribute('href') || ''));
+  chk.addEventListener('change', ()=>{
+    detail.hidden = !chk.checked;
+    links.forEach(a => { a.href = setMidtransParam(a.href, chk.checked); });
+  });
 }
 
 function showProduct(b){
@@ -1807,8 +1901,8 @@ function showProduct(b){
     const khususHref = b.orderLinkKhusus || orderLink(b.orderServiceId, b.orderServiceName || b.name);
     const komplitHref = b.orderLinkKomplit || orderLink(b.orderServiceIdKomplit, (b.orderServiceName || b.name) + ' (Fitur Komplit)');
     tablesEl.innerHTML =
-      renderFeatureTable(b.featuresKhusus, 'khusus', 'Fitur Khusus', khususHref, 'Order Sekarang — Fitur Khusus') +
-      renderFeatureTable(b.featuresKomplit, 'komplit', 'Fitur Komplit', komplitHref, 'Order Sekarang — Fitur Komplit');
+      renderFeatureTable(b.featuresKhusus, 'khusus', 'Fitur Khusus', b.hideTableOrderButtons ? null : khususHref, 'Order Sekarang — Fitur Khusus') +
+      renderFeatureTable(b.featuresKomplit, 'komplit', 'Fitur Komplit', b.hideTableOrderButtons ? null : komplitHref, 'Order Sekarang — Fitur Komplit');
   } else {
     tablesEl.style.display = 'none';
     tablesEl.innerHTML = '';
@@ -1854,6 +1948,7 @@ function showProduct(b){
 
   const secondaryHtml = b.cta.map(c=>`<a class="cta ${c[1]}" href="${c[2]}" target="_blank" rel="noopener">${c[0]}</a>`).join('');
   document.getElementById('panelCta').innerHTML = primaryHtml + secondaryHtml + `<button class="cta ghost" onclick="closePanel()">Tutup</button>`;
+  renderMidtransOptional(b);
 }
 
 function showFolder(b){
@@ -1960,6 +2055,17 @@ buildDots();
 buildStrip();
 update();
 window.addEventListener('resize', ()=>{ buildCards(); update(); });
+
+// Deep link dari halaman lain, mis. index.html?buka=webdonasi#layanan -> langsung buka panel produk itu
+(function(){
+  const target = new URLSearchParams(window.location.search).get('buka');
+  if(!target) return;
+  const idx = BUSINESSES.findIndex(b => b.id === target);
+  if(idx < 0) return;
+  clearInterval(autoTimer);
+  goTo(idx);
+  openPanel(idx);
+})();
 </script>
 
 <script src="https://rifkyanhar.github.io/promo-popup-widget/promo-popup.js" defer></script>
