@@ -78,6 +78,19 @@
   .msg.info{ display:block; background:rgba(51,198,176,.1); border:1px solid rgba(51,198,176,.3); color:var(--cream); }
   .note{ font-size:12px; color:var(--muted); text-align:center; margin-top:20px; line-height:1.6; }
   .note a{ color:var(--teal); }
+
+  /* ---- Midtrans OPSIONAL: tutorial baru muncul kalau dicentang ---- */
+  .mt-opt{
+    background:rgba(51,198,176,.08); border:1px solid rgba(51,198,176,.3);
+    border-radius:12px; padding:12px 14px; margin:0 0 18px;
+    font-size:13px; line-height:1.6; color:var(--cream);
+  }
+  .mt-opt-check{ display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-weight:600; color:var(--cream); font-size:13.5px; margin:0; }
+  .mt-opt-check input{ flex:none; width:18px; height:18px; margin:2px 0 0; padding:0; accent-color:var(--teal); }
+  .mt-opt-check em{ font-style:normal; font-weight:500; color:var(--muted); }
+  .mt-opt-detail{ margin-top:10px; padding-top:10px; border-top:1px dashed rgba(51,198,176,.35); color:var(--muted); }
+  .mt-opt-detail a{ color:var(--teal); font-weight:600; text-decoration:underline; }
+  .mt-opt-skip{ margin-top:8px; font-size:12px; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -107,7 +120,7 @@
     <div id="serviceLockHint" class="note" style="display:none; text-align:left; margin:-10px 0 16px;">🔒 Produk ini sudah ditentukan dari halaman asal Anda dan tidak bisa diganti di sini.</div>
 
     <div class="msg info" style="display:block; margin:0 0 18px;">
-      🌐 Semua produk di sini memakai <b>domain bawaan github.io</b> (bukan namausahaanda.com/.id), karena langganan cuma berjalan per bulan — cocok dulu, baru diputuskan lanjut atau berhenti. Domain pribadi (.com/.id, masa berlaku 1 tahun) hanya tersedia untuk paket <b>sekali bayar (OTP)</b>, dengan biaya tambahan terpisah.
+      🌐 Semua produk di sini memakai <b>domain bawaan</b> (github.io untuk absensi & resto, vercel.app untuk Web Donasi — bukan namausahaanda.com/.id), karena langganan cuma berjalan per bulan — cocok dulu, baru diputuskan lanjut atau berhenti. Domain pribadi (.com/.id, masa berlaku 1 tahun) hanya tersedia untuk paket <b>sekali bayar (OTP)</b>, dengan biaya tambahan Rp250.000.
     </div>
 
     <label for="customer_name">Nama Anda / usaha</label>
@@ -115,6 +128,16 @@
 
     <label for="customer_contact">Nomor WhatsApp atau Email</label>
     <input type="text" id="customer_contact" placeholder="08xxxxxxxxxx atau email@contoh.com" required>
+
+    <!-- Midtrans OPSIONAL (hanya tampil untuk Menu Resto QR & Web Donasi). Tutorial baru muncul bila dicentang. -->
+    <div class="mt-opt" id="mtOpt" style="display:none;">
+      <label class="mt-opt-check"><input type="checkbox" id="mtWanted"> <span>Saya ingin mengaktifkan pembayaran otomatis lewat Midtrans <em>(opsional)</em></span></label>
+      <div class="mt-opt-detail" id="mtDetail" hidden>
+        <span id="mtText"></span><br>
+        <a href="https://rifkyanhar.github.io/tutorial-merchant-midtrans" target="_blank" rel="noopener">Lihat cara daftar merchant Midtrans →</a>
+      </div>
+      <p class="mt-opt-skip">Boleh dilewati — lanjutkan saja ke pembayaran.</p>
+    </div>
 
     <div class="price-preview">
       <span class="l">Total tagihan</span>
@@ -186,13 +209,44 @@
   // menghindari salah ketik nama/harga di banyak file berbeda.
   // product_key dipakai untuk parameter ?product= di URL (dari tombol di
   // promo/index.html) dan dikirim ke Edge Function create-subscription-transaction.
+  //
+  // 'web-donasi': GANTI UUID di bawah dengan id baris baru di tabel service_types
+  // (nama: Website Donasi, default_price: 250000). Selama masih berisi teks
+  // placeholder, produk ini otomatis dilewati dan produk lain tetap normal.
   const PRODUCT_IDS = {
     'absensi-guru': 'b5f323f2-de9a-4783-8a6a-a761163fe6a7',
     'absensi-instansi': '1af1abb3-5ec9-4c44-baf6-091d8f957c1e',
     'menu-resto-qr': '97a89547-8495-4975-91d7-9f80ca6a60d4',
+    'web-donasi': 'GANTI_DENGAN_UUID_SERVICE_TYPES_WEB_DONASI',
+  };
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const VALID_PRODUCT_IDS = Object.fromEntries(Object.entries(PRODUCT_IDS).filter(([, id]) => UUID_RE.test(id)));
+
+  // Produk yang punya pilihan Midtrans OPSIONAL + teks penjelasnya
+  const MIDTRANS_OPTIONAL = {
+    'menu-resto-qr': 'Dengan Midtrans (berizin Bank Indonesia & Kominfo), pembayaran pelanggan resto Anda masuk otomatis lewat sistem dan lebih cepat diproses. Prosesnya cukup sekali di awal dan dipandu langkah demi langkah.',
+    'web-donasi': 'Dengan Midtrans (berizin Bank Indonesia & Kominfo), donasi masuk otomatis tanpa perlu mencocokkan bukti transfer satu per satu. Prosesnya cukup sekali di awal dan dipandu langkah demi langkah.',
   };
 
   let PRODUCTS = []; // diisi setelah fetch: [{key, id, name, price}]
+
+  const mtBox = document.getElementById('mtOpt');
+  const mtChk = document.getElementById('mtWanted');
+  const mtDetail = document.getElementById('mtDetail');
+  const mtText = document.getElementById('mtText');
+
+  function refreshMidtransOpt(){
+    const text = MIDTRANS_OPTIONAL[productSelect.value];
+    if(text){
+      mtBox.style.display = 'block';
+      mtText.textContent = text;
+    } else {
+      mtBox.style.display = 'none';
+      mtChk.checked = false;
+    }
+    mtDetail.hidden = !mtChk.checked;
+  }
+  mtChk.addEventListener('change', () => { mtDetail.hidden = !mtChk.checked; });
 
   function updatePriceDisplay(){
     const opt = productSelect.options[productSelect.selectedIndex];
@@ -201,7 +255,7 @@
   }
 
   async function loadProducts(){
-    const ids = Object.values(PRODUCT_IDS);
+    const ids = Object.values(VALID_PRODUCT_IDS);
     const { data, error } = await sb.from('service_types').select('id, name, default_price').in('id', ids);
 
     if(error || !data || data.length === 0){
@@ -212,8 +266,8 @@
     }
 
     // Susun ulang sesuai urutan PRODUCT_IDS (bukan urutan hasil query),
-    // supaya tampilannya konsisten: Guru, Instansi, Resto QR.
-    PRODUCTS = Object.entries(PRODUCT_IDS).map(([key, id]) => {
+    // supaya tampilannya konsisten: Guru, Instansi, Resto QR, Web Donasi.
+    PRODUCTS = Object.entries(VALID_PRODUCT_IDS).map(([key, id]) => {
       const row = data.find(r => r.id === id);
       if(!row) console.warn(`[NAFA Tech] UUID untuk "${key}" (${id}) tidak ditemukan di tabel service_types.`);
       return row ? { key, id, name: row.name, price: row.default_price } : null;
@@ -244,10 +298,14 @@
       if(lockHint) lockHint.style.display = 'block';
     }
 
+    // Pilihan Midtrans dari halaman asal (?midtrans=ya) ikut dicentang otomatis
+    if(urlParams.get('midtrans') === 'ya') mtChk.checked = true;
+
     updatePriceDisplay();
+    refreshMidtransOpt();
   }
 
-  productSelect.addEventListener('change', updatePriceDisplay);
+  productSelect.addEventListener('change', () => { updatePriceDisplay(); refreshMidtransOpt(); });
   loadProducts();
 
   function showMsg(text, type){
@@ -269,6 +327,7 @@
           product_key: productSelect.value,
           customer_name: document.getElementById('customer_name').value,
           customer_contact: document.getElementById('customer_contact').value,
+          wants_midtrans: mtBox.style.display !== 'none' && mtChk.checked,
         }),
       });
       const data = await res.json();
