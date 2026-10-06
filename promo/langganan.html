@@ -92,6 +92,8 @@
   .mt-opt-detail a{ color:var(--teal); font-weight:600; text-decoration:underline; }
   .mt-opt-skip{ margin-top:8px; font-size:12px; color:var(--muted); }
 </style>
+<script src="https://nafatech.web.id/assets/meta-pixel.js" defer></script>
+<script src="https://nafatech.web.id/assets/ga4.js" defer></script>
 </head>
 <body>
 <button class="theme-toggle" id="themeToggle" aria-label="Ganti tampilan terang/gelap">🌙</button>
@@ -217,7 +219,7 @@
     'absensi-guru': 'b5f323f2-de9a-4783-8a6a-a761163fe6a7',
     'absensi-instansi': '1af1abb3-5ec9-4c44-baf6-091d8f957c1e',
     'menu-resto-qr': '97a89547-8495-4975-91d7-9f80ca6a60d4',
-    'web-donasi': 'c1e3593b-00a9-467f-bbd8-25f670ecac4b',
+    'web-donasi': 'GANTI_DENGAN_UUID_SERVICE_TYPES_WEB_DONASI',
   };
   const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   const VALID_PRODUCT_IDS = Object.fromEntries(Object.entries(PRODUCT_IDS).filter(([, id]) => UUID_RE.test(id)));
@@ -342,6 +344,14 @@
       // Buka popup pembayaran Midtrans Snap
       window.snap.pay(data.token, {
         onSuccess: function(){
+          if(window.nafaTrack){
+            var opt = productSelect.options[productSelect.selectedIndex];
+            nafaTrack('Purchase', { value: Number(opt && opt.dataset.price) || 0, currency: 'IDR', content_name: 'Langganan ' + productSelect.value, content_type: 'product' });
+          }
+          if(window.nafaGA){
+            var o2 = productSelect.options[productSelect.selectedIndex];
+            nafaGA('purchase', { currency: 'IDR', value: Number(o2 && o2.dataset.price) || 0, items: [{ item_name: 'Langganan ' + productSelect.value }] });
+          }
           showMsg('Pembayaran berhasil! Tim kami akan siapkan sistem sesuai nama usaha Anda dan kirim link + akun login kasir/dapur ke kontak Anda (estimasi 1–3 hari kerja).', 'info');
         },
         onPending: function(){
