@@ -880,6 +880,8 @@
   .mt-opt-detail a{ color:var(--teal); font-weight:600; text-decoration:underline; }
   .mt-opt-skip{ margin-top:8px; font-size:12.5px; color:var(--muted); }
 </style>
+<script src="https://nafatech.web.id/assets/meta-pixel.js" defer></script>
+<script src="https://nafatech.web.id/assets/ga4.js" defer></script>
 </head>
 <body>
 <div class="noise"></div>
@@ -1398,7 +1400,11 @@
       if(!result.token) throw new Error(result.error || 'Gagal membuat transaksi');
       document.getElementById('prodCheckoutOverlay').classList.remove('show');
       window.snap.pay(result.token, {
-        onSuccess: () => alert('Pembayaran berhasil! Tim kami akan segera memproses pesanan Anda.'),
+        onSuccess: () => {
+          if(window.nafaTrack) nafaTrack('Purchase', { value: currentProdCheckout.amount, currency: 'IDR', content_name: currentProdCheckout.layanan, content_type: 'product' });
+          if(window.nafaGA) nafaGA('purchase', { currency: 'IDR', value: currentProdCheckout.amount, items: [{ item_name: currentProdCheckout.layanan }] });
+          alert('Pembayaran berhasil! Tim kami akan segera memproses pesanan Anda.');
+        },
         onPending: () => alert('Pembayaran tertunda, silakan selesaikan pembayaran Anda.'),
         onError: () => alert('Terjadi kesalahan saat pembayaran. Silakan coba lagi.'),
       });
