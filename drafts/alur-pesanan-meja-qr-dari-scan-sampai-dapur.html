@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alur Pesanan Meja QR: Dari Scan Pelanggan Sampai ke Dapur | NAFA Tech</title>
+<meta name="description" content="Gambaran alur sistem pemesanan QR di meja resto, mulai pelanggan memindai kode sampai pesanan tiba di dapur dan kasir.">
+<meta name="keywords" content="alur pesanan QR meja, menu scan barcode, sistem pesan resto, pesanan dapur">
+<link rel="canonical" href="https://nafatech.web.id/blog/alur-pesanan-meja-qr-dari-scan-sampai-dapur.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Alur Pesanan Meja QR: Dari Scan Pelanggan Sampai ke Dapur">
+<meta property="og:description" content="Gambaran alur sistem pemesanan QR di meja resto, mulai pelanggan memindai kode sampai pesanan tiba di dapur dan kasir.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Alur Pesanan Meja QR: Dari Scan Pelanggan Sampai ke Dapur",
+  "author": {
+    "@type": "Organization",
+    "name": "NAFA Tech"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NAFA Tech"
+  },
+  "datePublished": "2026-11-02",
+  "description": "Gambaran alur sistem pemesanan QR di meja resto, mulai pelanggan memindai kode sampai pesanan tiba di dapur dan kasir.",
+  "mainEntityOfPage": "https://nafatech.web.id/blog/alur-pesanan-meja-qr-dari-scan-sampai-dapur.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah pelanggan perlu mengunduh aplikasi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Umumnya tidak. Pelanggan cukup memindai QR dan memesan lewat browser."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bagaimana jika pelanggan tidak bisa memakai ponsel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Resto tetap bisa melayani secara manual untuk pelanggan yang membutuhkan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah pesanan bisa terlewat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Notifikasi pesanan dirancang untuk mengurangi kemungkinan itu, meskipun alur kerja tim tetap perlu rapi."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah satu QR berlaku untuk semua meja?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Biasanya tiap meja punya kode sendiri supaya pesanan jelas asal mejanya."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  :root{ --navy-950:#0A0E24; --navy-900:#12183B; --navy-800:#1B2354; --gold:#F2A93B; --teal:#33C6B0; --cream:#F5F1E6; --muted:#A7AED0; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--navy-950); color:var(--cream); font-family:'Inter',sans-serif; line-height:1.75;}
+  .container{max-width:720px; margin:0 auto; padding:0 24px;}
+  header{padding:28px 0 0;}
+  .back-link{font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--teal); text-decoration:none; font-weight:600;}
+  .post-tag{display:inline-block; margin-top:20px; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); font-weight:700;}
+  h1{font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,5vw,38px); line-height:1.2; margin:10px 0 14px;}
+  .post-meta{color:var(--muted); font-size:13px; margin-bottom:30px; display:flex; gap:14px; border-bottom:1px solid rgba(255,255,255,.08); padding-bottom:24px;}
+  article{padding:6px 0 20px; font-size:15.5px; color:#DCE1F0;}
+  article h2{font-family:'Space Grotesk',sans-serif; color:var(--cream); font-size:21px; margin:32px 0 12px;}
+  article p{margin-bottom:16px;}
+  article ul{margin:0 0 16px 20px;}
+  article li{margin-bottom:8px;}
+  .cta-box{margin:36px 0; padding:24px; background:var(--navy-900); border:1px solid rgba(242,169,59,.3); border-radius:16px; text-align:center;}
+  .cta-box p{color:var(--muted); font-size:14px; margin-bottom:14px;}
+  .cta-btn{display:inline-block; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; background:var(--gold); color:var(--navy-950); text-decoration:none; padding:12px 26px; border-radius:999px;}
+  .faq-section{margin:36px 0 12px;}
+  .faq-item{
+    background:var(--navy-900); border:1px solid rgba(255,255,255,.08);
+    border-radius:14px; padding:18px 20px; margin-bottom:12px;
+  }
+  .faq-q{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px;
+    color:var(--cream); margin-bottom:8px; display:flex; gap:8px;
+  }
+  .faq-q::before{content:"Q:"; color:var(--gold); flex:none;}
+  .faq-a{font-size:14.5px; color:var(--muted); line-height:1.7; padding-left:24px; margin-bottom:0;}
+  footer{text-align:center; padding:24px; color:var(--muted); font-size:12px; border-top:1px solid rgba(255,255,255,.08); margin-top:30px;}
+  footer a{color:var(--gold); text-decoration:none;}
+</style>
+<script src="https://nafatech.web.id/assets/meta-pixel.js" defer></script>
+<script src="https://nafatech.web.id/assets/ga4.js" defer></script>
+</head>
+<body>
+<header class="container">
+  <a class="back-link" href="index.html">← Semua Artikel</a>
+  <span class="post-tag">Sistem Resto</span>
+  <h1>Alur Pesanan Meja QR: Dari Scan Pelanggan Sampai ke Dapur</h1>
+  <div class="post-meta"><span>📅 Senin, 2 November 2026</span><span>⏱ 4 menit baca</span><span>✍️ Tim NAFA Tech</span></div>
+</header>
+
+<article class="container">
+  <p>Sistem pemesanan lewat QR di meja terlihat sederhana bagi pelanggan, tetapi di belakangnya ada alur yang perlu rapi. Berikut gambaran umumnya.</p>
+
+  <h2>1. Pelanggan memindai QR di meja</h2>
+  <p>Setiap meja punya kode QR. Pelanggan memindainya dengan kamera ponsel, tanpa perlu memasang aplikasi tambahan.</p>
+
+  <h2>2. Memilih menu dan mengirim pesanan</h2>
+  <p>Pelanggan melihat menu, memilih jumlah, menambahkan catatan, lalu mengirim pesanan. Foto dan deskripsi yang baik membantu keputusan, seperti dibahas di <a href="tips-foto-dan-deskripsi-menu-digital-resto.html" style="color:var(--teal);">tips foto dan deskripsi menu</a>.</p>
+
+  <h2>3. Pesanan masuk ke dapur dan kasir</h2>
+  <p>Pesanan muncul dan memberi notifikasi, sehingga tidak ada yang terlewat. Manfaatnya dijelaskan di <a href="notifikasi-pesanan-real-time-sistem-resto.html" style="color:var(--teal);">artikel notifikasi real-time</a>.</p>
+
+  <h2>4. Pembayaran dan pencatatan</h2>
+  <p>Pesanan dan pembayaran tercatat sehingga data penjualan lebih rapi untuk dievaluasi.</p>
+
+  <h2>Mengurangi pesanan fiktif</h2>
+  <p>Pembatasan lokasi membantu memastikan pesanan datang dari area resto. Penjelasannya ada di <a href="apa-itu-geofencing-resto.html" style="color:var(--teal);">apa itu geofencing untuk resto</a>.</p>
+
+  <div class="cta-box">
+    <p>Ingin tahu apakah alur ini cocok untuk resto Anda?</p>
+    <a class="cta-btn" href="https://wa.me/6285290078889?text=Hai%20kak%2C%20saya%20mau%20konsultasi%20soal%20sistem%20pemesanan%20QR%20di%20meja%20resto" target="_blank" rel="noopener">Konsultasi via WhatsApp</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Pertanyaan yang Sering Diajukan</h2>
+    <div class="faq-item">
+      <div class="faq-q">Apakah pelanggan perlu mengunduh aplikasi?</div>
+      <p class="faq-a">Umumnya tidak. Pelanggan cukup memindai QR dan memesan lewat browser.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Bagaimana jika pelanggan tidak bisa memakai ponsel?</div>
+      <p class="faq-a">Resto tetap bisa melayani secara manual untuk pelanggan yang membutuhkan.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Apakah pesanan bisa terlewat?</div>
+      <p class="faq-a">Notifikasi pesanan dirancang untuk mengurangi kemungkinan itu, meskipun alur kerja tim tetap perlu rapi.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Apakah satu QR berlaku untuk semua meja?</div>
+      <p class="faq-a">Biasanya tiap meja punya kode sendiri supaya pesanan jelas asal mejanya.</p>
+    </div>
+  </div>
+</article>
+
+<footer>Baca artikel lainnya di <a href="index.html">Blog NAFA Tech</a></footer>
+</body>
+</html>

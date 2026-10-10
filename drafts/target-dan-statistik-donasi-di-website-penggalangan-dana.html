@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menampilkan Target dan Statistik Donasi di Website Penggalangan Dana | NAFA Tech</title>
+<meta name="description" content="Cara menampilkan target, progres, dan statistik donasi di website penggalangan dana agar donatur lebih yakin dan mau ikut berpartisipasi.">
+<meta name="keywords" content="target donasi, progres donasi, website penggalangan dana, transparansi donasi">
+<link rel="canonical" href="https://nafatech.web.id/blog/target-dan-statistik-donasi-di-website-penggalangan-dana.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Menampilkan Target dan Statistik Donasi di Website Penggalangan Dana">
+<meta property="og:description" content="Cara menampilkan target, progres, dan statistik donasi di website penggalangan dana agar donatur lebih yakin dan mau ikut berpartisipasi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Menampilkan Target dan Statistik Donasi di Website Penggalangan Dana",
+  "author": {
+    "@type": "Organization",
+    "name": "NAFA Tech"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NAFA Tech"
+  },
+  "datePublished": "2026-11-08",
+  "description": "Cara menampilkan target, progres, dan statistik donasi di website penggalangan dana agar donatur lebih yakin dan mau ikut berpartisipasi.",
+  "mainEntityOfPage": "https://nafatech.web.id/blog/target-dan-statistik-donasi-di-website-penggalangan-dana.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Apakah semua kampanye perlu menampilkan target?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak wajib, tetapi target membantu donatur memahami tujuan dan kebutuhan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Seberapa sering progres perlu diperbarui?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sesering mungkin sesuai aktivitas donasi, agar informasi tidak ketinggalan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bolehkah menyembunyikan nama donatur?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Itu kebijakan lembaga. Banyak lembaga memberi pilihan nama disamarkan demi kenyamanan donatur."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah statistik bisa menyesatkan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bisa, jika tidak diperbarui atau tidak sesuai catatan. Karena itu akurasi sangat penting."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  :root{ --navy-950:#0A0E24; --navy-900:#12183B; --navy-800:#1B2354; --gold:#F2A93B; --teal:#33C6B0; --cream:#F5F1E6; --muted:#A7AED0; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--navy-950); color:var(--cream); font-family:'Inter',sans-serif; line-height:1.75;}
+  .container{max-width:720px; margin:0 auto; padding:0 24px;}
+  header{padding:28px 0 0;}
+  .back-link{font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--teal); text-decoration:none; font-weight:600;}
+  .post-tag{display:inline-block; margin-top:20px; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); font-weight:700;}
+  h1{font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,5vw,38px); line-height:1.2; margin:10px 0 14px;}
+  .post-meta{color:var(--muted); font-size:13px; margin-bottom:30px; display:flex; gap:14px; border-bottom:1px solid rgba(255,255,255,.08); padding-bottom:24px;}
+  article{padding:6px 0 20px; font-size:15.5px; color:#DCE1F0;}
+  article h2{font-family:'Space Grotesk',sans-serif; color:var(--cream); font-size:21px; margin:32px 0 12px;}
+  article p{margin-bottom:16px;}
+  article ul{margin:0 0 16px 20px;}
+  article li{margin-bottom:8px;}
+  .cta-box{margin:36px 0; padding:24px; background:var(--navy-900); border:1px solid rgba(242,169,59,.3); border-radius:16px; text-align:center;}
+  .cta-box p{color:var(--muted); font-size:14px; margin-bottom:14px;}
+  .cta-btn{display:inline-block; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; background:var(--gold); color:var(--navy-950); text-decoration:none; padding:12px 26px; border-radius:999px;}
+  .faq-section{margin:36px 0 12px;}
+  .faq-item{
+    background:var(--navy-900); border:1px solid rgba(255,255,255,.08);
+    border-radius:14px; padding:18px 20px; margin-bottom:12px;
+  }
+  .faq-q{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px;
+    color:var(--cream); margin-bottom:8px; display:flex; gap:8px;
+  }
+  .faq-q::before{content:"Q:"; color:var(--gold); flex:none;}
+  .faq-a{font-size:14.5px; color:var(--muted); line-height:1.7; padding-left:24px; margin-bottom:0;}
+  footer{text-align:center; padding:24px; color:var(--muted); font-size:12px; border-top:1px solid rgba(255,255,255,.08); margin-top:30px;}
+  footer a{color:var(--gold); text-decoration:none;}
+</style>
+<script src="https://nafatech.web.id/assets/meta-pixel.js" defer></script>
+<script src="https://nafatech.web.id/assets/ga4.js" defer></script>
+</head>
+<body>
+<header class="container">
+  <a class="back-link" href="index.html">← Semua Artikel</a>
+  <span class="post-tag">Website Donasi</span>
+  <h1>Menampilkan Target dan Statistik Donasi di Website Penggalangan Dana</h1>
+  <div class="post-meta"><span>📅 Minggu, 8 November 2026</span><span>⏱ 4 menit baca</span><span>✍️ Tim NAFA Tech</span></div>
+</header>
+
+<article class="container">
+  <p>Donatur lebih mudah tergerak bila tahu seberapa jauh target sudah tercapai. Statistik yang jelas juga menunjukkan bahwa penggalangan dana dikelola dengan serius.</p>
+
+  <h2>Tampilkan target yang jelas</h2>
+  <p>Sebutkan jumlah target dan tujuan penggunaannya. Target yang konkret lebih mudah dipahami daripada ajakan umum.</p>
+
+  <h2>Perlihatkan progres</h2>
+  <p>Bar progres dan jumlah donasi yang sudah terkumpul memberi gambaran cepat. Pastikan angkanya diperbarui agar tidak menyesatkan.</p>
+
+  <h2>Jaga kejujuran data</h2>
+  <p>Angka yang ditampilkan harus sesuai dengan catatan sebenarnya. Kepercayaan donatur dibangun dari konsistensi, seperti dibahas di <a href="cara-membuat-laporan-donasi-transparan.html" style="color:var(--teal);">cara membuat laporan donasi yang transparan</a>.</p>
+
+  <h2>Lengkapi dengan kabar penyaluran</h2>
+  <p>Setelah donasi terkumpul, bagikan kabar penyalurannya. Donatur yang tahu dampak donasinya cenderung lebih percaya.</p>
+
+  <h2>Mudah dikelola pengurus</h2>
+  <p>Pengurus sebaiknya bisa memperbarui data lewat panel sendiri. Fitur pendukung lain ada di <a href="website-donasi-untuk-panti-dan-masjid-fitur-penting.html" style="color:var(--teal);">fitur penting website donasi</a>.</p>
+
+  <div class="cta-box">
+    <p>Ingin website penggalangan dana yang rapi dan mudah dipercaya?</p>
+    <a class="cta-btn" href="https://wa.me/6285290078889?text=Hai%20kak%2C%20saya%20mau%20konsultasi%20soal%20website%20penggalangan%20dana" target="_blank" rel="noopener">Konsultasi via WhatsApp</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Pertanyaan yang Sering Diajukan</h2>
+    <div class="faq-item">
+      <div class="faq-q">Apakah semua kampanye perlu menampilkan target?</div>
+      <p class="faq-a">Tidak wajib, tetapi target membantu donatur memahami tujuan dan kebutuhan.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Seberapa sering progres perlu diperbarui?</div>
+      <p class="faq-a">Sesering mungkin sesuai aktivitas donasi, agar informasi tidak ketinggalan.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Bolehkah menyembunyikan nama donatur?</div>
+      <p class="faq-a">Itu kebijakan lembaga. Banyak lembaga memberi pilihan nama disamarkan demi kenyamanan donatur.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Apakah statistik bisa menyesatkan?</div>
+      <p class="faq-a">Bisa, jika tidak diperbarui atau tidak sesuai catatan. Karena itu akurasi sangat penting.</p>
+    </div>
+  </div>
+</article>
+
+<footer>Baca artikel lainnya di <a href="index.html">Blog NAFA Tech</a></footer>
+</body>
+</html>
