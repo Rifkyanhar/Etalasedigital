@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="theme-color" content="#FAF8F4">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LYLYZX1PE"></script>
@@ -35,7 +36,7 @@
 <link rel="icon" href="image/logo-nafatech.jpeg" type="image/jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <script type="application/ld+json">
 {
@@ -56,86 +57,184 @@
 </script>
 
 <style>
-  :root{ --navy-950:#0A0E24; --navy-900:#12183B; --navy-800:#1B2354; --navy-700:#262F6E; --gold:#F2A93B; --gold-dim:#B87F1F; --teal:#33C6B0; --cream:#F5F1E6; --muted:#A7AED0; --radius:18px; }
-  [data-theme="light"]{ --navy-950:#F6F3EA; --navy-900:#FFFFFF; --navy-800:#EFEAD9; --navy-700:#E2DBC4; --gold:#B8791E; --gold-dim:#8F5E14; --teal:#0E8E7A; --cream:#1C2036; --muted:#54597A; }
+  :root{
+    --bg:#FAF8F4; --surface:#FFFFFF; --ink:#14214A; --navy:#16224F; --navy-2:#1D2B63;
+    --orange:#E8682D; --orange-btn:#CF4A12; --orange-text:#C2490F; --peach:#FDEEE5;
+    --muted:#5E6685; --line:rgba(20,33,74,.10); --wa:#15803D; --radius:22px;
+  }
   *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{ background: radial-gradient(ellipse 900px 500px at 50% -10%, rgba(51,198,176,0.14), transparent 60%), radial-gradient(ellipse 700px 400px at 90% 10%, rgba(242,169,59,0.10), transparent 60%), var(--navy-950); color:var(--cream); font-family:'Plus Jakarta Sans', sans-serif; font-size:16px; line-height:1.6; min-height:100vh; overflow-x:hidden; transition:background-color .35s, color .35s; }
-  .navbar{ position:fixed; top:0; left:0; right:0; z-index:70; padding:0 20px; background:rgba(10,14,36,.72); backdrop-filter:blur(14px) saturate(1.2); border-bottom:1px solid rgba(255,255,255,.07); }
-  [data-theme="light"] .navbar{ background:rgba(255,255,255,.78); border-bottom:1px solid rgba(28,32,54,.08); }
-  .nav-inner{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; max-width:1180px; margin:0 auto; padding:14px 0; gap:24px; }
-  .nav-inner .nav-right{ justify-self:end; }
-  .nav-brand{ display:flex; align-items:center; gap:9px; font-weight:700; font-size:16px; color:var(--cream); text-decoration:none; }
-  .nav-logo{ width:30px; height:30px; border-radius:8px; object-fit:cover; }
-  .nav-links{ display:flex; align-items:center; gap:4px; list-style:none; }
-  .nav-links a{ font-weight:600; font-size:15px; color:var(--muted); text-decoration:none; padding:9px 14px; border-radius:999px; transition:color .25s, background .25s; }
-  .nav-links a:hover{ color:var(--cream); background:rgba(255,255,255,.06); }
-  .nav-right{ display:flex; align-items:center; gap:10px; }
-  .nav-cta{ font-weight:600; font-size:14.5px; background:var(--teal); color:var(--navy-950); text-decoration:none; padding:9px 16px; border-radius:999px; white-space:nowrap; box-shadow:0 8px 18px -6px rgba(51,198,176,.5); }
-  .nav-burger{ display:none; width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); color:var(--cream); align-items:center; justify-content:center; cursor:pointer; }
-  .theme-toggle{ width:38px; height:38px; border-radius:50%; background:var(--navy-800); border:1px solid rgba(128,128,128,.25); color:var(--cream); font-size:16px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
-  @media (max-width:860px){ .nav-inner{ display:flex; align-items:center; justify-content:space-between; } .nav-links{ position:fixed; top:64px; left:0; right:0; z-index:69; flex-direction:column; align-items:stretch; gap:2px; background:var(--navy-900); border-bottom:1px solid rgba(255,255,255,.08); padding:10px 16px 16px; transform:translateY(-12px); opacity:0; pointer-events:none; transition:transform .3s, opacity .3s; } .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto; } .nav-links a{ padding:12px 14px; } .nav-cta{ display:none; } .nav-burger{ display:flex; } }
-  .container{ max-width:1100px; margin:0 auto; padding:0 24px; }
-  .breadcrumb{ position:relative; z-index:2; max-width:1040px; margin:0 auto; padding:100px 24px 0; font-size:13.5px; color:var(--muted); }
-  .breadcrumb a{ color:var(--muted); text-decoration:none; }
-  .breadcrumb a:hover{ color:var(--gold); }
-  .page-hero{ position:relative; z-index:2; max-width:1040px; margin:0 auto; padding:24px 24px 10px; text-align:center; }
-  .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:13.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--teal); font-weight:600; border:1px solid rgba(51,198,176,.35); padding:6px 14px; border-radius:999px; background:rgba(51,198,176,.06); }
-  .eyebrow::before{content:"●"; font-size:8px; color:var(--gold);}
-  h1{ font-weight:800; font-size:clamp(28px, 7vw, 46px); line-height:1.2; margin:18px 0 12px; }
-  h1 span{ color:var(--gold); }
-  .sub{ max-width:560px; margin:0 auto; color:var(--muted); font-size:16.5px; line-height:1.65; }
-  .hero-ctas{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
-  .cta{ font-weight:600; font-size:15.5px; padding:13px 22px; border-radius:999px; cursor:pointer; border:none; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:8px; }
-  .cta.primary{ background:var(--gold); color:var(--navy-950); box-shadow:0 10px 24px -6px rgba(242,169,59,.45); }
-  .cta.ghost{ background:transparent; color:var(--cream); border:1px solid rgba(255,255,255,.18); }
-  .section-wrap{ position:relative; z-index:2; padding:60px 20px; max-width:1040px; margin:0 auto; }
-  .section-head{ text-align:center; max-width:560px; margin:0 auto 36px; }
-  .section-head h2{ font-weight:700; font-size:clamp(22px, 5vw, 30px); line-height:1.15; margin-bottom:10px; }
-  .section-head h2 span{ color:var(--gold); }
-  .section-head p{ color:var(--muted); font-size:16px; line-height:1.7; }
-  .panel-list{ list-style:none; margin-bottom:8px; }
-  .panel-list li{ display:flex; gap:10px; font-size:15.5px; color:var(--cream); padding:11px 0; border-bottom:1px solid rgba(255,255,255,.06); }
-  .panel-list li::before{ content:"✓"; color:var(--teal); font-weight:700; flex:none; }
-  .stat-strip{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:32px; }
-  .stat-card{ background:var(--navy-800); border:1px solid rgba(255,255,255,.07); border-radius:16px; padding:20px; }
-  .stat-card .v{ font-weight:700; font-size:24px; color:var(--gold); }
-  .stat-card .l{ font-size:13.5px; color:var(--muted); margin-top:4px; }
-  @media (max-width:620px){ .stat-strip{ grid-template-columns:1fr; } }
-  hr.divider{ border:none; height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent); max-width:1040px; margin:0 auto; }
-  .related{ display:flex; flex-direction:column; gap:2px; border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); overflow:hidden; }
-  .related a{ display:flex; align-items:center; justify-content:space-between; padding:16px 18px; color:var(--cream); text-decoration:none; background:var(--navy-900); font-size:15.5px; font-weight:600; }
-  .related a:hover{ background:var(--navy-800); }
-  .related a .arrow{ color:var(--gold); }
-  footer{ position:relative; z-index:2; text-align:center; padding:26px 20px 40px; color:var(--muted); font-size:13.5px; }
-  footer .foot-links{ display:flex; gap:16px; justify-content:center; margin-top:10px; flex-wrap:wrap; }
-  footer .foot-links a{ color:var(--muted); text-decoration:none; }
-  footer .foot-links a:hover{ color:var(--gold); }
+  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%;}
+  body{background:var(--bg); color:var(--ink); font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  :focus-visible{outline:3px solid rgba(232,104,45,.55); outline-offset:3px; border-radius:8px;}
+  section{scroll-margin-top:76px;}
+  .wrap{max-width:1120px; margin:0 auto; padding-inline:20px;}
+
+  /* NAVBAR (sama dengan index) */
+  .topbar{position:sticky; top:0; z-index:60; background:rgba(250,248,244,.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--line);}
+  .bar{display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:12px;}
+  .brand{display:flex; align-items:center; gap:10px; text-decoration:none;}
+  .brand img{width:42px; height:42px; border-radius:12px; object-fit:cover; box-shadow:0 6px 14px -6px rgba(20,33,74,.5);}
+  .brand-text{display:flex; flex-direction:column; line-height:1.15;}
+  .brand-text b{font-weight:800; font-size:17px;}
+  .brand-text small{font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); font-weight:700;}
+  .menu{display:flex; align-items:center; gap:2px; list-style:none;}
+  .menu a{display:block; text-decoration:none; font-weight:600; font-size:14.5px; color:var(--muted); padding:9px 13px; border-radius:999px; transition:color .2s, background .2s;}
+  .menu a:hover{color:var(--ink); background:rgba(20,33,74,.05);}
+  .bar-right{display:flex; align-items:center; gap:10px;}
+  .bar-cta{font-size:13.5px; padding:10px 18px;}
+  .burger{display:none; width:42px; height:42px; border-radius:12px; border:1px solid var(--line); background:#fff; color:var(--ink); cursor:pointer; align-items:center; justify-content:center;}
+  .burger svg{width:20px; height:20px;}
+  @media (max-width:900px){
+    .burger{display:flex;} .bar-cta{display:none;}
+    .menu{position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; background:var(--bg); border-bottom:1px solid var(--line); padding:8px 16px 16px; display:none; box-shadow:0 18px 30px -20px rgba(20,33,74,.35);}
+    .menu.open{display:flex;}
+    .menu a{padding:13px 14px; font-size:15.5px;}
+  }
+
+  /* TOMBOL */
+  .btn,.cta{display:inline-flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; font-weight:700; font-size:14.5px; text-decoration:none; border:0; border-radius:999px; padding:14px 24px; cursor:pointer; transition:transform .2s, background .2s, box-shadow .2s;}
+  .btn:hover,.cta:hover{transform:translateY(-1px);}
+  .btn.primary,.cta.primary{background:var(--orange-btn); color:#fff; box-shadow:0 10px 22px -10px rgba(207,74,18,.7);}
+  .btn.primary:hover,.cta.primary:hover{background:#B83F0D;}
+  .btn.alt{background:var(--navy); color:#fff;}
+  .btn.alt:hover{background:var(--navy-2);}
+  .btn.ghost,.cta.ghost{background:#fff; color:var(--ink); border:1px solid var(--line);}
+  .btn-navy{background:var(--navy); color:#fff;}
+  .bar-cta.btn-navy:hover{background:var(--navy-2);}
+
+  /* TIPOGRAFI */
+  .eyebrow{display:inline-block; font-size:11.5px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--orange-text);}
+  .hero .eyebrow,.page-hero .eyebrow{background:#fff; border:1px solid var(--line); border-radius:999px; padding:7px 14px; color:var(--ink);}
+  h1{font-weight:800; letter-spacing:-.04em; line-height:1.06; font-size:clamp(34px,7vw,58px); margin:18px 0 16px; color:var(--ink);}
+  h1 span,h2 span{color:var(--orange);}
+  h2{font-weight:800; letter-spacing:-.03em; line-height:1.12; font-size:clamp(26px,5vw,40px); margin:12px 0 10px; color:var(--ink);}
+  h3{font-weight:800; letter-spacing:-.01em;}
+  .lead,.sub{color:var(--muted); font-size:16.5px; line-height:1.7;}
+  .center{text-align:center;} .center .lead{margin-inline:auto; max-width:620px;}
+  .block{padding:68px 0;}
+  hr.divider{border:none; height:1px; background:var(--line); max-width:1120px; margin:0 auto;}
+
+  /* HERO */
+  .hero,.page-hero{background:radial-gradient(60% 70% at 100% 0%, #FCE8DB 0%, rgba(252,232,219,0) 62%);}
+  .hero{padding:56px 0 48px; position:relative;}
+  .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:44px; align-items:center;}
+  .hero-img{width:100%; max-width:400px; justify-self:center; border-radius:32px; border:1px solid var(--line); background:#fff; box-shadow:0 30px 60px -28px rgba(20,33,74,.45);}
+  .ctas,.hero-ctas{display:flex; gap:12px; flex-wrap:wrap; margin-top:26px;}
+  .chips{display:flex; gap:10px 14px; flex-wrap:wrap; margin-top:22px; list-style:none;}
+  .chips li{font-size:13.5px; color:var(--muted); font-weight:600; display:flex; align-items:center; gap:8px;}
+  .chips li::before{content:"✓"; width:18px; height:18px; border-radius:50%; background:#DDF0E4; color:#15803D; font-size:11px; font-weight:800; display:grid; place-items:center; flex:none;}
+  @media (max-width:820px){ .hero-grid{grid-template-columns:1fr;} .hero-img{max-width:300px; order:-1;} }
+
+  /* HALAMAN LAYANAN (breadcrumb + hero tengah) */
+  .breadcrumb{max-width:1120px; margin:0 auto; padding:22px 20px 0; font-size:13.5px; color:var(--muted); background:var(--bg);}
+  .breadcrumb a{color:var(--muted); text-decoration:none; font-weight:600;}
+  .breadcrumb a:hover{color:var(--orange-text);}
+  .page-hero{max-width:none; padding:26px 20px 56px; text-align:center;}
+  .page-hero>*{max-width:760px; margin-inline:auto;}
+  .page-hero .sub{max-width:580px;}
+  .page-hero .hero-ctas{justify-content:center;}
+  .section-wrap{max-width:1120px; margin:0 auto; padding:64px 20px;}
+  .section-head{text-align:center; max-width:620px; margin:0 auto 34px;}
+  .section-head p{color:var(--muted); font-size:16px; line-height:1.7;}
+  .panel-list{list-style:none; max-width:760px; margin:0 auto 8px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:8px 22px;}
+  .panel-list li{display:flex; gap:12px; font-size:15.5px; color:var(--ink); padding:14px 0; border-bottom:1px solid var(--line); font-weight:500;}
+  .panel-list li:last-child{border-bottom:0;}
+  .panel-list li::before{content:"✓"; width:20px; height:20px; border-radius:50%; background:#DDF0E4; color:#15803D; font-size:12px; font-weight:800; display:grid; place-items:center; flex:none; margin-top:2px;}
+  .stat-strip{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:28px; max-width:760px; margin-inline:auto;}
+  .stat-card{background:#fff; border:1px solid var(--line); border-radius:18px; padding:20px;}
+  .stat-card .v{font-weight:800; font-size:24px; color:var(--orange-text); letter-spacing:-.02em;}
+  .stat-card .l{font-size:13.5px; color:var(--muted); margin-top:4px;}
+  @media (max-width:620px){ .stat-strip{grid-template-columns:1fr;} }
+
+  /* KARTU, LANGKAH */
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-top:34px;}
+  .card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:24px;}
+  .card .ico{width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:12px; background:var(--peach);}
+  .card.good .ico{background:#DDF0E4;}
+  .card h3{font-size:17px; margin-bottom:6px;}
+  .card p{color:var(--muted); font-size:15px; line-height:1.65;}
+  .agitate{max-width:680px; margin:28px auto 0; color:var(--muted); font-size:16.5px; border-left:3px solid var(--orange); padding:4px 0 4px 16px; text-align:left;}
+  .steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:34px; counter-reset:s;}
+  .step{background:var(--peach); border:1px solid var(--line); border-radius:var(--radius); padding:24px; counter-increment:s;}
+  .step::before{content:counter(s); display:flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:var(--orange-btn); color:#fff; font-weight:800; margin-bottom:12px;}
+  .step h3{font-size:17px; margin-bottom:6px;} .step p{color:var(--muted); font-size:15px;}
+
+  /* DEMO + HARGA */
+  .panel{background:#fff; border:1px solid var(--line); border-radius:28px; padding:34px 28px; text-align:center; box-shadow:0 24px 50px -34px rgba(20,33,74,.35);}
+  .panel p{color:var(--muted); max-width:560px; margin:8px auto 0;}
+  .panel .ctas{justify-content:center;}
+  .note{font-size:13.5px; color:var(--muted); margin-top:14px;}
+  .panel .card p{margin:0 0 12px; max-width:none;}
+  .price-big{font-size:30px; font-weight:800; color:var(--orange-text); letter-spacing:-.02em; margin:6px 0 8px; line-height:1.1;}
+  .price-big small{font-size:14px; font-weight:600; color:var(--muted);}
+
+  /* FAQ */
+  .faq{display:flex; flex-direction:column; gap:10px; margin-top:30px; max-width:760px; margin-inline:auto;}
+  .faq-item{background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden;}
+  .faq-q{width:100%; text-align:left; background:none; border:none; cursor:pointer; padding:17px 20px; display:flex; justify-content:space-between; gap:12px; align-items:center; font-family:inherit; font-weight:700; font-size:15.5px; color:var(--ink);}
+  .faq-q .plus{color:var(--orange-text); font-size:20px; transition:transform .25s; flex:none;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .3s ease, padding .3s ease; padding:0 20px; color:var(--muted); font-size:15px;}
+  .faq-item.open .faq-a{max-height:300px; padding:0 20px 18px;}
+
+  /* LAYANAN LAINNYA */
+  .related{display:flex; flex-direction:column; gap:0; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:#fff; max-width:760px; margin:28px auto 0; text-align:left;}
+  .related a{display:flex; align-items:center; justify-content:space-between; padding:17px 20px; color:var(--ink); text-decoration:none; font-size:15.5px; font-weight:700; border-bottom:1px solid var(--line);}
+  .related a:last-child{border-bottom:0;}
+  .related a:hover{background:var(--peach);}
+  .related a .arrow{color:var(--orange-text);}
+
+  /* KHUSUS HALAMAN LAUNDRY */
+  .dom-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-top:30px; text-align:left;}
+  .rules{list-style:none; display:flex; flex-direction:column; gap:8px; margin-top:6px;}
+  .rules li{color:var(--muted); font-size:15px; padding-left:24px; position:relative;}
+  .rules li::before{content:"✓"; position:absolute; left:0; color:#15803D; font-weight:800;}
+  .ex{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+  .ex span{font-size:14px; border:1px solid var(--line); background:var(--peach); border-radius:999px; padding:6px 12px; color:var(--ink);}
+  .ex span b{color:var(--orange-text);}
+  .notice{margin-top:22px; background:var(--peach); border:1px solid rgba(232,104,45,.28); border-radius:16px; padding:16px 18px; color:var(--ink); font-size:15px; text-align:left;}
+
+  /* FOOTER (sama dengan index) */
+  footer{background:var(--navy); color:#C9CFE8; padding:56px 0 24px; margin-top:0;}
+  .foot-grid{display:grid; gap:34px;}
+  @media (min-width:860px){ .foot-grid{grid-template-columns:1.4fr .8fr 1fr; gap:48px;} }
+  footer .brand b{color:#fff;} footer .brand small{color:#8E97C0;}
+  footer .blurb{margin-top:16px; font-size:14px; line-height:1.7; max-width:340px;}
+  footer h4{color:#fff; font-size:14px; margin-bottom:14px;}
+  footer ul{list-style:none; display:grid; gap:10px; font-size:14px;}
+  footer a{text-decoration:none; color:#C9CFE8;}
+  footer a:hover{color:#FFB38A;}
+  footer .contact li{display:flex; gap:10px; align-items:flex-start; line-height:1.5;}
+  footer .contact svg{width:17px; height:17px; color:#FFB38A; flex:none; margin-top:3px;}
+  .foot-bottom{margin-top:40px; padding-top:20px; border-top:1px solid rgba(255,255,255,.12); display:flex; flex-wrap:wrap; gap:10px 24px; justify-content:space-between; font-size:13px; color:#8E97C0;}
+  .foot-bottom nav{display:flex; gap:18px; flex-wrap:wrap;}
 </style>
 </head>
 <body>
 
-<nav class="navbar">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-brand">
-      <img src="image/logo-nafatech.jpeg" alt="NAFA Tech" class="nav-logo">
-      <span>NAFA · TECH</span>
+<header class="topbar">
+  <div class="wrap bar">
+    <a href="index.html" class="brand" aria-label="NAFA Tech — beranda">
+      <img src="image/logo-nafatech.jpeg" alt="NAFA Tech">
+      <span class="brand-text"><b>NAFA Tech</b><small>Digital Solution</small></span>
     </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html#home">Home</a></li>
-      <li><a href="index.html#tentang">Tentang Kami</a></li>
+    <ul class="menu" id="menu">
       <li><a href="index.html#layanan">Layanan</a></li>
+      <li><a href="index.html#keunggulan">Keunggulan</a></li>
+      <li><a href="index.html#cara-kerja">Cara Kerja</a></li>
       <li><a href="index.html#testimoni">Testimoni</a></li>
-      <li><a href="index.html#kontak">Kontak</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
       <li><a href="blog/index.html">Artikel</a></li>
+      <li><a href="https://nafatech.web.id/memberarea/register.html">Member Area</a></li>
     </ul>
-    <div class="nav-right">
-      <a class="nav-cta" href="https://wa.me/6285290078889" target="_blank" rel="noopener">💬 WhatsApp Kami</a>
-      <button class="theme-toggle" id="themeToggle" aria-label="Ganti tampilan terang/gelap">🌙</button>
-      <button class="nav-burger" id="navBurger" aria-label="Buka menu">☰</button>
+    <div class="bar-right">
+      <a class="btn btn-navy bar-cta" href="https://wa.me/6285290078889" target="_blank" rel="noopener">Konsultasi</a>
+      <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
-</nav>
+</header>
 
 <nav class="breadcrumb" aria-label="breadcrumb">
   <a href="index.html">Home</a> / <a href="index.html#layanan">Layanan</a> / Pembuatan Website
@@ -182,37 +281,65 @@
     <a href="jasa-absensi-digital-instansi.html"><span>Jasa Absensi Digital Instansi</span><span class="arrow">→</span></a>
     <a href="jasa-absensi-digital-guru.html"><span>Jasa Absensi Digital Guru</span><span class="arrow">→</span></a>
     <a href="jasa-menu-resto-qr.html"><span>Jasa Menu Resto Scan QR</span><span class="arrow">→</span></a>
+    <a href="jasa-pembuatan-website-laundry.html"><span>Jasa Pembuatan Website Laundry</span><span class="arrow">→</span></a>
   </div>
 </section>
 
 <footer>
-  <div>© <span id="year"></span> NAFA Tech — Digital Solutions & Web Development</div>
-  <div class="foot-links">
-    <a href="index.html#home">Home</a>
-    <a href="index.html#tentang">Tentang Kami</a>
-    <a href="index.html#layanan">Layanan</a>
-    <a href="index.html#kontak">Kontak</a>
-    <a href="blog/index.html">Artikel</a>
-    <a href="privacy-policy.html">Kebijakan Privasi</a>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="brand">
+          <img src="image/logo-nafatech.jpeg" alt="NAFA Tech">
+          <span class="brand-text"><b>NAFA Tech</b><small>Digital Solution</small></span>
+        </a>
+        <p class="blurb">Partner digital untuk membantu bisnis dan instansi bekerja lebih praktis, tampil lebih profesional, dan bertumbuh dengan sistem yang tepat.</p>
+      </div>
+      <div>
+        <h4>Jelajahi</h4>
+        <ul>
+          <li><a href="index.html#layanan">Layanan</a></li>
+          <li><a href="index.html#keunggulan">Keunggulan</a></li>
+          <li><a href="index.html#cara-kerja">Cara Kerja</a></li>
+          <li><a href="index.html#testimoni">Testimoni</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+          <li><a href="blog/index.html">Artikel</a></li>
+          <li><a href="https://nafatech.web.id/memberarea/register.html">Member Area</a></li>
+          <li><a href="https://lynk.id/nafatechid" target="_blank" rel="noopener">Lynk.id</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Hubungi</h4>
+        <ul class="contact">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg><a href="https://wa.me/6285290078889" target="_blank" rel="noopener">+62 852-9007-8889</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>Kp. Batik Widoharjo No. 233, Semarang</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> NAFA Tech — Digital Solutions &amp; Web Development</span>
+      <nav aria-label="Kebijakan">
+        <a href="privacy-policy.html">Kebijakan Privasi</a>
+        <a href="data-deletion.html">Hapus Data</a>
+      </nav>
+    </div>
   </div>
 </footer>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-  const navBurger = document.getElementById('navBurger');
-  const navLinks = document.getElementById('navLinks');
-  navBurger?.addEventListener('click', () => navLinks.classList.toggle('open'));
-  const themeToggle = document.getElementById('themeToggle');
-  const root = document.documentElement;
-  const savedTheme = localStorage.getItem('nafatech-theme');
-  if (savedTheme) root.setAttribute('data-theme', savedTheme);
-  themeToggle?.addEventListener('click', () => {
-    const current = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    root.setAttribute('data-theme', current);
-    localStorage.setItem('nafatech-theme', current);
-    themeToggle.textContent = current === 'light' ? '☀️' : '🌙';
+document.getElementById('year').textContent=new Date().getFullYear();
+(function(){
+  var burger=document.getElementById('burger'), menu=document.getElementById('menu');
+  burger.addEventListener('click',function(){var o=menu.classList.toggle('open'); burger.setAttribute('aria-expanded',o?'true':'false');});
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open'); burger.setAttribute('aria-expanded','false');});});
+})();
+document.querySelectorAll('.faq-item').forEach(function(item){
+  item.querySelector('.faq-q').addEventListener('click',function(){
+    var open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(o){o.classList.remove('open');});
+    if(!open) item.classList.add('open');
   });
-  if (savedTheme === 'light') themeToggle.textContent = '☀️';
+});
 </script>
 
 </body>
