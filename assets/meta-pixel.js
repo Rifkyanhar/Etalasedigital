@@ -21,7 +21,7 @@
 (function () {
   "use strict";
 
-  var PIXEL_ID = "GANTI_DENGAN_PIXEL_ID";
+  var PIXEL_ID = "2229449931178211";
 
   // Fungsi kosong supaya pemanggilan nafaTrack(...) di halaman mana pun tidak pernah error
   window.nafaTrack = window.nafaTrack || function () {};
