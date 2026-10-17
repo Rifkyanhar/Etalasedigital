@@ -7,7 +7,7 @@
  *   supaya kunjungan tidak terhitung ganda; pelacakan klik di bawah tetap jalan.
  * - Klik tombol dikirim sebagai peristiwa GA4 yang sejajar dengan Meta Pixel:
  *     klik WhatsApp         -> generate_lead (method: whatsapp)
- *     klik Order / Langganan -> begin_checkout
+ *     klik Order -> begin_checkout
  *     klik Coba Demo        -> demo_click
  * - Tandai generate_lead sebagai "peristiwa utama" (key event) di GA4 agar terhitung sebagai konversi.
  */
@@ -51,11 +51,10 @@
 
     if (/wa\.me\//.test(href)) {
       send("generate_lead", { method: "whatsapp", link_text: label, page_title: document.title });
-    } else if (/pesan\.html|langganan\.html/.test(href)) {
+    } else if (/pesan\.html/.test(href)) {
       var item = qs(href, "layanan") || qs(href, "product") || qs(href, "service_id") || label;
       send("begin_checkout", {
-        items: [{ item_name: item }],
-        mode: /langganan\.html/.test(href) ? "langganan" : "sekali_bayar"
+        items: [{ item_name: item }]
       });
     } else if (/demo/i.test(label) && !/^#/.test(href)) {
       send("demo_click", { link_text: label, page_title: document.title });
