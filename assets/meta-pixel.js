@@ -13,7 +13,7 @@
  *   PageView           setiap halaman dibuka
  *   ViewContent        panel detail layanan dibuka (nama layanan dibaca dari panelnya)
  *   Contact            klik tombol WhatsApp (wa.me)
- *   InitiateCheckout   klik tombol Order / Langganan (pesan.html, langganan.html)
+ *   InitiateCheckout   klik tombol Order (pesan.html)
  *   DemoClick (custom) klik tombol Coba Demo
  *   Purchase           dipanggil manual dari kode saat pembayaran sukses:
  *                      nafaTrack('Purchase', { value: 750000, currency: 'IDR', content_name: '...' })
@@ -25,9 +25,14 @@
 
   // Fungsi kosong supaya pemanggilan nafaTrack(...) di halaman mana pun tidak pernah error
   window.nafaTrack = window.nafaTrack || function () {};
+  window.nafaTrackCustom = window.nafaTrackCustom || function () {};
 
   if (!/^\d{8,20}$/.test(PIXEL_ID)) return;                                   // belum diisi
-  if (!/(^|\.)nafatech\.web\.id$/.test(location.hostname)) return;            // hanya domain asli
+  // Hanya di domain asli, plus form order di repo CRM (rifkyanhar.github.io/NAFATECH-CRM/).
+  // Situs demo lain di github.io sengaja TIDAK ikut terlacak.
+  var onSite = /(^|\.)nafatech\.web\.id$/.test(location.hostname);
+  var onCrm = location.hostname === "rifkyanhar.github.io" && location.pathname.indexOf("/NAFATECH-CRM/") === 0;
+  if (!onSite && !onCrm) return;
   if (window.__nafaPixelLoaded) return;                                       // cegah pasang ganda
   window.__nafaPixelLoaded = true;
 
@@ -50,12 +55,13 @@
     try { fbq("track", name, params || {}); } catch (e) {}
   };
   function custom(name, params) { try { fbq("trackCustom", name, params || {}); } catch (e) {} }
+  window.nafaTrackCustom = custom;
 
   function qs(href, key) {
     try { return new URL(href, location.href).searchParams.get(key) || ""; } catch (e) { return ""; }
   }
 
-  // --- Klik tombol: WhatsApp, Order/Langganan, Demo ---
+  // --- Klik tombol: WhatsApp, Order, Demo ---
   document.addEventListener("click", function (ev) {
     var a = ev.target && ev.target.closest ? ev.target.closest("a[href]") : null;
     if (!a) return;
@@ -64,11 +70,10 @@
 
     if (/wa\.me\//.test(href)) {
       window.nafaTrack("Contact", { content_name: document.title, button: label });
-    } else if (/pesan\.html|langganan\.html/.test(href)) {
+    } else if (/pesan\.html/.test(href)) {
       var item = qs(href, "layanan") || qs(href, "product") || qs(href, "service_id") || label;
       window.nafaTrack("InitiateCheckout", {
-        content_name: item, content_type: "product",
-        mode: /langganan\.html/.test(href) ? "langganan" : "sekali_bayar"
+        content_name: item, content_type: "product"
       });
     } else if (/demo/i.test(label) && !/^#/.test(href)) {
       custom("DemoClick", { content_name: document.title, button: label });
