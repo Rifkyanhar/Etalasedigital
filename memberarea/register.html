@@ -23,6 +23,10 @@
         <input type="text" id="fullName" required placeholder="Nama kamu">
       </div>
       <div class="form-group">
+        <label for="waNumber">Nomor WhatsApp</label>
+        <input type="tel" id="waNumber" required inputmode="tel" placeholder="08xxxxxxxxxx">
+      </div>
+      <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" required placeholder="nama@email.com">
       </div>
@@ -49,21 +53,37 @@
       alertBox.style.display = 'block';
     }
 
+    // Nomor WhatsApp disimpan dalam format 62xxxxxxxxxx (sama dengan form pemesanan).
+    function normWA(v) {
+      let d = String(v || '').replace(/[^\d]/g, '');
+      if (d.startsWith('0')) d = '62' + d.slice(1);
+      return d;
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Memproses...';
       alertBox.style.display = 'none';
 
       const fullName = document.getElementById('fullName').value.trim();
+      const wa = normWA(document.getElementById('waNumber').value);
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
+
+      if (!/^62\d{8,13}$/.test(wa)) {
+        showAlert('Nomor WhatsApp belum benar. Contoh: 081234567890', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Memproses...';
 
       const { data, error } = await supabaseClient.auth.signUp({
         email: email,
         password: password,
         options: {
-          data: { full_name: fullName }
+          // profile_complete = true: akun ini sudah punya nama & WA, jadi tidak diminta
+          // melengkapi data lagi saat memesan lewat form pemesanan.
+          data: { full_name: fullName, wa_number: wa, profile_complete: true }
         }
       });
 
