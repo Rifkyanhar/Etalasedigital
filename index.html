@@ -330,7 +330,10 @@
   /* ---------- FOOTER ---------- */
   footer{background:var(--navy); color:#C9CFE8; padding:56px 0 24px;}
   .foot-grid{display:grid; gap:34px;}
-  @media (min-width:860px){ .foot-grid{grid-template-columns:1.4fr .8fr 1fr; gap:48px;} }
+  @media (min-width:860px){ .foot-grid{grid-template-columns:1.3fr 1fr; gap:48px; align-items:start;} }
+  footer .foot-contact-title{margin-top:26px;}
+  footer .explore{grid-template-columns:1fr 1fr; grid-auto-flow:row; column-gap:28px; gap:14px 28px;}
+  footer .contact{max-width:380px;}
   footer .brand b{color:#fff;}
   footer .brand small{color:#8E97C0;}
   footer .blurb{margin-top:16px; font-size:14px; line-height:1.7; max-width:340px;}
@@ -758,10 +761,15 @@
           <span class="brand-text"><b>NAFA Tech</b><small>Digital Solution</small></span>
         </a>
         <p class="blurb">Partner digital untuk membantu bisnis dan instansi bekerja lebih praktis, tampil lebih profesional, dan bertumbuh dengan sistem yang tepat.</p>
+        <h4 class="foot-contact-title">Hubungi</h4>
+        <ul class="contact">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg><a href="https://wa.me/6285290078889" target="_blank" rel="noopener">+62 852-9007-8889</a></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>Kp. Batik Widoharjo No. 233, Semarang</span></li>
+        </ul>
       </div>
       <div>
         <h4>Jelajahi</h4>
-        <ul>
+        <ul class="explore">
           <li><a href="#layanan">Layanan</a></li>
           <li><a href="#keunggulan">Keunggulan</a></li>
           <li><a href="#cara-kerja">Cara Kerja</a></li>
@@ -770,13 +778,6 @@
           <li><a href="blog/index.html">Artikel</a></li>
           <li><a href="https://nafatech.web.id/memberarea/register.html">Member Area</a></li>
           <li><a href="https://lynk.id/nafatechid" target="_blank" rel="noopener">Lynk.id</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Hubungi</h4>
-        <ul class="contact">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg><a href="https://wa.me/6285290078889" target="_blank" rel="noopener">+62 852-9007-8889</a></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>Kp. Batik Widoharjo No. 233, Semarang</span></li>
         </ul>
       </div>
     </div>
