@@ -3,23 +3,16 @@
 
   <url>
     <loc>https://nafatech.web.id/</loc>
-    <lastmod>2026-10-17</lastmod>
+    <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://nafatech.web.id/blog/</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-10-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://nafatech.web.id/blog/absensi-digital-untuk-guru-dan-sekolah-panduan-awal.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>
 
   <url>
@@ -275,10 +268,52 @@
   </url>
 
   <url>
+    <loc>https://nafatech.web.id/blog/absensi-digital-untuk-guru-dan-sekolah-panduan-awal.html</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
     <loc>https://nafatech.web.id/blog/kenapa-sekolah-instansi-semarang-butuh-absensi-digital.html</loc>
     <lastmod>2026-08-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://nafatech.web.id/jasa-absensi-digital-guru.html</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nafatech.web.id/jasa-absensi-digital-instansi.html</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nafatech.web.id/jasa-menu-resto-qr.html</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nafatech.web.id/jasa-pembuatan-website.html</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nafatech.web.id/jasa-web-app-laundry.html</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
   <url>
