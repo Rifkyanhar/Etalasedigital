@@ -15,8 +15,8 @@
 </script>
 
 <!-- ===== SEO dasar ===== -->
-<title>Jasa Absensi Digital & Menu Resto Scan Barcode Semarang — NAFA Tech</title>
-<meta name="description" content="NAFA Tech Semarang menyediakan jasa absensi digital untuk instansi/sekolah dan guru, serta jasa pembuatan sistem menu resto scan barcode (QR). Termasuk juga jasa pembuatan website & toko online. Konsultasi gratis via WhatsApp.">
+<title>Jasa Absensi Digital Sekolah & Guru Semarang — NAFA Tech</title>
+<meta name="description" content="Jasa absensi digital untuk sekolah, guru & instansi di Semarang. Juga menu resto scan QR dan pembuatan website. Konsultasi gratis via WhatsApp.">
 <meta name="keywords" content="jasa absensi digital instansi, jasa absensi digital guru, jasa pembuatan menu resto scan barcode, sistem QR resto Semarang, absensi digital sekolah Semarang, jasa pembuatan website Semarang, jasa website toko online, NAFA Tech">
 <meta name="author" content="NAFA Tech">
 <meta name="robots" content="index, follow">
@@ -25,16 +25,16 @@
 <!-- ===== Open Graph ===== -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NAFA Tech">
-<meta property="og:title" content="Jasa Absensi Digital & Menu Resto Scan Barcode Semarang — NAFA Tech">
-<meta property="og:description" content="Solusi absensi digital untuk instansi/sekolah & guru, dan sistem menu resto scan barcode (QR) — dikerjakan NAFA Tech, berbasis di Semarang. Konsultasi gratis via WhatsApp.">
+<meta property="og:title" content="Jasa Absensi Digital Sekolah & Guru Semarang — NAFA Tech">
+<meta property="og:description" content="Absensi digital untuk sekolah, guru & instansi, dan sistem menu resto scan barcode (QR) — dikerjakan NAFA Tech, berbasis di Semarang. Konsultasi gratis via WhatsApp.">
 <meta property="og:image" content="https://nafatech.web.id/image/logo-nafatech.jpeg">
 <meta property="og:url" content="https://nafatech.web.id/">
 <meta property="og:locale" content="id_ID">
 
 <!-- ===== Twitter Card ===== -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Jasa Absensi Digital & Menu Resto Scan Barcode Semarang — NAFA Tech">
-<meta name="twitter:description" content="Solusi absensi digital untuk instansi/sekolah & guru, dan sistem menu resto scan barcode (QR) dari NAFA Tech Semarang.">
+<meta name="twitter:title" content="Jasa Absensi Digital Sekolah & Guru Semarang — NAFA Tech">
+<meta name="twitter:description" content="Absensi digital untuk sekolah & guru, dan sistem menu resto scan barcode (QR) dari NAFA Tech Semarang.">
 <meta name="twitter:image" content="https://nafatech.web.id/image/logo-nafatech.jpeg">
 
 <link rel="icon" href="image/logo-nafatech.jpeg" type="image/jpeg">
@@ -49,7 +49,7 @@
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "NAFA Tech",
-  "description": "Jasa absensi digital untuk instansi/sekolah dan guru, jasa pembuatan sistem menu resto scan barcode (QR), jasa pembuatan website, dan website toko online.",
+  "description": "Jasa absensi digital untuk sekolah, guru dan instansi, jasa pembuatan sistem menu resto scan barcode (QR), jasa pembuatan website, dan website toko online.",
   "url": "https://nafatech.web.id/",
   "image": "https://nafatech.web.id/image/logo-nafatech.jpeg",
   "telephone": "+6285290078889",
@@ -67,7 +67,7 @@
     "@type": "OfferCatalog",
     "name": "Layanan NAFA Tech",
     "itemListElement": [
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Absensi Digital untuk Instansi dan Guru" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Absensi Digital untuk Sekolah, Instansi dan Guru" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Pembuatan Sistem Menu Resto Scan Barcode (QR)" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Pembuatan Website" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jasa Pembuatan Website Toko Online" } },
@@ -173,6 +173,19 @@
   .menu{display:flex; align-items:center; gap:2px; list-style:none;}
   .menu a{display:block; text-decoration:none; font-weight:600; font-size:14.5px; color:var(--muted); padding:9px 13px; border-radius:999px; transition:color .2s, background .2s;}
   .menu a:hover{color:var(--ink); background:rgba(20,33,74,.05);}
+  .has-sub{position:relative;}
+  .has-sub .sub{position:absolute; top:100%; left:0; min-width:250px; list-style:none; background:#fff; border:1px solid var(--line); border-radius:16px; padding:8px; box-shadow:0 18px 36px -18px rgba(20,33,74,.35); display:none; z-index:70;}
+  .has-sub:hover .sub,.has-sub:focus-within .sub{display:block;}
+  .has-sub .sub a{padding:10px 12px; font-size:14px; border-radius:10px; white-space:nowrap;}
+  .art-grid{display:grid; gap:14px; margin-top:28px; grid-template-columns:1fr;}
+  @media (min-width:800px){ .art-grid{grid-template-columns:repeat(3,1fr);} }
+  .art-card{display:flex; flex-direction:column; text-decoration:none; background:#fff; border:1px solid var(--line); border-radius:20px; padding:22px; transition:border-color .25s, transform .2s;}
+  .art-card:hover{border-color:rgba(232,104,45,.5); transform:translateY(-3px);}
+  .art-card h3{font-size:17px; font-weight:800; line-height:1.3; letter-spacing:-.01em;}
+  .art-card p{color:var(--muted); font-size:14px; line-height:1.65; margin-top:8px; flex:1;}
+  .art-card span{margin-top:14px; font-size:13px; font-weight:700; color:var(--orange-text);}
+  .art-all{display:inline-block; margin-top:20px; font-weight:800; font-size:14px; color:var(--orange-text); text-decoration:none;}
+  .art-all:hover{text-decoration:underline;}
   .bar-right{display:flex; align-items:center; gap:10px;}
   .bar-cta{font-size:13.5px; padding:10px 18px;}
   .burger{display:none; width:42px; height:42px; border-radius:12px; border:1px solid var(--line); background:#fff; color:var(--ink); cursor:pointer; align-items:center; justify-content:center;}
@@ -182,6 +195,8 @@
     .menu{position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; background:var(--bg); border-bottom:1px solid var(--line); padding:8px 16px 16px; display:none; box-shadow:0 18px 30px -20px rgba(20,33,74,.35);}
     .menu.open{display:flex;}
     .menu a{padding:13px 14px; font-size:15.5px;}
+    .has-sub .sub{position:static; display:block; min-width:0; border:0; box-shadow:none; background:transparent; padding:0 0 4px 14px;}
+    .has-sub .sub a{white-space:normal; font-size:14.5px; padding:10px 14px;}
   }
 
   /* ---------- HERO ---------- */
@@ -440,12 +455,21 @@
       <span class="brand-text"><b>NAFA Tech</b><small>Digital Solution</small></span>
     </a>
     <ul class="menu" id="menu">
-      <li><a href="#layanan">Layanan</a></li>
+      <li class="has-sub"><a href="#layanan">Layanan</a>
+        <ul class="sub">
+          <li><a href="jasa-absensi-digital-guru.html">Absensi Digital Guru &amp; Sekolah</a></li>
+          <li><a href="jasa-absensi-digital-instansi.html">Absensi Digital Instansi</a></li>
+          <li><a href="jasa-menu-resto-qr.html">Menu &amp; Order QR Resto</a></li>
+          <li><a href="jasa-pembuatan-website.html">Website Profesional</a></li>
+          <li><a href="jasa-pembuatan-website-donasi.html">Website Donasi</a></li>
+          <li><a href="jasa-web-app-laundry.html">Web App Laundry</a></li>
+        </ul>
+      </li>
       <li><a href="#keunggulan">Keunggulan</a></li>
       <li><a href="#cara-kerja">Cara Kerja</a></li>
       <li><a href="#testimoni">Testimoni</a></li>
       <li><a href="#faq">FAQ</a></li>
-      <li><a href="blog/index.html">Artikel</a></li>
+      <li><a href="blog/">Artikel</a></li>
       <li><a href="https://nafatech.web.id/memberarea/register.html">Member Area</a></li>
     </ul>
     <div class="bar-right">
@@ -462,9 +486,9 @@
 <section class="hero" id="home">
   <div class="wrap hero-grid">
     <div>
-      <span class="pill"><i></i> Solusi digital untuk bisnis & instansi Indonesia</span>
-      <h1>Operasional lebih rapi. Bisnis tumbuh <span>lebih pasti.</span></h1>
-      <p class="lead">NAFA Tech membantu bisnis, sekolah, dan instansi beralih ke sistem digital yang praktis — mulai dari absensi, order QR, hingga website profesional.</p>
+      <span class="pill"><i></i> Solusi digital untuk sekolah, instansi & bisnis Indonesia</span>
+      <h1>Absensi digital sekolah <span>lebih rapi, lebih pasti.</span></h1>
+      <p class="lead">NAFA Tech di Semarang membantu sekolah dan guru menerapkan absensi digital yang praktis. Kami juga melayani instansi dan bisnis — dari order QR resto hingga website profesional.</p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#konsultasi">Konsultasikan Kebutuhan
           <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -728,6 +752,31 @@
 </section>
 
 <!-- ================= FAQ ================= -->
+<section class="block" id="artikel" style="padding-bottom:20px;">
+  <div class="wrap">
+    <span class="eyebrow">Panduan &amp; Artikel</span>
+    <h2 class="title" style="margin-top:10px;">Pelajari absensi digital sebelum memutuskan</h2>
+    <div class="art-grid">
+      <a class="art-card" href="blog/absensi-digital-untuk-guru-dan-sekolah-panduan-awal.html">
+        <h3>Absensi Digital untuk Guru dan Sekolah: Panduan Awal</h3>
+        <p>Panduan awal sekolah yang ingin beralih ke absensi digital untuk guru dan tenaga kependidikan: data, aturan jam, dan sosialisasi.</p>
+        <span>Baca artikel →</span>
+      </a>
+      <a class="art-card" href="blog/kenapa-sekolah-instansi-semarang-butuh-absensi-digital.html">
+        <h3>Kenapa Sekolah dan Instansi di Semarang Perlu Absensi Digital?</h3>
+        <p>Pencatatan kehadiran manual rawan hilang, rawan direkayasa, dan sulit direkap. Simak alasan beralih ke sistem digital.</p>
+        <span>Baca artikel →</span>
+      </a>
+      <a class="art-card" href="blog/biaya-sistem-absensi-digital.html">
+        <h3>Berapa Biaya Bikin Sistem Absensi Digital?</h3>
+        <p>Komponen apa saja yang memengaruhi harga jasa absensi digital, dan pertanyaan yang perlu ditanyakan sebelum memilih penyedia.</p>
+        <span>Baca artikel →</span>
+      </a>
+    </div>
+    <a class="art-all" href="blog/">Lihat semua artikel →</a>
+  </div>
+</section>
+
 <section class="block" id="faq" style="padding-top:30px;">
   <div class="wrap">
     <div class="faq-head">
@@ -774,7 +823,7 @@
           <li><a href="#cara-kerja">Cara Kerja</a></li>
           <li><a href="#testimoni">Testimoni</a></li>
           <li><a href="#faq">FAQ</a></li>
-          <li><a href="blog/index.html">Artikel</a></li>
+          <li><a href="blog/">Artikel</a></li>
           <li><a href="https://nafatech.web.id/memberarea/register.html">Member Area</a></li>
           <li><a href="https://lynk.id/nafatechid" target="_blank" rel="noopener">Lynk.id</a></li>
         </ul>
@@ -1343,208 +1392,4 @@ const BUSINESSES = [
     list:[
       "(Pelanggan) Pesan barang kapan saja lewat aplikasi web khusus, dari rumah",
       "(Pelanggan) Bayar otomatis lewat sistem pembayaran digital, tanpa COD",
-      "(Toko) Kelola stok & harga barang sendiri lewat dashboard",
-      "(Toko) Terhubung kurir instan — GoSend & Grab Express — pesanan sampai lebih cepat",
-      "Jasa ekspedisi lain (reguler/kargo) tersedia sebagai opsi tambahan bila ingin diaktifkan",
-      "Rincian fitur lengkap akan diinformasikan menyusul sebelum peluncuran"
-    ],
-    cta:[
-      ["Tanya via WhatsApp","ghost","https://wa.me/6285290078889?text=Hai%20kak%2C%20saya%20tertarik%20dengan%20Toko%20Kelontong%20Online%2C%20mohon%20info%20lebih%20lanjut%20%E2%98%BA"]
-    ]
-  }
-];
-
-// Catatan add-on domain (sesuai opsi "Tambah Domain Berbayar +Rp250.000" di form order pesan.html)
-const ADDON_NOTES = {
-  "laundry": "🌐 Domain <b>.web.id</b> sudah termasuk selama 1 tahun — pilih nama domainnya saat order. Opsional: tambah domain .com / .id hanya <b>+Rp250.000</b>.",
-  "website": "🌐 Domain .com atau .id sudah termasuk selama 1 tahun. Nama domain Anda isi saat order.",
-  "qrresto": "🌐 Opsional: tambah domain pribadi .com / .id hanya <b>+Rp250.000</b> — dipilih saat mengisi form order.",
-  "absensi-digital": "🌐 Opsional: tambah domain pribadi .com / .id hanya <b>+Rp250.000</b> — dipilih saat mengisi form order.",
-  "absensi-instansi": "🌐 Opsional: tambah domain pribadi .com / .id hanya <b>+Rp250.000</b> — dipilih saat mengisi form order.",
-  "webdonasi": "🌐 Opsional: tambah domain pribadi .com / .id hanya <b>+Rp250.000</b> — dipilih saat mengisi form order."
-};
-
-const overlay = document.getElementById('overlay');
-
-function renderFeatureTable(items, badgeClass, badgeLabel, orderHref, orderLabel){
-  const rows = items.slice(0,10).map((f,i)=>`<tr><td class="no">${i+1}</td><td>${f}</td></tr>`).join('');
-  return `
-    <div class="panel-table-wrap">
-      <div class="panel-table-title"><span class="badge ${badgeClass}">${badgeLabel}</span></div>
-      <div class="table-scroll"><table class="panel-table"><tbody>${rows}</tbody></table></div>
-      ${orderHref ? `<a class="cta alt panel-table-order" href="${orderHref}" target="_blank" rel="noopener">${orderLabel}</a>` : ''}
-    </div>`;
-}
-
-const MIDTRANS_TUTORIAL_URL = "https://rifkyanhar.github.io/tutorial-merchant-midtrans";
-
-function setMidtransParam(href, on){
-  try{
-    const u = new URL(href, window.location.href);
-    if(on) u.searchParams.set('midtrans','ya'); else u.searchParams.delete('midtrans');
-    return u.toString();
-  }catch(e){ return href; }
-}
-
-// Midtrans OPSIONAL: tutorial baru muncul kalau pelanggan mencentang.
-// Pilihan ikut dikirim ke form order lewat parameter ?midtrans=ya
-function renderMidtransOptional(b){
-  const el = document.getElementById('panelMidtransOptional');
-  if(!b.midtransOptional){ el.style.display='none'; el.innerHTML=''; return; }
-  el.style.display = 'block';
-  el.innerHTML = `
-    <div class="mt-opt">
-      <label class="mt-opt-check"><input type="checkbox" id="panelMidtransChk"> <span>Saya ingin mengaktifkan pembayaran otomatis lewat Midtrans <em>(opsional)</em></span></label>
-      <div class="mt-opt-detail" id="panelMidtransDetail" hidden>
-        ${b.midtransOptionalText || ''}<br>
-        <a href="${MIDTRANS_TUTORIAL_URL}" target="_blank" rel="noopener">Lihat cara daftar merchant Midtrans →</a>
-      </div>
-      <p class="mt-opt-skip">Boleh dilewati — lanjutkan saja ke tahap berikutnya.</p>
-    </div>`;
-  const chk = document.getElementById('panelMidtransChk');
-  const detail = document.getElementById('panelMidtransDetail');
-  const links = Array.from(document.querySelectorAll('#panelFeatureTables a, #panelCta a'))
-    .filter(a => /pesan\.html/.test(a.getAttribute('href') || ''));
-  chk.addEventListener('change', ()=>{
-    detail.hidden = !chk.checked;
-    links.forEach(a => { a.href = setMidtransParam(a.href, chk.checked); });
-  });
-}
-
-function showProduct(b){
-  document.getElementById('panelHero').src = b.img;
-  document.getElementById('panelHero').alt = b.name;
-  document.getElementById('panelCat').textContent = b.cat;
-  document.getElementById('panelTitle').textContent = b.name;
-  document.getElementById('panelDesc').textContent = b.desc;
-  document.getElementById('panelStats').innerHTML = b.stats.map(s=>`<div class="stat"><div class="v">${s[0]}</div><div class="l">${s[1]}</div></div>`).join('');
-
-  const listEl = document.getElementById('panelList');
-  const tablesEl = document.getElementById('panelFeatureTables');
-
-  if(b.featuresKhusus && b.featuresKomplit){
-    listEl.style.display = 'none';
-    listEl.innerHTML = '';
-    tablesEl.style.display = 'block';
-    const khususHref = orderLink(b.orderServiceId, b.orderServiceName || b.name);
-    const komplitHref = orderLink(b.orderServiceIdKomplit, (b.orderServiceName || b.name) + ' (Fitur Komplit)');
-    tablesEl.innerHTML =
-      renderFeatureTable(b.featuresKhusus, 'khusus', 'Fitur Khusus', b.hideTableOrderButtons ? null : khususHref, 'Order Sekarang — Fitur Khusus') +
-      renderFeatureTable(b.featuresKomplit, 'komplit', 'Fitur Komplit', b.hideTableOrderButtons ? null : komplitHref, 'Order Sekarang — Fitur Komplit');
-  } else {
-    tablesEl.style.display = 'none';
-    tablesEl.innerHTML = '';
-    listEl.style.display = 'block';
-    listEl.innerHTML = (b.list||[]).map(l=>`<li>${l}</li>`).join('');
-  }
-
-  const reqEl = document.getElementById('panelRequirementNote');
-  if(b.requirementNote){
-    reqEl.style.display = 'flex';
-    reqEl.innerHTML = `<span class="icon">🔐</span><span>${b.requirementNote}</span>`;
-  } else {
-    reqEl.style.display = 'none';
-    reqEl.innerHTML = '';
-  }
-
-  const pendingEl = document.getElementById('panelPendingPrice');
-  if(b.pendingPriceNote){
-    pendingEl.style.display = 'flex';
-    pendingEl.innerHTML = `<span class="icon">⏳</span><span>${b.pendingPriceNote}</span>`;
-  } else {
-    pendingEl.style.display = 'none';
-    pendingEl.innerHTML = '';
-  }
-
-  const addonEl = document.getElementById('panelAddonNote');
-  if(ADDON_NOTES[b.id]){
-    addonEl.style.display = 'flex';
-    addonEl.innerHTML = `<span>${ADDON_NOTES[b.id]}</span>`;
-  } else {
-    addonEl.style.display = 'none';
-    addonEl.innerHTML = '';
-  }
-
-  let primaryHtml = '';
-  if(b.comingSoon){
-    primaryHtml = `<button class="cta primary" onclick="alert('Aplikasi Web ini masih dalam pengembangan dan belum tersedia saat ini')">Order Sekarang</button>`;
-    hideTrustNotice();
-  } else if(b.checkoutReady !== undefined){
-    if(isProductCheckoutReady(b)){
-      primaryHtml = `<button class="cta primary" onclick="handleBeliSekarangClick('${b.name.replace(/'/g,"\\'")}', ${b.checkoutAmount})">Beli Sekarang - Rp${b.checkoutAmount.toLocaleString('id-ID')}</button>`;
-      renderTrustNotice();
-    } else {
-      primaryHtml = `<a class="cta primary" href="${b.consultLink}" target="_blank" rel="noopener">Konsultasi Harga Final</a>`;
-      hideTrustNotice();
-    }
-  } else {
-    renderTrustNotice();
-  }
-
-  const secondaryHtml = b.cta.map(c=>`<a class="cta ${c[1]}" href="${c[2]}" target="_blank" rel="noopener">${c[0]}</a>`).join('');
-  document.getElementById('panelCta').innerHTML = primaryHtml + secondaryHtml + `<button class="cta ghost" onclick="closePanel()">Tutup</button>`;
-  renderMidtransOptional(b);
-}
-
-function openPanel(id){
-  const b = BUSINESSES.find(x => x.id === id);
-  if(!b) return;
-  showProduct(b);
-  overlay.classList.add('show');
-  overlay.setAttribute('aria-hidden','false');
-  document.body.style.overflow = 'hidden';
-  document.getElementById('panel').scrollTop = 0;
-}
-function closePanel(){
-  overlay.classList.remove('show');
-  overlay.setAttribute('aria-hidden','true');
-  document.body.style.overflow = '';
-}
-document.getElementById('closeBtn').addEventListener('click', closePanel);
-overlay.addEventListener('click', e=>{ if(e.target === overlay) closePanel(); });
-document.addEventListener('keydown', e=>{ if(e.key === 'Escape'){ closePanel(); document.getElementById('prodCheckoutOverlay').classList.remove('show'); } });
-
-// Klik kartu layanan -> buka panel detail (link "Halaman lengkap" tetap berfungsi normal)
-document.querySelectorAll('.svc').forEach(card=>{
-  card.addEventListener('click', e=>{
-    if(e.target.closest('a')) return;
-    openPanel(card.dataset.open);
-  });
-});
-
-// Menu mobile
-(function(){
-  const burger = document.getElementById('burger');
-  const menu = document.getElementById('menu');
-  burger.addEventListener('click', ()=>{
-    const open = menu.classList.toggle('open');
-    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  menu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=>{ menu.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }));
-})();
-
-// Form konsultasi -> WhatsApp dengan pesan tersusun
-(function(){
-  const sel = document.getElementById('cfService');
-  const opts = BUSINESSES.filter(b=>!b.comingSoon).map(b=>b.name);
-  opts.push('Belum tahu — mohon dibantu memilih');
-  sel.innerHTML = opts.map(n=>`<option>${n}</option>`).join('');
-  document.getElementById('cfBtn').addEventListener('click', ()=>{
-    const layanan = sel.value;
-    const need = document.getElementById('cfNeed').value.trim();
-    let text = `Halo NAFA Tech, saya ingin konsultasi soal: ${layanan}.`;
-    if(need) text += `\n\nKebutuhan saya: ${need}`;
-    window.open('https://wa.me/6285290078889?text=' + encodeURIComponent(text), '_blank', 'noopener');
-  });
-})();
-
-document.getElementById('year').textContent = new Date().getFullYear();
-
-// Deep link dari halaman lain, mis. index.html?buka=webdonasi#layanan -> langsung buka panel produk itu
-(function(){
-  const target = new URLSearchParams(window.location.search).get('buka');
-  if(target && BUSINESSES.some(b => b.id === target)) openPanel(target);
-})();
-</script>
-</body>
-</html>
+      "(Toko) Kelola stok & harga 
