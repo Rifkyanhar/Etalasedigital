@@ -10,9 +10,16 @@
 
   <url>
     <loc>https://nafatech.web.id/blog/</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nafatech.web.id/blog/karyawan-lupa-absen-cara-menanganinya-di-sistem-digital.html</loc>
+    <lastmod>2026-10-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>
