@@ -10,9 +10,16 @@
 
   <url>
     <loc>https://nafatech.web.id/blog/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://nafatech.web.id/blog/alur-pesanan-meja-qr-dari-scan-sampai-dapur.html</loc>
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>
