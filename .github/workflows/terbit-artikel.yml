@@ -2,7 +2,7 @@ name: Terbit Artikel Otomatis
 
 on:
   schedule:
-    - cron: "0 1 */2 * *"   # tiap 2 hari, 08.00 WIB
+    - cron: "0 1 */1 * *"   # tiap 1 hari, 08.00 WIB
   workflow_dispatch:         # tombol jalankan manual
 
 permissions:
