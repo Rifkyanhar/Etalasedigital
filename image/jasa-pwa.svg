@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Web app menjadi aplikasi di layar utama HP">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FDEEE5"/><stop offset="1" stop-color="#FAF8F4"/></linearGradient>
+    <linearGradient id="ph" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1D2B63"/><stop offset="1" stop-color="#16224F"/></linearGradient>
+  </defs>
+  <rect width="640" height="400" rx="28" fill="url(#bg)"/>
+  <circle cx="540" cy="70" r="120" fill="#E8682D" opacity=".10"/>
+  <!-- browser -->
+  <g transform="translate(46 96)">
+    <rect width="250" height="190" rx="16" fill="#fff" stroke="#14214A" stroke-opacity=".12"/>
+    <rect width="250" height="34" rx="16" fill="#EEF0F7"/>
+    <rect y="18" width="250" height="16" fill="#EEF0F7"/>
+    <circle cx="20" cy="17" r="4.5" fill="#E8682D"/><circle cx="36" cy="17" r="4.5" fill="#F2B38F"/><circle cx="52" cy="17" r="4.5" fill="#D5D9EA"/>
+    <rect x="72" y="9" width="150" height="16" rx="8" fill="#fff"/>
+    <rect x="22" y="56" width="120" height="12" rx="6" fill="#14214A" opacity=".85"/>
+    <rect x="22" y="80" width="200" height="8" rx="4" fill="#14214A" opacity=".18"/>
+    <rect x="22" y="98" width="170" height="8" rx="4" fill="#14214A" opacity=".18"/>
+    <rect x="22" y="130" width="96" height="30" rx="15" fill="#CF4A12"/>
+  </g>
+  <!-- arrow -->
+  <g transform="translate(312 176)">
+    <circle cx="28" cy="28" r="28" fill="#CF4A12"/>
+    <path d="M14 28h26M31 17l11 11-11 11" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- phone -->
+  <g transform="translate(396 46)">
+    <rect width="170" height="316" rx="30" fill="url(#ph)"/>
+    <rect x="62" y="12" width="46" height="8" rx="4" fill="#0F1838"/>
+    <rect x="14" y="34" width="142" height="268" rx="20" fill="#FAF8F4"/>
+    <g transform="translate(30 56)">
+      <rect width="46" height="46" rx="13" fill="#E8682D"/><path d="M13 24l8 8 14-16" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="64" width="46" height="46" rx="13" fill="#16224F"/><circle cx="87" cy="23" r="9" fill="none" stroke="#FFB38A" stroke-width="4"/>
+      <rect y="68" width="46" height="46" rx="13" fill="#DDF0E4"/><path d="M13 31V17M23 31V11M33 31V21" stroke="#15803D" stroke-width="5" stroke-linecap="round"/>
+      <rect x="64" y="68" width="46" height="46" rx="13" fill="#FDEEE5" stroke="#E8682D" stroke-dasharray="5 4"/>
+    </g>
+    <g transform="translate(24 214)">
+      <rect width="122" height="70" rx="16" fill="#fff" stroke="#14214A" stroke-opacity=".12"/>
+      <rect x="14" y="14" width="26" height="26" rx="8" fill="#E8682D"/>
+      <rect x="48" y="16" width="58" height="8" rx="4" fill="#14214A" opacity=".8"/>
+      <rect x="48" y="30" width="44" height="6" rx="3" fill="#14214A" opacity=".25"/>
+      <rect x="14" y="48" width="94" height="14" rx="7" fill="#CF4A12"/>
+    </g>
+  </g>
+</svg>
