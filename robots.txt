@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /drafts/
+Disallow: /scripts/
+Disallow: /schema.sql
+Disallow: /order-form-example.html
+
+Sitemap: https://nafatech.web.id/sitemap.xml
