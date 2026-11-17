@@ -1,0 +1,40 @@
+name: Perbaiki Head Artikel (sekali jalan)
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "true = hanya laporan (tidak mengubah file). Isi false untuk menerapkan."
+        default: "true"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: terbit-artikel
+  cancel-in-progress: false
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Jalankan perbaikan
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "false" ]; then
+            python3 scripts/fix_blog_head.py --apply
+          else
+            python3 scripts/fix_blog_head.py
+          fi
+
+      - name: Commit dan push
+        if: ${{ github.event.inputs.dry_run == 'false' }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Perbaiki head artikel lama (OG, Twitter, title, schema)"
+            git push
+          fi
